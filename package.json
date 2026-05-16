@@ -1,0 +1,18 @@
+{
+  "name": "graphrag-climatico",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "bun --watch src/graphrag/index.ts",
+    "start": "bun src/graphrag/index.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^1.0.0",
+    "@langchain/anthropic": "^0.3.0",
+    "@langchain/community": "^0.3.0",
+    "ai": "^4.0.0",
+    "hono": "^4.0.0",
+    "langchain": "^0.3.0",
+    "neo4j-driver": "^5.0.0",
+    "zod": "^3.0.0"
+  }
+}

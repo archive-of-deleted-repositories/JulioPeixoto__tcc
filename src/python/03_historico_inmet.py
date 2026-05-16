@@ -35,10 +35,14 @@ THRESHOLDS = {
 }
 
 COLUNAS_INMET = {
-    "DATA (YYYY-MM-DD)": "data",
+    # Coluna de data — nome real no CSV
+    "Data": "data",
+    # Precipitação (com acento no CSV original)
     "PRECIPITAÇÃO TOTAL, HORÁRIO (mm)": "CHUVA",
+    # Temperaturas (com acentos)
     "TEMPERATURA MÁXIMA NA HORA ANT. (AUT) (°C)": "TEM_MAX",
     "TEMPERATURA MÍNIMA NA HORA ANT. (AUT) (°C)": "TEM_MIN",
+    # Umidade
     "UMIDADE REL. MAX. NA HORA ANT. (AUT) (%)": "UMD_MAX",
     "UMIDADE REL. MIN. NA HORA ANT. (AUT) (%)": "UMD_MIN",
 }
@@ -67,12 +71,15 @@ def parse_csv_inmet(raw_bytes: bytes, codigo_estacao: str) -> pd.DataFrame | Non
             io.StringIO(text),
             sep=";",
             skiprows=8,
-            encoding="latin-1",
             decimal=",",
+            na_values=["-9999", "-9999.0"],
+            usecols=range(19),
         )
         df = df.rename(columns={c: n for c, n in COLUNAS_INMET.items() if c in df.columns})
         df["estacao"] = codigo_estacao
-        df["data"] = pd.to_datetime(df["data"], errors="coerce")
+        # Formato real: YYYY/MM/DD
+        if "data" in df.columns:
+            df["data"] = pd.to_datetime(df["data"], format="%Y/%m/%d", errors="coerce")
         return df
     except Exception:
         return None

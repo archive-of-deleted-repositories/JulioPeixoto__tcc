@@ -16,8 +16,8 @@ dependencies = [
     "tqdm>=4.66",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "pytest>=8.0",
     "ruff>=0.4",
 ]

@@ -6,6 +6,7 @@ RSS: https://apitempo.inmet.gov.br/alerts-rss
 
 import json
 import re
+import sys
 from pathlib import Path
 
 import feedparser
@@ -15,7 +16,7 @@ from rapidfuzz import process, fuzz
 RAW = Path(__file__).parents[2] / "data" / "raw"
 PROCESSED = Path(__file__).parents[2] / "data" / "processed"
 
-RSS_URL = "https://apitempo.inmet.gov.br/alerts-rss"
+RSS_URL = "https://apiprevmet3.inmet.gov.br/avisos/rss"
 SCORE_MIN = 85  # threshold fuzzy match
 
 
@@ -42,7 +43,17 @@ def extrair_municipios_do_texto(texto: str, nomes_mun: list[str]) -> list[str]:
 
 
 def parse_rss() -> list[dict]:
-    feed = feedparser.parse(RSS_URL)
+    # feedparser usa urllib que é bloqueado pelo servidor INMET —
+    # baixamos o XML com requests e passamos como string.
+    # O servidor impõe rate limit; se retornar texto plano, o feed fica vazio.
+    import requests as req
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; TCC-GraphRAG/1.0)"}
+    r = req.get(RSS_URL, headers=headers, timeout=30)
+    r.raise_for_status()
+    if "xml" not in r.headers.get("content-type", "") and "<rss" not in r.text[:200]:
+        print(f"  aviso: resposta nao-XML do RSS ({r.text[:80].strip()})", file=sys.stderr)
+        return []
+    feed = feedparser.parse(r.text)
     alertas = []
     for entry in feed.entries:
         soup = BeautifulSoup(entry.get("summary", ""), "html.parser")

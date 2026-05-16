@@ -7,7 +7,6 @@ import { extrairEntidades } from "../pipeline/entityExtractor.ts";
 import { recuperarSubgrafo } from "../pipeline/graphRetriever.ts";
 import { construirContexto } from "../pipeline/contextBuilder.ts";
 import { gerarResposta } from "../pipeline/generator.ts";
-import { gerarDatasetAvaliacao, PERGUNTAS_AVALIACAO } from "../evaluation/ragas.ts";
 
 const app = new Hono();
 
@@ -50,12 +49,16 @@ app.post("/chat", zValidator("json", ChatSchema), async (c) => {
 app.get("/saude", (c) => c.json({ status: "ok", timestamp: new Date().toISOString() }));
 
 app.post("/avaliar", async (c) => {
+  const { gerarDatasetAvaliacao, PERGUNTAS_AVALIACAO } = await import("../evaluation/ragas.ts");
   const resultados = await gerarDatasetAvaliacao([...PERGUNTAS_AVALIACAO]);
   return c.json(resultados);
 });
 
-app.get("/", (c) => {
-  return c.html(Bun.file(new URL("../frontend/index.html", import.meta.url).pathname).text());
+app.get("/", async (c) => {
+  const htmlPath = new URL("../frontend/index.html", import.meta.url).pathname
+    .replace(/^\/([A-Za-z]:)/, "$1"); // remove leading slash no Windows (ex: /C:/... → C:/...)
+  const html = await Bun.file(htmlPath).text();
+  return c.html(html);
 });
 
 export default app;

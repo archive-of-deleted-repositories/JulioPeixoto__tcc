@@ -8,7 +8,7 @@ import { ChatAnthropic } from "@langchain/anthropic";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { createRetrievalChain } from "langchain/chains/retrieval";
-import { AnthropicEmbeddings } from "@langchain/anthropic";
+import { VoyageEmbeddings } from "@langchain/community/embeddings/voyage";
 
 const NEO4J_CONFIG = {
   url: process.env.NEO4J_URI!,
@@ -21,9 +21,9 @@ const NEO4J_CONFIG = {
 };
 
 export async function criarVectorStore(): Promise<Neo4jVectorStore> {
-  const embeddings = new AnthropicEmbeddings({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: "voyage-3",
+  const embeddings = new VoyageEmbeddings({
+    apiKey: process.env.VOYAGE_API_KEY ?? process.env.ANTHROPIC_API_KEY!,
+    modelName: "voyage-3",
   });
   return Neo4jVectorStore.fromExistingIndex(embeddings, NEO4J_CONFIG);
 }
@@ -57,9 +57,9 @@ Pergunta: {input}
 export async function indexarEventos(
   eventos: Array<{ descricao: string; metadata: Record<string, unknown> }>
 ): Promise<void> {
-  const embeddings = new AnthropicEmbeddings({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: "voyage-3",
+  const embeddings = new VoyageEmbeddings({
+    apiKey: process.env.VOYAGE_API_KEY ?? process.env.ANTHROPIC_API_KEY!,
+    modelName: "voyage-3",
   });
   const textos = eventos.map((e) => e.descricao);
   const metadados = eventos.map((e) => e.metadata);

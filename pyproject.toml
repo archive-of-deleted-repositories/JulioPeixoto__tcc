@@ -1,0 +1,26 @@
+[project]
+name = "graphrag-climatico-ingest"
+version = "0.1.0"
+description = "Pipeline de ingestão de dados climáticos para o GraphRAG"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "pandas>=2.2",
+    "pdfplumber>=0.11",
+    "feedparser>=6.0",
+    "beautifulsoup4>=4.12",
+    "rapidfuzz>=3.6",
+    "scipy>=1.13",
+    "anthropic>=0.34",
+    "neo4j>=5.18",
+    "tqdm>=4.66",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]

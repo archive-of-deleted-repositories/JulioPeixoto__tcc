@@ -58,11 +58,13 @@ data/raw/inmet_historico/
 data/raw/cemaden_pdfs/
 data/processed/
 
-# Python
+# Python / uv
 __pycache__/
 *.py[cod]
 .venv/
 *.egg-info/
+*.dist-info/
+# uv.lock é commitado — não adicionar aqui
 
 # logs de avaliação
 evaluation_results*.json

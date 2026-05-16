@@ -52,3 +52,17 @@ Thumbs.db
 .claude/
 
 .cursor/
+
+# dados brutos e processados (grandes, não versionar)
+data/raw/inmet_historico/
+data/raw/cemaden_pdfs/
+data/processed/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# logs de avaliação
+evaluation_results*.json

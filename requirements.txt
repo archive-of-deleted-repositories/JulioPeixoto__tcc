@@ -1,0 +1,10 @@
+requests
+pandas
+pdfplumber
+feedparser
+beautifulsoup4
+rapidfuzz
+scipy
+anthropic
+neo4j
+tqdm

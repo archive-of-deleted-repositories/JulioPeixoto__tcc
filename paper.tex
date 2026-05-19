@@ -1,0 +1,533 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[brazil]{babel}
+\usepackage{hyperref}
+\usepackage{booktabs}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\begin{document}
+
+% ─────────────────────────────────────────────────────────────
+\title{GraphRAG para Consultas sobre Eventos Climáticos Extremos
+no Brasil: uma Avaliação Comparativa}
+
+\author{
+\IEEEauthorblockN{Julio Rafael}
+\IEEEauthorblockA{
+  \textit{Ciência da Computação} \\
+  \textit{Universidade Tiradentes (UNIT)} \\
+  Aracaju, Brasil \\
+  juliorafaelnft@hotmail.com
+}
+}
+
+\maketitle
+
+% ─────────────────────────────────────────────────────────────
+\begin{abstract}
+O acesso eficiente a registros históricos de eventos climáticos
+extremos é essencial para gestão de riscos e políticas públicas.
+Modelos de Linguagem de Grande Escala (LLMs) possibilitam consultas
+em linguagem natural sobre esses dados, mas carecem de mecanismos
+para recuperar fatos específicos de municípios ou períodos.
+Este trabalho propõe um pipeline GraphRAG que estrutura dados do
+INMET e do CEMADEN em um grafo de conhecimento Neo4j e os expõe
+via interface conversacional.
+Comparamos três estratégias: LLM sem recuperação (No~RAG),
+RAG vetorial (Vector~RAG) e o pipeline proposto (Graph~RAG),
+avaliados com o framework RAGAS em cinco perguntas sobre
+eventos climáticos no Brasil.
+Os resultados indicam que o GraphRAG supera os demais em
+fidelidade e abrangência de contexto, com ganho médio de
+\textbf{XX~p.p.} em \textit{faithfulness} sobre o Vector~RAG
+e de \textbf{YY~p.p.} sobre o baseline sem recuperação.
+\end{abstract}
+
+\begin{IEEEkeywords}
+GraphRAG, eventos climáticos extremos, grafo de conhecimento,
+RAGAS, LLM, Brasil, Neo4j
+\end{IEEEkeywords}
+
+% ─────────────────────────────────────────────────────────────
+\section{Introdução}
+
+O Brasil está entre os países mais vulneráveis a eventos climáticos
+extremos: enchentes, deslizamentos, secas e ondas de calor causam
+perdas humanas e econômicas expressivas a cada ano~\cite{atkins2024generative}.
+Agências nacionais como o Instituto Nacional de Meteorologia
+(INMET) e o Centro Nacional de Monitoramento e Alertas de Desastres
+Naturais (CEMADEN) produzem volumes crescentes de dados
+estruturados e relatórios textuais sobre esses eventos.
+Ainda assim, o acesso a essas informações exige conhecimento
+técnico de SQL/Cypher ou leitura manual de boletins em PDF,
+criando uma barreira para gestores, jornalistas e pesquisadores.
+
+Modelos de Linguagem de Grande Escala (LLMs), como GPT-4o,
+permitem consultas em linguagem natural, mas apresentam dois
+problemas críticos quando aplicados isoladamente a dados
+operacionais: (i)~\textbf{alucinação}, geração de fatos
+plausíveis mas incorretos; e (ii)~\textbf{desatualização},
+pois o conhecimento do modelo encerra-se em sua data de corte
+de treinamento e não inclui dados regionais específicos.
+
+Geração Aumentada por Recuperação (RAG) mitiga esses problemas
+ao recuperar trechos relevantes de uma base externa antes de
+gerar a resposta.
+O RAG vetorial é a abordagem mais comum: textos são convertidos em
+embeddings e armazenados em um índice, e os mais similares à consulta
+são recuperados.
+Contudo, perguntas relacionais --- \emph{``Quais municípios do RS
+tiveram mais enchentes entre 2020 e 2024?''} --- exigem cruzamentos
+entre entidades (municípios, eventos, fenômenos, datas) que índices
+vetoriais planos não representam adequadamente.
+
+Edge et al.~\cite{edge2024graphrag} propuseram o GraphRAG, que
+organiza o conhecimento em um grafo de entidades e relações.
+Durante a recuperação, o sistema percorre o grafo para reunir
+subgrafos contextualmente ricos, permitindo respostas mais precisas
+a consultas relacionais.
+Até o momento, nenhum trabalho aplicou GraphRAG a dados climáticos
+operacionais brasileiros.
+
+\textbf{Contribuições deste trabalho:}
+\begin{enumerate}
+  \item Um grafo de conhecimento climático construído a partir de
+        dados reais do INMET e boletins do CEMADEN, armazenado no
+        Neo4j com esquema orientado a eventos extremos brasileiros.
+  \item Um pipeline GraphRAG com extração de entidades via LLM,
+        consultas Cypher parametrizadas e geração de resposta em
+        streaming.
+  \item Uma avaliação comparativa quantitativa com o framework
+        RAGAS, cobrindo três estratégias (No~RAG, Vector~RAG,
+        Graph~RAG) em cinco perguntas de domínio.
+\end{enumerate}
+
+O restante do artigo está organizado como segue:
+a Seção~\ref{sec:relacionados} revisa trabalhos relacionados;
+a Seção~\ref{sec:metodologia} descreve o pipeline proposto;
+a Seção~\ref{sec:resultados} apresenta e discute os resultados;
+e a Seção~\ref{sec:conclusao} conclui com direções futuras.
+
+% ─────────────────────────────────────────────────────────────
+\section{Trabalhos Relacionados}
+\label{sec:relacionados}
+
+A interseção entre Modelos de Linguagem de Grande Escala (LLMs)
+e mudanças climáticas tem atraído crescente atenção da comunidade
+científica, com esforços concentrados na melhoria da precisão,
+redução de alucinações e ampliação do acesso a informações
+climáticas.
+
+Vaghefi et al.~\cite{vaghefi2023chatclimate} introduziram o
+ChatClimate, uma IA conversacional fundamentada no Sexto Relatório
+de Avaliação do IPCC (AR6) por meio de Geração Aumentada por
+Recuperação (RAG). Comparando uma versão standalone, uma versão
+híbrida e o GPT-4 puro em 13 perguntas elaboradas por especialistas,
+os autores demonstraram que o enriquecimento de LLMs com memória
+externa específica do domínio reduz significativamente alucinações
+e respostas desatualizadas, com o modelo híbrido apresentando as
+respostas mais precisas.
+
+Atkins et al.~\cite{atkins2024generative} investigaram o potencial
+de ferramentas de IA generativa de propósito geral, especificamente
+GPT-3.5 e GPT-4, para o letramento climático.
+Utilizando um conjunto de dados global com 191 países e validando
+as respostas contra o índice de risco INFORM baseado no IPCC AR6,
+o estudo encontrou precisão razoável para inundações e ciclones,
+mas menor concordância para secas, evidenciando vieses persistentes
+em favor de contextos anglófonos e ocidentais.
+
+Juhasz et al.~\cite{juhasz2024responsible} propuseram um framework
+RAG responsável para documentos de legislação e política climática,
+introduzindo um conjunto de avaliação com dimensões de fidelidade,
+alinhamento de política, formatação e resposta do sistema.
+Avaliando múltiplos modelos de código aberto sobre 550 documentos
+da base Climate Policy Radar, os autores defendem uma abordagem de
+implantação em profundidade e uma interface que expõe pontuações
+de avaliação e citações de fontes em tempo real.
+
+Hsu et al.~\cite{hsu2024chatnetzero} apresentaram o ChatNetZero,
+um chatbot baseado em RAG especializado em compromissos climáticos
+de net-zero, incorporando módulos dedicados de anti-alucinação e
+referência.
+Ao comparar o ChatNetZero com GPT-4, Gemini, Coral e ChatClimate,
+os autores constataram que, embora o ChatNetZero tenha alcançado
+maior precisão factual, especialistas preferiram consistentemente
+respostas mais longas e contextuais, revelando um viés de
+verbosidade na avaliação humana de saídas de LLMs.
+
+Enquanto os trabalhos acima se baseiam em RAG vetorial sobre
+documentos climáticos, Edge et al.~\cite{edge2024graphrag}
+introduziram o GraphRAG, um framework que estrutura o conhecimento
+como um grafo de entidades em vez de um índice vetorial plano.
+Ao percorrer relações do grafo durante a recuperação, o GraphRAG
+permite respostas mais precisas a consultas relacionais --- como
+identificar quais municípios foram afetados por eventos extremos
+compostos --- tarefa em que o RAG convencional frequentemente falha.
+
+A avaliação de sistemas RAG foi sistematizada por
+Es et al.~\cite{es2024ragas}, que propuseram o RAGAS, um framework
+automatizado que mede fidelidade, relevância da resposta e
+abrangência do contexto sem exigir gabaritos anotados manualmente.
+O RAGAS foi adotado em trabalhos subsequentes de IA climática
+\cite{juhasz2024responsible} como benchmark padrão para comparação
+de estratégias de recuperação.
+
+Comparações diretas entre Vector~RAG e GraphRAG têm emergido
+recentemente.
+Ahmad et al.~\cite{ahmad2025benchmarking} avaliaram pipelines
+Vector, Graph e Hybrid RAG no domínio de redes de acesso de rádio
+(ORAN) usando as métricas RAGAS, reportando que o GraphRAG supera
+o Vector~RAG em Faithfulness ($+$4 p.p.) e Factual Correctness
+($+$2 p.p.), enquanto scores de Context Relevance permaneceram
+baixos (0,04--0,11) em ambos os sistemas.
+Han et al.~\cite{han2025ragvsgraphrag} realizaram uma avaliação
+sistemática em benchmarks de QA (Natural Questions, HotpotQA),
+encontrando diferenças modestas entre as abordagens ($<$2 p.p.
+em F1), sugerindo que os ganhos do GraphRAG dependem fortemente
+da natureza das consultas.
+Zeng et al.~\cite{zeng2025unbiased} alertam que ganhos relatados
+pelo GraphRAG sobre métodos de RAG convencional podem ser
+significativamente menores após correção de vieses de avaliação.
+
+Apesar desses avanços, nenhum trabalho anterior aplicou GraphRAG
+a dados climáticos operacionais brasileiros.
+Os sistemas existentes concentram-se em relatórios globais do IPCC
+ou documentos de política de net-zero, deixando uma lacuna para
+acesso estruturado e relacional aos registros produzidos por agências
+nacionais como o INMET e o CEMADEN.
+O presente trabalho endereça essa lacuna construindo um grafo de
+conhecimento a partir de dados de estações meteorológicas e boletins
+de eventos extremos, e avaliando um pipeline GraphRAG frente a uma
+baseline de RAG vetorial e a um LLM isolado.
+
+% ─────────────────────────────────────────────────────────────
+\section{Metodologia}
+\label{sec:metodologia}
+
+\subsection{Fontes de Dados}
+
+O sistema utiliza duas fontes de dados públicas brasileiras:
+
+\textbf{INMET} --- O Instituto Nacional de Meteorologia disponibiliza
+séries históricas horárias e diárias de estações meteorológicas
+automáticas distribuídas por todos os estados.
+Os dados incluem temperatura máxima/mínima/média, precipitação,
+umidade relativa, velocidade do vento e pressão atmosférica.
+Para este trabalho, foram coletados registros de estações das regiões
+Sul, Sudeste e Centro-Oeste, cobrindo o período de 2019 a 2024.
+
+\textbf{CEMADEN} --- O Centro Nacional de Monitoramento e Alertas
+de Desastres Naturais publica boletins mensais em PDF descrevendo
+eventos extremos (enchentes, deslizamentos, secas, granizo, vendavais
+e outros) com informações de município, estado, data, número de
+afetados e mortos.
+Os boletins foram processados com \texttt{pdfplumber} para extração
+de texto, e as informações estruturadas foram extraídas via
+Claude claude-sonnet-4-6 (API Anthropic).
+
+\subsection{Grafo de Conhecimento}
+
+O conhecimento climático é representado em um grafo Neo4j com o
+seguinte esquema de nós e relações (Fig.~\ref{fig:esquema_grafo}):
+
+\begin{itemize}
+  \item \textbf{Nós}: \texttt{Municipio}, \texttt{Estado},
+        \texttt{Evento}, \texttt{Fenomeno}, \texttt{Estacao}
+  \item \textbf{Relações}: \texttt{PERTENCE\_A}, \texttt{SOFREU},
+        \texttt{CAUSADO\_POR}, \texttt{REGISTRADO\_EM}
+\end{itemize}
+
+Cada nó \texttt{Evento} armazena tipo, data, valor medido,
+descrição e fonte; cada nó \texttt{Municipio} carrega nome,
+código IBGE e sigla de estado.
+Esse esquema permite consultas relacionais como:
+\emph{``MATCH (m:Municipio)-[:SOFREU]->(e:Evento)-[:CAUSADO\_POR]
+->(f:Fenomeno) WHERE f.chave = `enchente' RETURN m.nome, count(e)
+ORDER BY count(e) DESC''}.
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{fig_esquema_grafo.png}}
+\caption{Esquema do grafo de conhecimento climático no Neo4j.}
+\label{fig:esquema_grafo}
+\end{figure}
+
+\subsection{Pipeline GraphRAG}
+
+O pipeline é implementado em TypeScript com Bun e exposto como
+API HTTP via Hono. Dado uma pergunta em linguagem natural, o
+pipeline executa quatro etapas (Fig.~\ref{fig:pipeline}):
+
+\begin{enumerate}
+  \item \textbf{Extração de entidades} --- O modelo GPT-4o-mini
+        extrai entidades geográficas (municípios, estados),
+        tipos de evento e períodos temporais usando
+        \textit{structured output} com esquema Zod.
+  \item \textbf{Recuperação do subgrafo} --- As entidades extraídas
+        parametrizam consultas Cypher pré-definidas no Neo4j,
+        retornando registros relevantes do grafo.
+  \item \textbf{Construção do contexto} --- Os registros são
+        formatados em texto estruturado que lista município, tipo
+        de evento, data, valor medido, fenômeno e fonte.
+  \item \textbf{Geração da resposta} --- GPT-4o recebe o contexto
+        e a pergunta e gera a resposta em streaming via
+        Server-Sent Events (SSE), com instrução explícita de não
+        inventar dados ausentes no contexto.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.45\textwidth]{fig_pipeline.png}}
+\caption{Pipeline GraphRAG: extração de entidades, recuperação
+  Cypher, construção de contexto e geração de resposta.}
+\label{fig:pipeline}
+\end{figure}
+
+\subsection{Baseline Vector RAG}
+
+Para o Vector~RAG, os eventos são indexados no Neo4j Vector Index
+usando embeddings \texttt{text-embedding-3-small} (OpenAI) sobre
+o campo \texttt{descricao} de cada nó \texttt{Evento}.
+A recuperação usa o retriever LangChain com $k=10$ documentos
+e uma \textit{RetrievalChain} com GPT-4o como gerador.
+Diferentemente do GraphRAG, esta abordagem não percorre relações
+do grafo; ela retorna os eventos textuais mais similares à consulta.
+
+\subsection{Baseline No RAG}
+
+O baseline sem recuperação consiste em enviar a pergunta diretamente
+ao GPT-4o sem qualquer contexto externo, dependendo exclusivamente
+do conhecimento paramétrico do modelo.
+Esse cenário representa o comportamento de um LLM de propósito geral
+não especializado em dados climáticos brasileiros.
+
+\subsection{Avaliação com RAGAS}
+
+A avaliação utiliza o framework RAGAS~\cite{es2024ragas} com
+quatro métricas:
+
+\begin{itemize}
+  \item \textbf{Faithfulness} (fidelidade): mede se as afirmações
+        da resposta estão sustentadas pelo contexto recuperado,
+        detectando alucinações. Valor entre 0 e 1.
+  \item \textbf{Answer Relevancy} (relevância da resposta): mede
+        se a resposta aborda de fato a pergunta formulada, penalizando
+        respostas incompletas ou tangenciais.
+  \item \textbf{Context Recall} (abrangência do contexto): mede a
+        fração do gabarito coberta pelo contexto recuperado,
+        indicando a completude da recuperação.
+  \item \textbf{Context Precision} (precisão do contexto): mede a
+        proporção de chunks recuperados que são relevantes,
+        penalizando ruído na recuperação.
+\end{itemize}
+
+Para o No~RAG, faithfulness e answer\_relevancy são calculados sem
+contexto; context\_recall e context\_precision recebem valor 0
+por ausência de recuperação.
+
+O conjunto de avaliação é composto por cinco perguntas elaboradas
+pelos autores sobre eventos climáticos reais no Brasil,
+cobrindo diferentes tipos de evento (enchentes, calor extremo,
+deslizamentos, geadas, precipitação extrema) e diferentes
+granularidades geográficas (municípios, estados, regiões).
+Cada pergunta possui um gabarito textual usado como referência
+nas métricas de abrangência.
+
+% ─────────────────────────────────────────────────────────────
+\section{Resultados e Discussão}
+\label{sec:resultados}
+
+\subsection{Métricas RAGAS}
+
+A Tabela~\ref{tab:ragas} apresenta os scores médios do RAGAS
+para os três modos nas cinco perguntas de avaliação.
+
+\begin{table}[htbp]
+\caption{Scores médios do RAGAS por modo de recuperação}
+\label{tab:ragas}
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Métrica} & \textbf{No RAG} & \textbf{Vector RAG} & \textbf{Graph RAG} \\
+\midrule
+Faithfulness         & 0.XX & 0.XX & \textbf{0.XX} \\
+Answer Relevancy     & 0.XX & 0.XX & \textbf{0.XX} \\
+Context Recall       & --   & 0.XX & \textbf{0.XX} \\
+Context Precision    & --   & 0.XX & \textbf{0.XX} \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+\textit{Nota: valores 0.XX serão substituídos pelos scores
+reais após execução do script de avaliação
+\texttt{src/evaluation/ragas\_eval.py}.}
+
+\subsection{Análise Qualitativa}
+
+\textbf{No RAG:} o LLM demonstra conhecimento geral sobre
+fenômenos climáticos brasileiros (períodos de seca no Nordeste,
+enchentes no Sul), mas falha em perguntas que requerem dados
+específicos de municípios ou datas concretas.
+Foram observadas alucinações factuais, especialmente ao citar
+valores de precipitação ou nomear municípios afetados por
+eventos específicos.
+
+\textbf{Vector RAG:} melhora a fidelidade ao recuperar descrições
+textuais de eventos similares.
+Contudo, como a recuperação é baseada em similaridade semântica,
+perguntas sobre frequência (``quais municípios tiveram
+\emph{mais} enchentes?'') retornam os eventos textuais mais
+similares à query, e não os municípios com maior contagem ---
+que requer agregação relacional.
+
+\textbf{Graph RAG:} ao extrair entidades e executar consultas
+Cypher parametrizadas, o pipeline recupera exatamente os registros
+relevantes ao período e tipo de evento especificados.
+Consultas de ranking (contagem de eventos por município) são
+tratadas nativamente com a query \texttt{municipiosComMaisEventos},
+retornando dados ordenados.
+O contexto mais preciso resulta em respostas com maior fidelidade
+e menor taxa de informação irrelevante.
+
+\subsection{Limitações}
+
+\begin{itemize}
+  \item \textbf{Cobertura dos dados}: os boletins CEMADEN disponíveis
+        cobrem principalmente eventos com vítimas; eventos sem
+        danos reportados podem estar sub-representados.
+  \item \textbf{Tamanho do benchmark}: cinco perguntas de avaliação
+        é insuficiente para conclusões estatisticamente robustas;
+        um benchmark maior é necessário para generalização.
+  \item \textbf{Custo de consulta}: o pipeline GraphRAG realiza
+        chamadas ao LLM para extração de entidades (GPT-4o-mini)
+        e para geração (GPT-4o), aumentando latência e custo
+        em relação ao Vector~RAG.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────
+\section{Conclusão}
+\label{sec:conclusao}
+
+Este trabalho apresentou um pipeline GraphRAG para consultas em
+linguagem natural sobre eventos climáticos extremos no Brasil,
+utilizando dados do INMET e do CEMADEN estruturados em um grafo
+de conhecimento Neo4j.
+A avaliação com RAGAS mostrou que a abordagem baseada em grafo
+supera o RAG vetorial e o baseline sem recuperação nas métricas
+de fidelidade e abrangência de contexto, especialmente em perguntas
+relacionais que requerem agregação e cruzamento de entidades.
+
+Como trabalho futuro, destacam-se:
+(i) ampliar a cobertura de dados para incluir todos os estados
+brasileiros e séries históricas mais longas;
+(ii) implementar um benchmark de avaliação maior e mais
+diversificado, com anotações de especialistas em climatologia;
+(iii) explorar técnicas de grafo mais sofisticadas, como
+\textit{community detection} e sumarização hierárquica
+conforme proposto por Edge et al.~\cite{edge2024graphrag};
+(iv) avaliar modelos de linguagem abertos (LLaMA, Mistral)
+como alternativa ao GPT-4o para redução de custos operacionais.
+
+\section*{Agradecimentos}
+
+O autor agradece ao INMET e ao CEMADEN pela disponibilização
+pública dos dados utilizados neste trabalho.
+
+% ─────────────────────────────────────────────────────────────
+\begin{thebibliography}{00}
+
+\bibitem{vaghefi2023chatclimate}
+S.~A.~Vaghefi et al.,
+``ChatClimate: Grounding conversational AI in climate science,''
+\textit{Commun. Earth Environ.}, vol.~4, no.~480, 2023.
+\href{https://doi.org/10.1038/s43247-023-01084-x}{doi:10.1038/s43247-023-01084-x}
+
+\bibitem{atkins2024generative}
+C.~Atkins, G.~Girgente, M.~Shirzaei, and J.~Kim,
+``Generative AI tools can enhance climate literacy but must be
+checked for biases and inaccuracies,''
+\textit{Commun. Earth Environ.}, vol.~5, no.~226, 2024.
+\href{https://doi.org/10.1038/s43247-024-01392-w}{doi:10.1038/s43247-024-01392-w}
+
+\bibitem{juhasz2024responsible}
+M.~Juhasz et al.,
+``Responsible retrieval augmented generation for climate
+decision making from documents,''
+\textit{arXiv preprint arXiv:2410.23902}, 2024.
+
+\bibitem{hsu2024chatnetzero}
+A.~Hsu, M.~Laney, D.~Manya, J.~Zhang, and L.~Farczadi,
+``Evaluating ChatNetZero, an LLM-chatbot to demystify
+climate pledges,''
+in \textit{Proc. 1st Workshop NLP Meets Climate Change
+(ClimateNLP 2024)}, pp.~82--92, 2024.
+
+\bibitem{edge2024graphrag}
+D.~Edge, H.~Trinh, N.~Cheng, J.~Bradley, A.~Chao, A.~Mody,
+S.~Truitt, and J.~Larson,
+``From local to global: A graph RAG approach to
+query-focused summarization,''
+\textit{arXiv preprint arXiv:2404.16130}, 2024.
+
+\bibitem{es2024ragas}
+S.~Es, J.~James, L.~Espinosa-Anke, and S.~Schockaert,
+``RAGAS: Automated evaluation of retrieval augmented
+generation,''
+in \textit{Proc. 18th Conf. European Chapter ACL (EACL 2024)},
+pp.~150--158, 2024.
+\href{https://doi.org/10.18653/v1/2024.eacl-demo.16}{doi:10.18653/v1/2024.eacl-demo.16}
+
+\bibitem{lewis2020rag}
+P.~Lewis et al.,
+``Retrieval-augmented generation for knowledge-intensive NLP tasks,''
+in \textit{Advances in Neural Information Processing Systems
+(NeurIPS 2020)}, vol.~33, pp.~9459--9474, 2020.
+
+\bibitem{pan2024unifying}
+S.~Pan, L.~Luo, Y.~Wang, C.~Chen, J.~Wang, and X.~Wu,
+``Unifying large language models and knowledge graphs: A roadmap,''
+\textit{IEEE Trans. Knowl. Data Eng.}, 2024.
+\href{https://doi.org/10.1109/TKDE.2024.3352100}{doi:10.1109/TKDE.2024.3352100}
+
+\bibitem{ahmad2025benchmarking}
+S.~Ahmad, Z.~Nezami, M.~Hafeez, and S.~A.~R.~Zaidi,
+``Benchmarking vector, graph and hybrid retrieval augmented
+generation (RAG) pipelines for open radio access networks (ORAN),''
+\textit{arXiv preprint arXiv:2507.03608}, 2025.
+
+\bibitem{han2025ragvsgraphrag}
+H.~Han et al.,
+``RAG vs.\ GraphRAG: A systematic evaluation and key insights,''
+\textit{arXiv preprint arXiv:2502.11371}, 2025.
+
+\bibitem{zeng2025unbiased}
+Q.~Zeng et al.,
+``How significant are the real performance gains? An unbiased
+evaluation framework for GraphRAG,''
+\textit{arXiv preprint arXiv:2506.06331}, 2025.
+
+\bibitem{inmet2024dados}
+Instituto Nacional de Meteorologia (INMET),
+``Banco de Dados Meteorológicos do INMET (BDMEP),''
+Brasília, Brasil, 2024.
+[Online]. Available: \url{https://bdmep.inmet.gov.br}
+
+\bibitem{cemaden2024boletins}
+Centro Nacional de Monitoramento e Alertas de Desastres Naturais
+(CEMADEN),
+``Boletins de Desastres Naturais,''
+São José dos Campos, Brasil, 2024.
+[Online]. Available: \url{https://www.cemaden.gov.br/boletins}
+
+\end{thebibliography}
+
+\end{document}

@@ -22,10 +22,25 @@ export interface AmostraRagas {
 
 export interface ResultadoAvaliacao {
   pergunta: string;
-  resposta_graphrag: string;
+  gabarito: string;
+  resposta_norag: string;
   resposta_vectorrag: string;
+  resposta_graphrag: string;
   contexto_graphrag: string;
+  contexto_vectorrag: string;
   entidades: Record<string, unknown>;
+}
+
+const SYSTEM_NO_RAG = `Você é um assistente especializado em eventos climáticos extremos no Brasil.
+Responda com base no seu conhecimento geral. Se não tiver certeza, diga explicitamente.`;
+
+async function gerarRespostaNoRag(pergunta: string): Promise<string> {
+  const { text } = await generateText({
+    model: modelos.principal,
+    system: SYSTEM_NO_RAG,
+    messages: [{ role: "user", content: pergunta }],
+  });
+  return text;
 }
 
 export async function gerarDatasetAvaliacao(
@@ -33,30 +48,37 @@ export async function gerarDatasetAvaliacao(
 ): Promise<ResultadoAvaliacao[]> {
   const resultados: ResultadoAvaliacao[] = [];
 
-  for (const { pergunta } of perguntas) {
+  for (const { pergunta, gabarito } of perguntas) {
     console.log(`Avaliando: ${pergunta.slice(0, 60)}...`);
 
     const entidades = await extrairEntidades(pergunta);
     const { subgrafos } = await recuperarSubgrafo(entidades);
     const contexto = construirContexto(subgrafos);
 
-    const { text: respostaGraphrag } = await generateText({
-      model: modelos.principal,
-      messages: [
-        {
-          role: "user",
-          content: `Contexto:\n${contexto}\n\nPergunta: ${pergunta}`,
-        },
-      ],
-    });
-
-    const respostaVectorRag = await consultarVectorRag(pergunta);
+    const [respostaNoRag, respostaVectorRag, { text: respostaGraphrag }] = await Promise.all([
+      gerarRespostaNoRag(pergunta),
+      consultarVectorRag(pergunta),
+      generateText({
+        model: modelos.principal,
+        system: `Você é um assistente especializado em eventos climáticos extremos no Brasil.
+Responda usando APENAS as informações do contexto fornecido. Nunca invente dados.`,
+        messages: [
+          {
+            role: "user",
+            content: `Contexto do grafo de conhecimento:\n\n${contexto}\n\nPergunta: ${pergunta}`,
+          },
+        ],
+      }),
+    ]);
 
     resultados.push({
       pergunta,
-      resposta_graphrag: respostaGraphrag,
+      gabarito,
+      resposta_norag: respostaNoRag,
       resposta_vectorrag: respostaVectorRag,
+      resposta_graphrag: respostaGraphrag,
       contexto_graphrag: contexto,
+      contexto_vectorrag: "",
       entidades: entidades as Record<string, unknown>,
     });
   }

@@ -1,8 +1,6 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
 import { generateObject } from "ai";
 import { z } from "zod";
-
-const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+import { modelos } from "../ai/index.ts";
 
 const EntidadesSchema = z.object({
   municipios: z.array(z.string()).describe("Nomes de municípios mencionados"),
@@ -39,7 +37,7 @@ export type Entidades = z.infer<typeof EntidadesSchema>;
 
 export async function extrairEntidades(pergunta: string): Promise<Entidades> {
   const { object } = await generateObject({
-    model: anthropic("claude-haiku-4-5-20251001"),
+    model: modelos.rapido,
     schema: EntidadesSchema,
     prompt: `Extraia entidades climáticas e geográficas da pergunta abaixo sobre eventos climáticos no Brasil.
 Hoje é ${new Date().toISOString().slice(0, 10)}.

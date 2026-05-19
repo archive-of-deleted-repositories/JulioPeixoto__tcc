@@ -1,7 +1,5 @@
-import { createAnthropic } from "@ai-sdk/anthropic";
 import { streamText } from "ai";
-
-const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+import { modelos } from "../ai/index.ts";
 
 const SYSTEM = `Você é um assistente especializado em eventos climáticos extremos no Brasil.
 Responda perguntas em linguagem acessível usando APENAS as informações do contexto fornecido.
@@ -11,7 +9,7 @@ Nunca invente dados que não estejam no contexto.`;
 
 export function gerarResposta(pergunta: string, contexto: string) {
   return streamText({
-    model: anthropic("claude-sonnet-4-6"),
+    model: modelos.principal,
     system: SYSTEM,
     messages: [
       {

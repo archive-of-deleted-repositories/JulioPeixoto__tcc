@@ -1,14 +1,8 @@
-/**
- * Baseline RAG vetorial usando Neo4jVectorStore do LangChain.
- * Usado para comparação com o GraphRAG via RAGAS.
- */
-
 import { Neo4jVectorStore } from "@langchain/community/vectorstores/neo4j_vector";
-import { ChatAnthropic } from "@langchain/anthropic";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { createRetrievalChain } from "langchain/chains/retrieval";
-import { VoyageEmbeddings } from "@langchain/community/embeddings/voyage";
+import { criarEmbeddings, criarLangChainLLM } from "../ai/index.ts";
 
 const NEO4J_CONFIG = {
   url: process.env.NEO4J_URI!,
@@ -21,21 +15,12 @@ const NEO4J_CONFIG = {
 };
 
 export async function criarVectorStore(): Promise<Neo4jVectorStore> {
-  const embeddings = new VoyageEmbeddings({
-    apiKey: process.env.VOYAGE_API_KEY ?? process.env.ANTHROPIC_API_KEY!,
-    modelName: "voyage-3",
-  });
-  return Neo4jVectorStore.fromExistingIndex(embeddings, NEO4J_CONFIG);
+  return Neo4jVectorStore.fromExistingIndex(criarEmbeddings(), NEO4J_CONFIG);
 }
 
 export async function consultarVectorRag(pergunta: string): Promise<string> {
   const vectorStore = await criarVectorStore();
   const retriever = vectorStore.asRetriever({ k: 10 });
-
-  const llm = new ChatAnthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY,
-    model: "claude-sonnet-4-6",
-  });
 
   const prompt = ChatPromptTemplate.fromTemplate(`
 Você é um assistente especializado em eventos climáticos extremos no Brasil.
@@ -47,7 +32,7 @@ Contexto:
 Pergunta: {input}
   `);
 
-  const documentChain = await createStuffDocumentsChain({ llm, prompt });
+  const documentChain = await createStuffDocumentsChain({ llm: criarLangChainLLM(), prompt });
   const chain = await createRetrievalChain({ retriever, combineDocsChain: documentChain });
 
   const result = await chain.invoke({ input: pergunta });
@@ -57,12 +42,8 @@ Pergunta: {input}
 export async function indexarEventos(
   eventos: Array<{ descricao: string; metadata: Record<string, unknown> }>
 ): Promise<void> {
-  const embeddings = new VoyageEmbeddings({
-    apiKey: process.env.VOYAGE_API_KEY ?? process.env.ANTHROPIC_API_KEY!,
-    modelName: "voyage-3",
-  });
   const textos = eventos.map((e) => e.descricao);
   const metadados = eventos.map((e) => e.metadata);
-  await Neo4jVectorStore.fromTexts(textos, metadados, embeddings, NEO4J_CONFIG);
+  await Neo4jVectorStore.fromTexts(textos, metadados, criarEmbeddings(), NEO4J_CONFIG);
   console.log(`${eventos.length} eventos indexados no vector store`);
 }

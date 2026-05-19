@@ -6,10 +6,12 @@
  * necessários para o script Python de avaliação.
  */
 
+import { generateText } from "ai";
 import { extrairEntidades } from "../pipeline/entityExtractor.ts";
 import { recuperarSubgrafo } from "../pipeline/graphRetriever.ts";
 import { construirContexto } from "../pipeline/contextBuilder.ts";
 import { consultarVectorRag } from "../baseline/vectorRag.ts";
+import { modelos } from "../ai/index.ts";
 
 export interface AmostraRagas {
   question: string;
@@ -31,20 +33,15 @@ export async function gerarDatasetAvaliacao(
 ): Promise<ResultadoAvaliacao[]> {
   const resultados: ResultadoAvaliacao[] = [];
 
-  for (const { pergunta, gabarito } of perguntas) {
+  for (const { pergunta } of perguntas) {
     console.log(`Avaliando: ${pergunta.slice(0, 60)}...`);
 
     const entidades = await extrairEntidades(pergunta);
     const subgrafos = await recuperarSubgrafo(entidades);
     const contexto = construirContexto(subgrafos);
 
-    // GraphRAG: coleta resposta completa (sem streaming para avaliação)
-    const { generateText } = await import("ai");
-    const { createAnthropic } = await import("@ai-sdk/anthropic");
-    const anthropic = createAnthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
-
     const { text: respostaGraphrag } = await generateText({
-      model: anthropic("claude-sonnet-4-6"),
+      model: modelos.principal,
       messages: [
         {
           role: "user",
@@ -53,7 +50,6 @@ export async function gerarDatasetAvaliacao(
       ],
     });
 
-    // Vector RAG baseline
     const respostaVectorRag = await consultarVectorRag(pergunta);
 
     resultados.push({
@@ -68,7 +64,6 @@ export async function gerarDatasetAvaliacao(
   return resultados;
 }
 
-// Perguntas de avaliação com gabaritos baseados nos dados reais
 export const PERGUNTAS_AVALIACAO = [
   {
     pergunta: "Quais municípios do Rio Grande do Sul tiveram mais enchentes entre 2020 e 2024?",

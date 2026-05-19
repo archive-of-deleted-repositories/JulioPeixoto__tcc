@@ -112,10 +112,172 @@ operacionais brasileiros.
 \end{enumerate}
 
 O restante do artigo está organizado como segue:
+a Seção~\ref{sec:fundamentacao} apresenta a fundamentação teórica
+sobre LLMs e as variantes do paradigma RAG;
 a Seção~\ref{sec:relacionados} revisa trabalhos relacionados;
 a Seção~\ref{sec:metodologia} descreve o pipeline proposto;
 a Seção~\ref{sec:resultados} apresenta e discute os resultados;
 e a Seção~\ref{sec:conclusao} conclui com direções futuras.
+
+% ─────────────────────────────────────────────────────────────
+\section{Fundamentação Teórica}
+\label{sec:fundamentacao}
+
+\subsection{Modelos de Linguagem de Grande Escala}
+
+A arquitetura \textit{Transformer}, proposta por
+Vaswani et al.~\cite{vaswani2017attention}, revolucionou o
+processamento de linguagem natural ao substituir recorrência
+e convoluções por mecanismos de atenção multi-cabeça.
+O Transformer permite paralelização total do treinamento e
+captura dependências de longo alcance no texto com complexidade
+de atenção $\mathcal{O}(n^2)$, onde $n$ é o comprimento da
+sequência.
+Sobre essa base arquitetural, modelos como o GPT-3~\cite{brown2020gpt3}
+demonstraram que o escalonamento de parâmetros (175 bilhões)
+e dados de treinamento produz capacidades emergentes de
+\textit{few-shot learning}: o modelo resolve tarefas nunca
+vistas com apenas alguns exemplos no prompt.
+
+Os LLMs modernos, como a família GPT-4o da OpenAI, acumulam
+conhecimento do mundo em seus pesos durante o pré-treinamento.
+Esse conhecimento \textbf{paramétrico} é estático: a data de
+corte do treinamento define a fronteira do que o modelo sabe.
+Duas limitações estruturais decorrem disso:
+
+\begin{itemize}
+  \item \textbf{Alucinação}: o modelo gera afirmações factualmente
+        incorretas com fluência e confiança, pois não distingue
+        o que foi memorizado do que foi inferido~\cite{gao2024survey}.
+  \item \textbf{Desatualização}: dados operacionais — como registros
+        de estações meteorológicas ou boletins de eventos extremos —
+        não estão presentes no corpus de treinamento; o modelo
+        não pode responder perguntas sobre eles sem acesso externo.
+\end{itemize}
+
+\subsection{Geração Aumentada por Recuperação}
+
+A Geração Aumentada por Recuperação (RAG), proposta por
+Lewis et al.~\cite{lewis2020rag}, introduz um módulo de
+recuperação que consulta uma base de conhecimento externa
+antes da geração.
+O modelo não precisa memorizar todos os fatos: ele os busca
+sob demanda, transformando o problema de QA \textit{closed-book}
+(o modelo sabe tudo de memória) em QA \textit{open-book}
+(o modelo lê documentos relevantes antes de responder).
+
+A arquitetura RAG canônica opera em três estágios:
+(1)~\textbf{Indexação} --- documentos são pré-processados e
+armazenados numa estrutura de busca eficiente;
+(2)~\textbf{Recuperação} --- dada uma consulta, os documentos
+mais relevantes são selecionados;
+(3)~\textbf{Geração} --- o LLM recebe a consulta concatenada
+com os documentos recuperados e produz a resposta final.
+
+Essa abordagem reduz alucinações ao ancorar a geração em fatos
+recuperados, e elimina a desatualização ao permitir atualização
+incremental da base sem re-treinar o modelo~\cite{gao2024survey}.
+
+\subsection{Evolução do Paradigma RAG}
+
+Gao et al.~\cite{gao2024survey} sistematizaram a evolução do
+RAG em três gerações:
+
+\textbf{RAG Ingênuo (\textit{Naive RAG}):}
+O pipeline original de Lewis et al.~\cite{lewis2020rag}
+divide documentos em trechos (\textit{chunks}), converte-os em
+vetores com um modelo de embeddings e armazena-os num índice.
+Na consulta, os $k$ vetores mais próximos da consulta são
+recuperados por similaridade de cosseno e entregues ao gerador.
+Limitações: sensível à qualidade dos chunks, não executa
+reranqueamento nem verifica consistência.
+
+\textbf{RAG Avançado (\textit{Advanced RAG}):}
+Introduz pré-processamento de consultas (\textit{query rewriting},
+\textit{HyDE} — geração de documento hipotético), reranqueamento
+pós-recuperação e refinamento iterativo do contexto.
+O objetivo é aumentar a precisão e reduzir ruído nos chunks
+entregues ao gerador.
+
+\textbf{RAG Modular (\textit{Modular RAG}):}
+Desacopla cada componente (indexador, recuperador, refinador,
+gerador) em módulos intercambiáveis, permitindo configurações
+adaptativas de acordo com o tipo de consulta.
+Exemplos incluem a combinação de recuperação densa com esparsa
+(\textit{hybrid search}) e roteadores que escolhem a estratégia
+de recuperação adequada por classe de pergunta.
+
+\subsection{RAG Vetorial}
+
+O RAG Vetorial é a instância mais difundida do paradigma.
+Documentos são convertidos em vetores densos por modelos de
+embeddings — como \texttt{text-embedding-3-small} da OpenAI ou
+o DPR (\textit{Dense Passage Retrieval})~\cite{karpukhin2020dpr}
+--- e armazenados em índices de busca aproximada de vizinhos
+(ANN), como FAISS, Pinecone ou o Vector Index do Neo4j.
+
+A recuperação retorna os $k$ documentos com maior
+similaridade de cosseno em relação ao vetor da consulta.
+Esse mecanismo é eficaz para perguntas semânticas abertas
+(\emph{``o que é uma onda de calor?''}), mas falha em perguntas
+relacionais que exigem agregação ou cruzamento de entidades
+(\emph{``quais municípios tiveram mais de 10 enchentes em 2023?''}):
+a similaridade vetorial não captura a estrutura relacional
+entre municípios, eventos e fenômenos.
+
+\subsection{RAG Baseado em Grafos (GraphRAG)}
+
+Grafos de Conhecimento (\textit{Knowledge Graphs} --- KGs)
+representam o mundo como um conjunto de triplas
+$(\text{entidade}_1, \text{relação}, \text{entidade}_2)$,
+capturando relações explícitas que índices vetoriais planos
+não representam.
+Pan et al.~\cite{pan2024unifying} propuseram um roteiro para
+a unificação de LLMs e KGs, identificando três cenários
+complementares: KGs enriquecendo LLMs com conhecimento
+estruturado, LLMs aprimorando tarefas sobre KGs, e
+arquiteturas híbridas onde ambos cooperam.
+
+Edge et al.~\cite{edge2024graphrag} concretizaram essa visão
+com o GraphRAG: dado um corpus, um LLM extrai entidades e
+relações, construindo automaticamente um grafo de conhecimento.
+Na recuperação, o sistema identifica comunidades temáticas do
+grafo e gera sumarizações hierárquicas — local (nível de
+comunidade) e global (nível de grafo) --- para responder
+consultas que requerem síntese de múltiplas entidades.
+
+No presente trabalho, adotamos uma variante \textbf{orientada
+a esquema}: o grafo é construído manualmente a partir de dados
+estruturados (INMET, CEMADEN) com nós e relações pré-definidos,
+e a recuperação utiliza consultas Cypher parametrizadas geradas
+a partir das entidades extraídas da pergunta pelo LLM.
+Essa abordagem combina a precisão das consultas declarativas
+em grafo com a flexibilidade da compreensão de linguagem
+natural dos LLMs.
+
+\subsubsection{Comparativo entre os Três Modos}
+
+A Tabela~\ref{tab:comparativo} resume as características dos
+três modos de consulta avaliados neste trabalho.
+
+\begin{table}[htbp]
+\caption{Comparativo entre os modos de recuperação avaliados}
+\label{tab:comparativo}
+\begin{center}
+\begin{tabular}{p{1.8cm}p{1.8cm}p{1.8cm}p{1.8cm}}
+\toprule
+\textbf{Característica} & \textbf{No RAG} & \textbf{Vector RAG} & \textbf{Graph RAG} \\
+\midrule
+Fonte do conhecimento & Paramétrico & Índice vetorial & Grafo Neo4j \\
+Suporte a agregação & Não & Limitado & Sim (Cypher) \\
+Atualização incremental & Não & Sim & Sim \\
+Risco de alucinação & Alto & Médio & Baixo \\
+Custo de consulta & Baixo & Médio & Médio-alto \\
+Consultas relacionais & Não & Não & Sim \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
 
 % ─────────────────────────────────────────────────────────────
 \section{Trabalhos Relacionados}
@@ -486,11 +648,40 @@ in \textit{Proc. 18th Conf. European Chapter ACL (EACL 2024)},
 pp.~150--158, 2024.
 \href{https://doi.org/10.18653/v1/2024.eacl-demo.16}{doi:10.18653/v1/2024.eacl-demo.16}
 
+\bibitem{vaswani2017attention}
+A.~Vaswani, N.~Shazeer, N.~Parmar, J.~Uszkoreit, L.~Jones,
+A.~N.~Gomez, L.~Kaiser, and I.~Polosukhin,
+``Attention is all you need,''
+in \textit{Advances in Neural Information Processing Systems
+(NeurIPS 2017)}, vol.~30, 2017.
+arXiv:1706.03762
+
+\bibitem{brown2020gpt3}
+T.~B.~Brown et al.,
+``Language models are few-shot learners,''
+in \textit{Advances in Neural Information Processing Systems
+(NeurIPS 2020)}, vol.~33, pp.~1877--1901, 2020.
+arXiv:2005.14165
+
 \bibitem{lewis2020rag}
 P.~Lewis et al.,
 ``Retrieval-augmented generation for knowledge-intensive NLP tasks,''
 in \textit{Advances in Neural Information Processing Systems
 (NeurIPS 2020)}, vol.~33, pp.~9459--9474, 2020.
+arXiv:2005.11401
+
+\bibitem{gao2024survey}
+Y.~Gao, Y.~Xiong, X.~Gao, K.~Jia, J.~Pan, Y.~Bi, Y.~Dai,
+J.~Sun, M.~Wang, and H.~Wang,
+``Retrieval-augmented generation for large language models:
+A survey,''
+\textit{arXiv preprint arXiv:2312.10997}, 2024.
+
+\bibitem{karpukhin2020dpr}
+V.~Karpukhin et al.,
+``Dense passage retrieval for open-domain question answering,''
+in \textit{Proc. 2020 Conf. Empirical Methods in Natural Language
+Processing (EMNLP)}, pp.~6837--6851, 2020.
 
 \bibitem{pan2024unifying}
 S.~Pan, L.~Luo, Y.~Wang, C.~Chen, J.~Wang, and X.~Wu,

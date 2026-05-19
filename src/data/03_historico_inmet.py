@@ -77,15 +77,21 @@ def parse_csv_inmet(raw_bytes: bytes, codigo_estacao: str) -> pd.DataFrame | Non
         )
         df = df.rename(columns={c: n for c, n in COLUNAS_INMET.items() if c in df.columns})
         df["estacao"] = codigo_estacao
-        # Formato real: YYYY/MM/DD
+        # Detecção flexível da coluna de data (nome varia entre anos)
+        if "data" not in df.columns:
+            candidatas = [c for c in df.columns if "data" in c.lower() or "date" in c.lower()]
+            if candidatas:
+                df = df.rename(columns={candidatas[0]: "data"})
         if "data" in df.columns:
-            df["data"] = pd.to_datetime(df["data"], format="%Y/%m/%d", errors="coerce")
+            df["data"] = pd.to_datetime(df["data"], format="mixed", dayfirst=False, errors="coerce")
         return df
     except Exception:
         return None
 
 
 def derivar_eventos(df: pd.DataFrame) -> list[dict]:
+    if "data" not in df.columns:
+        return []
     eventos = []
     # Agrega por dia (CSV horário)
     diario = (
@@ -124,7 +130,8 @@ def processar_ano(ano: int) -> list[dict]:
     with zipfile.ZipFile(io.BytesIO(data)) as zf:
         csvs = [n for n in zf.namelist() if n.upper().endswith(".CSV")]
         for name in tqdm(csvs, desc=f"  {ano}", leave=False):
-            codigo = Path(name).stem.split("_")[-1]
+            parts = Path(name).stem.split("_")
+            codigo = parts[3] if len(parts) > 3 else parts[-1]
             df = parse_csv_inmet(zf.read(name), codigo)
             if df is not None:
                 eventos.extend(derivar_eventos(df))
@@ -140,7 +147,7 @@ if __name__ == "__main__":
         print(f"  {len(ev)} eventos derivados")
 
     out = PROCESSED / "eventos_extremos_inmet.jsonl"
-    with out.open("w") as f:
+    with out.open("w", encoding="utf-8") as f:
         for ev in todos_eventos:
             f.write(json.dumps(ev, ensure_ascii=False) + "\n")
-    print(f"\nTotal: {len(todos_eventos)} eventos → {out}")
+    print(f"\nTotal: {len(todos_eventos)} eventos -> {out}")

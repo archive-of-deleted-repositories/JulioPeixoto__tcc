@@ -30,10 +30,8 @@ ps:
 
 restart: down up
 
-docker-prune:
-	docker system prune -f
+dp:
+	docker system prune -f && docker system prune -a --volumes -f
 
-docker-clean:
-	docker system prune -a --volumes -f
 
-reset: down-v docker-clean up
+r: down-v docker-clean up

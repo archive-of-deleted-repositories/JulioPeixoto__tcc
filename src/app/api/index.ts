@@ -1,41 +1,59 @@
 import { Hono } from "hono";
 import { streamSSE } from "hono/streaming";
 import { cors } from "hono/cors";
+import { logger } from "hono/logger";
+import { getCookie, setCookie } from "hono/cookie";
 import { zValidator } from "@hono/zod-validator";
 import { z } from "zod";
 import { extrairEntidades } from "../pipeline/entityExtractor.ts";
 import { recuperarSubgrafo } from "../pipeline/graphRetriever.ts";
 import { construirContexto } from "../pipeline/contextBuilder.ts";
 import { gerarResposta } from "../pipeline/generator.ts";
+import { getHistorico, salvarMensagem } from "../memory/index.ts";
 
 const app = new Hono();
 
-app.use("*", cors());
+app.use("*", logger());
+app.use("*", cors({ origin: "*", credentials: true }));
 
 const ChatSchema = z.object({
-  pergunta: z.string().min(5).max(1000),
+  pergunta: z.string().max(1000),
 });
 
-app.post("/chat", zValidator("json", ChatSchema), async (c) => {
+app.post("/chat", zValidator("json", ChatSchema, (result, c) => {
+  if (!result.success) return c.json({ erro: result.error.flatten().fieldErrors }, 400);
+}), async (c) => {
   const { pergunta } = c.req.valid("json");
 
-  return streamSSE(c, async (stream) => {
-    try {
-      const entidades = await extrairEntidades(pergunta);
-      const subgrafos = await recuperarSubgrafo(entidades);
-      const contexto = construirContexto(subgrafos);
-      const resposta = gerarResposta(pergunta, contexto);
+  // Obtém ou cria sessão via cookie
+  let sessaoId = getCookie(c, "sessao_id");
+  if (!sessaoId) {
+    sessaoId = crypto.randomUUID();
+    setCookie(c, "sessao_id", sessaoId, { httpOnly: true, sameSite: "Lax", maxAge: 60 * 60 * 24 * 7 });
+  }
 
-      // Envia metadados antes do texto
+  const historico = getHistorico(sessaoId);
+  salvarMensagem(sessaoId, "user", pergunta);
+
+  return streamSSE(c, async (stream) => {
+    let respostaCompleta = "";
+    try {
+      const entidades = await extrairEntidades(pergunta, historico);
+      const { subgrafos, entidadesEfetivas } = await recuperarSubgrafo(entidades);
+      const contexto = construirContexto(subgrafos);
+      const resposta = gerarResposta(pergunta, contexto, historico);
+
       await stream.writeSSE({
         event: "meta",
-        data: JSON.stringify({ entidades, num_registros: subgrafos.reduce((a, s) => a + s.records.length, 0) }),
+        data: JSON.stringify({ entidades: entidadesEfetivas, num_registros: subgrafos.reduce((a, s) => a + s.records.length, 0) }),
       });
 
       for await (const chunk of (await resposta).textStream) {
+        respostaCompleta += chunk;
         await stream.writeSSE({ data: chunk });
       }
 
+      salvarMensagem(sessaoId!, "assistant", respostaCompleta);
       await stream.writeSSE({ event: "done", data: "" });
     } catch (err) {
       await stream.writeSSE({
@@ -56,7 +74,7 @@ app.post("/avaliar", async (c) => {
 
 app.get("/", async (c) => {
   const htmlPath = new URL("../frontend/index.html", import.meta.url).pathname
-    .replace(/^\/([A-Za-z]:)/, "$1"); // remove leading slash no Windows (ex: /C:/... → C:/...)
+    .replace(/^\/([A-Za-z]:)/, "$1");
   const html = await Bun.file(htmlPath).text();
   return c.html(html);
 });

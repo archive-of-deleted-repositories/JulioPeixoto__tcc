@@ -100,6 +100,50 @@
     }
 
     @keyframes blink { 50% { opacity: 0; } }
+
+    details.meta-box {
+      align-self: flex-start;
+      font-size: .75rem;
+      color: #64748b;
+      margin-top: -.5rem;
+    }
+
+    details.meta-box summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .2rem .4rem;
+      border-radius: .35rem;
+      user-select: none;
+    }
+
+    details.meta-box summary:hover { color: #94a3b8; }
+
+    details.meta-box summary::before {
+      content: "▶";
+      font-size: .6rem;
+      transition: transform .15s;
+    }
+
+    details.meta-box[open] summary::before { transform: rotate(90deg); }
+
+    .meta-body {
+      margin-top: .35rem;
+      padding: .5rem .75rem;
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      border-radius: .5rem;
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      min-width: 220px;
+    }
+
+    .meta-row { display: flex; gap: .5rem; }
+    .meta-label { color: #475569; min-width: 90px; }
+    .meta-value { color: #94a3b8; }
   </style>
 </head>
 <body>
@@ -149,16 +193,39 @@
 
       const assistantDiv = addMsg('', 'assistant typing');
 
+      // painel de meta — criado vazio, preenchido ao receber event:meta
+      const metaDetails = document.createElement('details');
+      metaDetails.className = 'meta-box';
+      metaDetails.style.display = 'none';
+      metaDetails.innerHTML = '<summary>contexto do grafo</summary><div class="meta-body"></div>';
+      messagesEl.appendChild(metaDetails);
+
+      function renderMeta(meta) {
+        const { entidades, num_registros } = meta;
+        const fmt = (arr) => arr.length ? arr.join(', ') : '—';
+        const periodo = [entidades.periodo_inicio, entidades.periodo_fim].filter(Boolean).join(' → ') || '—';
+        metaDetails.querySelector('.meta-body').innerHTML = `
+          <div class="meta-row"><span class="meta-label">registros</span><span class="meta-value">${num_registros}</span></div>
+          <div class="meta-row"><span class="meta-label">municípios</span><span class="meta-value">${fmt(entidades.municipios)}</span></div>
+          <div class="meta-row"><span class="meta-label">estados</span><span class="meta-value">${fmt(entidades.estados)}</span></div>
+          <div class="meta-row"><span class="meta-label">eventos</span><span class="meta-value">${fmt(entidades.tipos_evento)}</span></div>
+          <div class="meta-row"><span class="meta-label">período</span><span class="meta-value">${periodo}</span></div>
+        `;
+        metaDetails.style.display = '';
+      }
+
       try {
         const res = await fetch('/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ pergunta }),
         });
 
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let buffer = '';
+        let currentEvent = '';
 
         while (true) {
           const { done, value } = await reader.read();
@@ -169,14 +236,23 @@
           buffer = lines.pop() ?? '';
 
           for (const line of lines) {
-            if (line.startsWith('event: meta')) continue;
-            if (line.startsWith('event: done')) {
-              assistantDiv.classList.remove('typing');
-              break;
+            if (line === '') {
+              // linha em branco = fim do bloco SSE, reseta o evento
+              currentEvent = '';
+              continue;
+            }
+            if (line.startsWith('event: ')) {
+              currentEvent = line.slice(7).trim();
+              if (currentEvent === 'done') { assistantDiv.classList.remove('typing'); }
+              continue;
             }
             if (line.startsWith('data: ')) {
-              assistantDiv.textContent += line.slice(6);
-              messagesEl.scrollTop = messagesEl.scrollHeight;
+              const payload = line.slice(6);
+              if (currentEvent === 'meta') { try { renderMeta(JSON.parse(payload)); } catch {} }
+              else if (currentEvent !== 'error' && currentEvent !== 'done') {
+                assistantDiv.textContent += payload;
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+              }
             }
           }
         }

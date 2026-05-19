@@ -9,15 +9,18 @@ import json
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
 from neo4j import GraphDatabase
 from tqdm import tqdm
+
+load_dotenv(Path(__file__).parents[2] / ".env")
 
 PROCESSED = Path(__file__).parents[2] / "data" / "processed"
 RAW = Path(__file__).parents[2] / "data" / "raw"
 
 URI = os.environ.get("NEO4J_URI", "bolt://localhost:7687")
 USER = os.environ.get("NEO4J_USER", "neo4j")
-PASSWORD = os.environ.get("NEO4J_PASSWORD", "senha")
+PASSWORD = os.environ.get("NEO4J_PASSWORD", "senha12345")
 
 driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
 
@@ -51,7 +54,7 @@ def criar_indices():
 # ──────────────────────────────────────────────
 
 def carregar_estados():
-    estados = json.loads((RAW / "ibge_estados.json").read_text())
+    estados = json.loads((RAW / "ibge_estados.json").read_text(encoding="utf-8"))
     with driver.session() as s:
         for e in tqdm(estados, desc="Estados"):
             s.execute_write(
@@ -88,7 +91,7 @@ def carregar_municipios():
 
 
 def carregar_estacoes():
-    estacoes = json.loads((PROCESSED / "estacoes_com_municipio.json").read_text())
+    estacoes = json.loads((PROCESSED / "estacoes_com_municipio.json").read_text(encoding="utf-8"))
     with driver.session() as s:
         for e in tqdm(estacoes, desc="Estações"):
             codigo = e.get("CD_ESTACAO") or e.get("codigo", "")
@@ -149,7 +152,7 @@ def carregar_eventos_inmet():
     if not path.exists():
         print("  eventos_extremos_inmet.jsonl não encontrado, pulando")
         return
-    linhas = path.read_text().splitlines()
+    linhas = path.read_text(encoding="utf-8").splitlines()
     with driver.session() as s:
         for i, linha in enumerate(tqdm(linhas, desc="Eventos INMET")):
             ev = json.loads(linha)
@@ -190,7 +193,7 @@ def carregar_eventos_cemaden():
     if not path.exists():
         print("  eventos_cemaden.jsonl não encontrado, pulando")
         return
-    linhas = path.read_text().splitlines()
+    linhas = path.read_text(encoding="utf-8").splitlines()
     with driver.session() as s:
         for i, linha in enumerate(tqdm(linhas, desc="Eventos CEMADEN")):
             ev = json.loads(linha)
@@ -235,7 +238,7 @@ def carregar_alertas():
     if not path.exists():
         print("  alertas_inmet.jsonl não encontrado, pulando")
         return
-    linhas = path.read_text().splitlines()
+    linhas = path.read_text(encoding="utf-8").splitlines()
     with driver.session() as s:
         for linha in tqdm(linhas, desc="Alertas RSS"):
             alerta = json.loads(linha)

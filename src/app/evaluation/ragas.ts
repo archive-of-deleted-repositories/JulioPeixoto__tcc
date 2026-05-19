@@ -37,7 +37,7 @@ export async function gerarDatasetAvaliacao(
     console.log(`Avaliando: ${pergunta.slice(0, 60)}...`);
 
     const entidades = await extrairEntidades(pergunta);
-    const subgrafos = await recuperarSubgrafo(entidades);
+    const { subgrafos } = await recuperarSubgrafo(entidades);
     const contexto = construirContexto(subgrafos);
 
     const { text: respostaGraphrag } = await generateText({

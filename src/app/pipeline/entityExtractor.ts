@@ -35,7 +35,14 @@ const EntidadesSchema = z.object({
 
 export type Entidades = z.infer<typeof EntidadesSchema>;
 
-export async function extrairEntidades(pergunta: string): Promise<Entidades> {
+export async function extrairEntidades(
+  pergunta: string,
+  historico: { role: string; content: string }[] = []
+): Promise<Entidades> {
+  const contextoHistorico = historico.length
+    ? `Histórico recente da conversa:\n${historico.map(m => `${m.role === "user" ? "Usuário" : "Assistente"}: ${m.content}`).join("\n")}\n\n`
+    : "";
+
   const { object } = await generateObject({
     model: modelos.rapido,
     schema: EntidadesSchema,
@@ -43,8 +50,9 @@ export async function extrairEntidades(pergunta: string): Promise<Entidades> {
 Hoje é ${new Date().toISOString().slice(0, 10)}.
 Se a pergunta mencionar "este ano", "ano passado" ou similar, converta para datas absolutas.
 Se nenhuma data for mencionada, retorne null para período.
+Use o histórico para resolver referências como "e em 2024?", "e no RS?", "e enchentes?" que dependem de contexto anterior.
 
-Pergunta: "${pergunta}"`,
+${contextoHistorico}Pergunta: "${pergunta}"`,
   });
   return object;
 }

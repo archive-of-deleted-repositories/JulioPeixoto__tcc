@@ -2,6 +2,9 @@ export const QUERIES = {
   eventosPorMunicipio: `
     MATCH (m:Municipio)-[:SOFREU]->(e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)
     WHERE toLower(m.nome) CONTAINS toLower($nome)
+      AND ($tipo IS NULL OR e.tipo = $tipo)
+      AND ($data_inicio IS NULL OR e.data >= date($data_inicio))
+      AND ($data_fim IS NULL OR e.data <= date($data_fim))
     RETURN m.nome AS municipio, m.uf AS uf,
            e.tipo AS tipo, e.data AS data,
            e.descricao AS descricao, e.valor AS valor,
@@ -25,7 +28,7 @@ export const QUERIES = {
     WHERE ($fenomeno IS NULL OR f.chave = $fenomeno)
       AND ($data_inicio IS NULL OR e.data >= date($data_inicio))
       AND ($data_fim IS NULL OR e.data <= date($data_fim))
-    RETURN m.nome AS municipio, m.uf AS uf, count(e) AS total
+    RETURN m.nome AS municipio, m.uf AS uf, f.nome AS fenomeno, count(e) AS total
     ORDER BY total DESC LIMIT 15
   `,
 

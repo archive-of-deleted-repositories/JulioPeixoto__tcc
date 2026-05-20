@@ -18,7 +18,9 @@ export async function criarVectorStore(): Promise<Neo4jVectorStore> {
   return Neo4jVectorStore.fromExistingIndex(criarEmbeddings(), NEO4J_CONFIG);
 }
 
-export async function consultarVectorRag(pergunta: string): Promise<string> {
+export async function consultarVectorRag(
+  pergunta: string
+): Promise<{ resposta: string; contexto: string }> {
   const vectorStore = await criarVectorStore();
   const retriever = vectorStore.asRetriever({ k: 10 });
 
@@ -36,7 +38,9 @@ Pergunta: {input}
   const chain = await createRetrievalChain({ retriever, combineDocsChain: documentChain });
 
   const result = await chain.invoke({ input: pergunta });
-  return result.answer as string;
+  const docs = (result.context as Array<{ pageContent: string }>) ?? [];
+  const contexto = docs.map((d) => d.pageContent).join("\n");
+  return { resposta: result.answer as string, contexto };
 }
 
 export async function indexarEventos(

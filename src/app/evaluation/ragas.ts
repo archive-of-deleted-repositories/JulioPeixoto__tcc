@@ -55,9 +55,12 @@ export async function gerarDatasetAvaliacao(
     const { subgrafos } = await recuperarSubgrafo(entidades);
     const contexto = construirContexto(subgrafos);
 
-    const [respostaNoRag, respostaVectorRag, { text: respostaGraphrag }] = await Promise.all([
+    const [respostaNoRag, vectorResult, { text: respostaGraphrag }] = await Promise.all([
       gerarRespostaNoRag(pergunta),
-      consultarVectorRag(pergunta),
+      consultarVectorRag(pergunta).catch((err) => {
+        console.warn(`VectorRAG falhou: ${err?.message ?? err}`);
+        return { resposta: "[VectorRAG indisponível — índice vetorial não criado]", contexto: "" };
+      }),
       generateText({
         model: modelos.principal,
         system: `Você é um assistente especializado em eventos climáticos extremos no Brasil.
@@ -70,6 +73,8 @@ Responda usando APENAS as informações do contexto fornecido. Nunca invente dad
         ],
       }),
     ]);
+    const respostaVectorRag = vectorResult.resposta;
+    const contextoVectorRag = vectorResult.contexto;
 
     resultados.push({
       pergunta,
@@ -78,7 +83,7 @@ Responda usando APENAS as informações do contexto fornecido. Nunca invente dad
       resposta_vectorrag: respostaVectorRag,
       resposta_graphrag: respostaGraphrag,
       contexto_graphrag: contexto,
-      contexto_vectorrag: "",
+      contexto_vectorrag: contextoVectorRag,
       entidades: entidades as Record<string, unknown>,
     });
   }
@@ -88,23 +93,23 @@ Responda usando APENAS as informações do contexto fornecido. Nunca invente dad
 
 export const PERGUNTAS_AVALIACAO = [
   {
-    pergunta: "Quais municípios do Rio Grande do Sul tiveram mais enchentes entre 2020 e 2024?",
-    gabarito: "Resposta deve listar municípios gaúchos com maior frequência de eventos de enchente.",
+    pergunta: "Quais municípios do Rio Grande do Sul registraram mais episódios de precipitação extrema entre 2020 e 2024?",
+    gabarito: "A resposta deve listar municípios gaúchos com maior frequência de precipitação diária acima de 50 mm no período. Municípios da Serra Gaúcha e litoral costumam liderar esses rankings.",
   },
   {
-    pergunta: "Houve eventos de calor extremo em Mato Grosso em 2023?",
-    gabarito: "Resposta deve mencionar municípios do MT com TEM_MAX > 40°C em 2023.",
+    pergunta: "Houve registros de calor extremo (temperatura máxima acima de 40°C) em Mato Grosso em 2023?",
+    gabarito: "Sim. Estações meteorológicas do Mato Grosso registraram temperaturas máximas acima de 40°C em 2023, especialmente no segundo semestre (agosto a novembro), período de seca e baixa umidade no cerrado.",
   },
   {
-    pergunta: "Quais estados brasileiros registraram mais deslizamentos nos últimos 5 anos?",
-    gabarito: "Deve incluir SP, RJ, SC como estados com histórico relevante de deslizamentos.",
+    pergunta: "Quais municípios de São Paulo tiveram chuva muito forte (acima de 100 mm em um dia) em 2022?",
+    gabarito: "Municípios do litoral paulista (Baixada Santista, Vale do Ribeira) e da Serra da Mantiqueira registram historicamente os maiores volumes diários de precipitação no estado de SP.",
   },
   {
-    pergunta: "Em quais meses o fenômeno de geada é mais frequente no Sul do Brasil?",
-    gabarito: "Deve mencionar inverno (junho-agosto) e estados RS, SC, PR.",
+    pergunta: "Em quais meses ocorrem mais registros de frio extremo (temperatura mínima abaixo de 0°C) no Sul do Brasil?",
+    gabarito: "Os registros de frio extremo e geada concentram-se entre junho e agosto, especialmente em municípios serranos do Rio Grande do Sul e Santa Catarina, durante o inverno austral.",
   },
   {
-    pergunta: "Qual foi a precipitação mais extrema registrada em São Paulo nos últimos 10 anos?",
-    gabarito: "Deve mencionar evento com CHUVA > 100mm/dia em município de SP.",
+    pergunta: "Quais estados brasileiros registraram mais eventos de baixa umidade crítica (abaixo de 12%) nos últimos 3 anos?",
+    gabarito: "Estados do Centro-Oeste e Sudeste (Mato Grosso, Goiás, Minas Gerais, São Paulo) costumam registrar os maiores índices de baixa umidade relativa no período de estiagem (maio a outubro).",
   },
 ] as const;

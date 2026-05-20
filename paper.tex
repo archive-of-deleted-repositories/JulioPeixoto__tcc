@@ -46,10 +46,12 @@ Comparamos três estratégias: LLM sem recuperação (No~RAG),
 RAG vetorial (Vector~RAG) e o pipeline proposto (Graph~RAG),
 avaliados com o framework RAGAS em cinco perguntas sobre
 eventos climáticos no Brasil.
-Os resultados indicam que o GraphRAG supera os demais em
-fidelidade e abrangência de contexto, com ganho médio de
-\textbf{XX~p.p.} em \textit{faithfulness} sobre o Vector~RAG
-e de \textbf{YY~p.p.} sobre o baseline sem recuperação.
+Os resultados indicam que o GraphRAG supera o Vector~RAG em
+abrangência de contexto ($+$80~p.p. em \textit{context\_recall})
+e relevância de resposta ($+$12,5~p.p. em \textit{answer\_relevancy}),
+enquanto a fidelidade do Vector~RAG ao seu contexto vetorial
+é máxima (1,00), porém sobre documentos irrelevantes
+(\textit{context\_recall} = 0,00).
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -520,45 +522,69 @@ para os três modos nas cinco perguntas de avaliação.
 \toprule
 \textbf{Métrica} & \textbf{No RAG} & \textbf{Vector RAG} & \textbf{Graph RAG} \\
 \midrule
-Faithfulness         & 0.XX & 0.XX & \textbf{0.XX} \\
-Answer Relevancy     & 0.XX & 0.XX & \textbf{0.XX} \\
-Context Recall       & --   & 0.XX & \textbf{0.XX} \\
-Context Precision    & --   & 0.XX & \textbf{0.XX} \\
+Faithfulness         & N/A   & \textbf{1,00} & 0,80 \\
+Answer Relevancy     & 0,79  & 0,73          & \textbf{0,85} \\
+Context Recall       & N/A   & 0,00          & \textbf{0,80} \\
+Context Precision    & N/A   & 0,10          & \textbf{1,00} \\
 \bottomrule
 \end{tabular}
 \end{center}
 \end{table}
 
-\textit{Nota: valores 0.XX serão substituídos pelos scores
-reais após execução do script de avaliação
-\texttt{src/evaluation/ragas\_eval.py}.}
+\textit{Nota: avaliação conduzida com GPT-4o-mini como juiz LLM,
+sobre 5 perguntas de domínio climático, com dados do INMET
+(2015--2024) carregados em Neo4j. N/A = métrica não aplicável
+ao modo sem recuperação.}
 
-\subsection{Análise Qualitativa}
+\subsection{Análise dos Resultados}
 
-\textbf{No RAG:} o LLM demonstra conhecimento geral sobre
-fenômenos climáticos brasileiros (períodos de seca no Nordeste,
-enchentes no Sul), mas falha em perguntas que requerem dados
-específicos de municípios ou datas concretas.
-Foram observadas alucinações factuais, especialmente ao citar
-valores de precipitação ou nomear municípios afetados por
-eventos específicos.
+Os resultados da Tabela~\ref{tab:ragas} revelam três padrões
+distintos de comportamento:
 
-\textbf{Vector RAG:} melhora a fidelidade ao recuperar descrições
-textuais de eventos similares.
-Contudo, como a recuperação é baseada em similaridade semântica,
-perguntas sobre frequência (``quais municípios tiveram
-\emph{mais} enchentes?'') retornam os eventos textuais mais
-similares à query, e não os municípios com maior contagem ---
-que requer agregação relacional.
+\textbf{No RAG} (Answer Relevancy = 0,79):
+O LLM demonstra conhecimento climatológico geral adequado ---
+identifica corretamente que geadas ocorrem no inverno austral
+e que o Centro-Oeste sofre baixa umidade no período de estiagem.
+Contudo, não possui acesso aos registros operacionais específicos
+do INMET; respostas sobre \emph{quais municípios} registraram
+um evento ficam vagas ou incorretas, dependendo do conhecimento
+paramétrico pré-treinamento.
+Como não há contexto recuperado, as métricas de fidelidade,
+abrangência e precisão não se aplicam.
 
-\textbf{Graph RAG:} ao extrair entidades e executar consultas
-Cypher parametrizadas, o pipeline recupera exatamente os registros
-relevantes ao período e tipo de evento especificados.
-Consultas de ranking (contagem de eventos por município) são
-tratadas nativamente com a query \texttt{municipiosComMaisEventos},
-retornando dados ordenados.
-O contexto mais preciso resulta em respostas com maior fidelidade
-e menor taxa de informação irrelevante.
+\textbf{Vector RAG} (Faithfulness = 1,00; Context Recall = 0,00):
+O resultado paradoxal --- fidelidade máxima mas abrangência nula
+--- revela o principal problema do RAG vetorial para consultas
+relacionais.
+O modelo responde com fidelidade ao contexto recuperado
+(\emph{faz} o que os documentos dizem), mas os documentos
+recuperados por similaridade semântica não contêm as
+informações efetivamente solicitadas no gabarito.
+Por exemplo, para a pergunta sobre municípios do RS com mais
+precipitação extrema, o índice vetorial retornou eventos
+individuais semanticamente similares à pergunta, mas não os
+municípios com \emph{maior contagem de eventos} ---
+informação que requer agregação no grafo.
+
+\textbf{Graph RAG} (Context Recall = 0,80; Context Precision = 1,00):
+A abordagem baseada em grafo demonstra a maior abrangência de
+contexto, recuperando exatamente os registros relevantes ao
+período e tipo de evento especificados via consultas Cypher.
+A precisão de contexto perfeita (1,00) indica que o contexto
+entregue ao gerador é sempre relevante à pergunta --- sem ruído.
+O único caso de Context Recall = 0 ocorreu na pergunta sobre
+municípios de SP com chuva muito forte em 2022: a estação
+associada ao município retornou dados, mas o período exato
+não estava coberto pela janela temporal da consulta,
+evidenciando uma limitação de cobertura temporal do dado
+disponível.
+
+\textbf{Answer Relevancy} (Graph RAG = 0,85 $>$ No RAG = 0,79
+$>$ Vector RAG = 0,73): O GraphRAG obtém as respostas
+mais relevantes às perguntas, combinando contexto preciso com
+capacidade generativa do LLM.
+O Vector~RAG apresenta a menor relevância, pois o contexto
+impreciso induz respostas genéricas ou evasivas.
 
 \subsection{Limitações}
 

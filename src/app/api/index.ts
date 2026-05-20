@@ -72,6 +72,28 @@ app.post("/avaliar", async (c) => {
   return c.json(resultados);
 });
 
+app.post("/indexar", async (c) => {
+  const { runQuery } = await import("../graph/client.ts");
+  const { indexarEventos } = await import("../baseline/vectorRag.ts");
+
+  const records = await runQuery(`
+    MATCH (m:Municipio)-[:SOFREU]->(e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)
+    WHERE e.fonte = 'INMET'
+    RETURN m.nome AS municipio, m.uf AS uf,
+           e.tipo AS tipo, toString(e.data) AS data,
+           e.valor AS valor, f.nome AS fenomeno
+    LIMIT 2000
+  `);
+
+  const eventos = records.map((r) => ({
+    descricao: `${r.municipio} (${r.uf}) — ${r.fenomeno} — ${r.data} — valor: ${r.valor}`,
+    metadata: { municipio: r.municipio, uf: r.uf, tipo: r.tipo, data: r.data, valor: r.valor },
+  }));
+
+  await indexarEventos(eventos);
+  return c.json({ indexados: eventos.length });
+});
+
 app.get("/", async (c) => {
   const htmlPath = new URL("../frontend/index.html", import.meta.url).pathname
     .replace(/^\/([A-Za-z]:)/, "$1");

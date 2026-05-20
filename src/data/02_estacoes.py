@@ -64,5 +64,5 @@ if __name__ == "__main__":
     todas = link_municipio(auto + conv, municipios)
 
     out = PROCESSED / "estacoes_com_municipio.json"
-    out.write_text(json.dumps(todas, ensure_ascii=False, indent=2))
-    print(f"  {len(todas)} estações vinculadas → {out}")
+    out.write_text(json.dumps(todas, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"  {len(todas)} estacoes vinculadas -> {out}")

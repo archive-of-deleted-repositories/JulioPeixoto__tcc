@@ -187,23 +187,6 @@
     "DT_INICIO_OPERACAO": "1925-03-02T21:00:00.000-03:00"
   },
   {
-    "CD_OSCAR": "0-2000-0-82191",
-    "DC_NOME": "BELEM",
-    "FL_CAPITAL": "S",
-    "DT_FIM_OPERACAO": null,
-    "CD_SITUACAO": "Operante",
-    "TP_ESTACAO": "Convencional",
-    "VL_LATITUDE": "-1.43583333",
-    "CD_WSI": "0-76-0-1501402000W82191",
-    "CD_DISTRITO": " 02",
-    "VL_ALTITUDE": "7.13",
-    "SG_ESTADO": "PA",
-    "SG_ENTIDADE": "INMET",
-    "CD_ESTACAO": "82191",
-    "VL_LONGITUDE": "-48.43722221",
-    "DT_INICIO_OPERACAO": "1923-10-31T21:00:00.000-03:00"
-  },
-  {
     "CD_OSCAR": "0-2000-0-83587",
     "DC_NOME": "BELO HORIZONTE",
     "FL_CAPITAL": "S",

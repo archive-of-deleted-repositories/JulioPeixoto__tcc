@@ -1,0 +1,112 @@
+[
+  {
+    "pergunta": "Quais municípios do Rio Grande do Sul registraram mais episódios de precipitação extrema entre 2020 e 2024?",
+    "gabarito": "A resposta deve listar municípios gaúchos com maior frequência de precipitação diária acima de 50 mm no período. Municípios da Serra Gaúcha e litoral costumam liderar esses rankings.",
+    "no_rag": {
+      "faithfulness": NaN,
+      "answer_relevancy": 0.7646,
+      "context_recall": NaN,
+      "context_precision": NaN
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8236,
+      "context_recall": 0.0,
+      "context_precision": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8744,
+      "context_recall": 1.0,
+      "context_precision": 1.0
+    }
+  },
+  {
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40°C) em Mato Grosso em 2023?",
+    "gabarito": "Sim. Estações meteorológicas do Mato Grosso registraram temperaturas máximas acima de 40°C em 2023, especialmente no segundo semestre (agosto a novembro), período de seca e baixa umidade no cerrado.",
+    "no_rag": {
+      "faithfulness": NaN,
+      "answer_relevancy": 0.8185,
+      "context_recall": NaN,
+      "context_precision": NaN
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.833,
+      "context_recall": 0.0,
+      "context_precision": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8754,
+      "context_recall": 1.0,
+      "context_precision": 1.0
+    }
+  },
+  {
+    "pergunta": "Quais municípios de São Paulo tiveram chuva muito forte (acima de 100 mm em um dia) em 2022?",
+    "gabarito": "Municípios do litoral paulista (Baixada Santista, Vale do Ribeira) e da Serra da Mantiqueira registram historicamente os maiores volumes diários de precipitação no estado de SP.",
+    "no_rag": {
+      "faithfulness": NaN,
+      "answer_relevancy": 0.7306,
+      "context_recall": NaN,
+      "context_precision": NaN
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7706,
+      "context_recall": 0.0,
+      "context_precision": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8591,
+      "context_recall": 0.0,
+      "context_precision": 1.0
+    }
+  },
+  {
+    "pergunta": "Em quais meses ocorrem mais registros de frio extremo (temperatura mínima abaixo de 0°C) no Sul do Brasil?",
+    "gabarito": "Os registros de frio extremo e geada concentram-se entre junho e agosto, especialmente em municípios serranos do Rio Grande do Sul e Santa Catarina, durante o inverno austral.",
+    "no_rag": {
+      "faithfulness": NaN,
+      "answer_relevancy": 0.8149,
+      "context_recall": NaN,
+      "context_precision": NaN
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.5346,
+      "context_recall": 0.0,
+      "context_precision": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8424,
+      "context_recall": 1.0,
+      "context_precision": 1.0
+    }
+  },
+  {
+    "pergunta": "Quais estados brasileiros registraram mais eventos de baixa umidade crítica (abaixo de 12%) nos últimos 3 anos?",
+    "gabarito": "Estados do Centro-Oeste e Sudeste (Mato Grosso, Goiás, Minas Gerais, São Paulo) costumam registrar os maiores índices de baixa umidade relativa no período de estiagem (maio a outubro).",
+    "no_rag": {
+      "faithfulness": NaN,
+      "answer_relevancy": 0.8417,
+      "context_recall": NaN,
+      "context_precision": NaN
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.6853,
+      "context_recall": 0.0,
+      "context_precision": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8221,
+      "context_recall": 1.0,
+      "context_precision": 1.0
+    }
+  }
+]

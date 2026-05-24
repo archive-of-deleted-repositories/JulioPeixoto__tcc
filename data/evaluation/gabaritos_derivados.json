@@ -1,0 +1,22 @@
+[
+  {
+    "pergunta": "Quais municípios do Rio Grande do Sul registraram mais episódios de precipitação extrema entre 2020 e 2024?",
+    "gabarito": "Os municípios do Rio Grande do Sul com mais episódios de precipitação extrema (precipitação diária ≥ 50 mm) entre 2020 e 2024 são: Santo Augusto (52 episódios), Canela (48 episódios), Passo Fundo (48 episódios), Ibirubá (44 episódios), Santiago (44 episódios), Serafina Corrêa (42 episódios), Tupanciretã (40 episódios), São Luiz Gonzaga (39 episódios), Caçapava do Sul (38 episódios), Cruz Alta (37 episódios). Nota: cobertura baseada nas estações INMET das regiões Sul, Sudeste e Centro-Oeste."
+  },
+  {
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40°C) em Mato Grosso em 2023?",
+    "gabarito": "Sim. Foram registrados 99 episódios de calor extremo (temperatura máxima ≥ 40°C) em Mato Grosso em 2023, com pico em Cuiabá (43.3°C em 2023-10-19). Municípios afetados incluem: Cuiabá, Porto Estrela, Rondonópolis. Os registros concentram-se entre outubro e dezembro, período de seca no cerrado."
+  },
+  {
+    "pergunta": "Quais municípios de São Paulo tiveram chuva muito forte (acima de 100 mm em um dia) em 2022?",
+    "gabarito": "Foram registrados 11 episódios de chuva muito forte (≥ 100 mm/dia) em São Paulo em 2022. Os maiores volumes foram: Tupã (208.0 mm em 2022-01-30), São Carlos (175.0 mm em 2022-12-28), Dracena (133.2 mm em 2022-01-30), Bertioga (128.2 mm em 2022-03-31), Bertioga (120.2 mm em 2022-11-01). Os eventos concentram-se no verão (janeiro) e primavera (outubro-dezembro)."
+  },
+  {
+    "pergunta": "Em quais meses ocorrem mais registros de frio extremo (temperatura mínima abaixo de 0°C) no Sul do Brasil?",
+    "gabarito": "Os registros de frio extremo (temperatura mínima < 0°C) no Sul do Brasil concentram-se principalmente em: agosto (75 registros), julho (48 registros), junho (40 registros). Os municípios com maior frequência incluem: Urubici, Quaraí, General Carneiro, São Mateus do Sul, Major Vieira. O fenômeno é mais intenso em municípios serranos de RS, SC e PR durante o inverno austral."
+  },
+  {
+    "pergunta": "Quais estados brasileiros registraram mais eventos de baixa umidade crítica (abaixo de 12%) nos últimos 3 anos?",
+    "gabarito": "Os municípios com mais registros de baixa umidade crítica (< 12%) nos últimos 3 anos são: Pão de Açúcar (AL, 46 eventos), Cotriguaçu (MT, 42 eventos), Urubici (SC, 35 eventos), Jaguaribe (CE, 31 eventos), Barretos (SP, 30 eventos). Por estado, os mais afetados são: MT (61 eventos), SP (49 eventos), AL (46 eventos), GO (44 eventos), SC (35 eventos). O fenômeno ocorre principalmente no período de estiagem (maio a outubro)."
+  }
+]

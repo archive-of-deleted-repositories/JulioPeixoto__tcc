@@ -76,13 +76,15 @@ app.post("/indexar", async (c) => {
   const { runQuery } = await import("../graph/client.ts");
   const { indexarEventos } = await import("../baseline/vectorRag.ts");
 
+  // Remove embeddings existentes para evitar duplicatas
+  await runQuery(`MATCH (n:Evento) WHERE n.embedding IS NOT NULL REMOVE n.embedding`);
+
   const records = await runQuery(`
     MATCH (m:Municipio)-[:SOFREU]->(e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)
     WHERE e.fonte = 'INMET'
     RETURN m.nome AS municipio, m.uf AS uf,
            e.tipo AS tipo, toString(e.data) AS data,
            e.valor AS valor, f.nome AS fenomeno
-    LIMIT 2000
   `);
 
   const eventos = records.map((r) => ({

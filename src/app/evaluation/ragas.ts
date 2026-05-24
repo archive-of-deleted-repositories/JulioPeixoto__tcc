@@ -4,8 +4,12 @@
  * A avaliação em si roda via Python (ragas lib).
  * Este módulo exporta o dataset de perguntas e gera os arquivos
  * necessários para o script Python de avaliação.
+ *
+ * Gabaritos: carregados de data/evaluation/gabaritos_derivados.json se existir
+ * (gerado por src/evaluation/derive_gabaritos.py), senão usa os padrões hardcoded.
  */
 
+import { existsSync, readFileSync } from "node:fs";
 import { generateText } from "ai";
 import { extrairEntidades } from "../pipeline/entityExtractor.ts";
 import { recuperarSubgrafo } from "../pipeline/graphRetriever.ts";
@@ -91,7 +95,7 @@ Responda usando APENAS as informações do contexto fornecido. Nunca invente dad
   return resultados;
 }
 
-export const PERGUNTAS_AVALIACAO = [
+const PERGUNTAS_PADRAO = [
   {
     pergunta: "Quais municípios do Rio Grande do Sul registraram mais episódios de precipitação extrema entre 2020 e 2024?",
     gabarito: "A resposta deve listar municípios gaúchos com maior frequência de precipitação diária acima de 50 mm no período. Municípios da Serra Gaúcha e litoral costumam liderar esses rankings.",
@@ -112,4 +116,18 @@ export const PERGUNTAS_AVALIACAO = [
     pergunta: "Quais estados brasileiros registraram mais eventos de baixa umidade crítica (abaixo de 12%) nos últimos 3 anos?",
     gabarito: "Estados do Centro-Oeste e Sudeste (Mato Grosso, Goiás, Minas Gerais, São Paulo) costumam registrar os maiores índices de baixa umidade relativa no período de estiagem (maio a outubro).",
   },
-] as const;
+];
+
+const GABARITOS_PATH = new URL("../../../data/evaluation/gabaritos_derivados.json", import.meta.url)
+  .pathname.replace(/^\/([A-Za-z]:)/, "$1");
+
+function carregarPerguntas(): typeof PERGUNTAS_PADRAO {
+  if (existsSync(GABARITOS_PATH)) {
+    console.log("Carregando gabaritos derivados de gabaritos_derivados.json");
+    return JSON.parse(readFileSync(GABARITOS_PATH, "utf-8")) as typeof PERGUNTAS_PADRAO;
+  }
+  console.log("Usando gabaritos padrão (execute derive_gabaritos.py para gabaritos baseados nos dados reais)");
+  return PERGUNTAS_PADRAO;
+}
+
+export const PERGUNTAS_AVALIACAO = carregarPerguntas();

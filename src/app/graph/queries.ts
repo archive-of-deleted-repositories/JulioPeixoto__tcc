@@ -38,6 +38,16 @@ export const QUERIES = {
            m.nome AS municipio
   `,
 
+  municipiosMaisEventosPorEstado: `
+    MATCH (m:Municipio)-[:PERTENCE_A]->(est:Estado {sigla: $sigla})
+    MATCH (m)-[:SOFREU]->(e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)
+    WHERE ($tipo IS NULL OR e.tipo = $tipo)
+      AND ($data_inicio IS NULL OR e.data >= date($data_inicio))
+      AND ($data_fim IS NULL OR e.data <= date($data_fim))
+    RETURN m.nome AS municipio, m.uf AS uf, f.nome AS fenomeno, count(e) AS total
+    ORDER BY total DESC LIMIT 15
+  `,
+
   fenomenosFrequentes: `
     MATCH (e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)
     WHERE ($data_inicio IS NULL OR e.data >= date($data_inicio))

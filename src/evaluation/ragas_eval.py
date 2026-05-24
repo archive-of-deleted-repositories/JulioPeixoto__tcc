@@ -46,7 +46,7 @@ def _chat(system: str, user: str) -> str:
         model=EVAL_MODEL,
         messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
         temperature=0,
-        max_tokens=10,
+        max_tokens=2000,
     )
     return resp.choices[0].message.content.strip()
 
@@ -193,6 +193,8 @@ def main() -> None:
         "graph_rag":  {"faithfulness": [], "answer_relevancy": [], "context_recall": [], "context_precision": []},
     }
 
+    scores_por_pergunta: list[dict[str, Any]] = []
+
     for i, r in enumerate(resultados, 1):
         q  = r["pergunta"]
         gt = r["gabarito"]
@@ -204,14 +206,17 @@ def main() -> None:
             "graph_rag":  (r["resposta_graphrag"],  r["contexto_graphrag"]),
         }
 
+        entrada: dict[str, Any] = {"pergunta": q, "gabarito": gt}
         for modo, (resp, ctx) in pares.items():
             scores = avaliar_amostra(q, resp, ctx, gt, modo)
             for metrica, val in scores.items():
                 acumulado[modo][metrica].append(val)
+            entrada[modo] = scores
             print(f"  {modo:12} | faith={scores['faithfulness']!s:6} "
                   f"ar={scores['answer_relevancy']!s:6} "
                   f"cr={scores['context_recall']!s:6} "
                   f"cp={scores['context_precision']!s:6}")
+        scores_por_pergunta.append(entrada)
 
     # Agrega médias
     scores_finais: dict[str, dict[str, Any]] = {}
@@ -224,6 +229,12 @@ def main() -> None:
     out = RESULTS_DIR / "ragas_scores.json"
     out.write_text(
         json.dumps(scores_finais, ensure_ascii=False, indent=2, default=_serial),
+        encoding="utf-8",
+    )
+
+    out_pq = RESULTS_DIR / "ragas_scores_por_pergunta.json"
+    out_pq.write_text(
+        json.dumps(scores_por_pergunta, ensure_ascii=False, indent=2, default=_serial),
         encoding="utf-8",
     )
 

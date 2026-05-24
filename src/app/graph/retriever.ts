@@ -43,16 +43,23 @@ export async function buscarSubgrafo(entidades: Entidades): Promise<BuscarSubgra
     }
   }
 
-  // Busca por estados mencionados
+  // Busca por estados mencionados: eventos recentes + ranking por município
   for (const sigla of ent.estados) {
-    const records = await runQuery(QUERIES.eventosPorEstado, {
+    const params = {
       sigla: sigla.toUpperCase(),
       tipo: ent.tipos_evento[0] ?? null,
       data_inicio: ent.periodo_inicio,
       data_fim: ent.periodo_fim,
-    });
-    if (records.length > 0) {
-      resultados.push({ records, queryUsada: "eventosPorEstado" });
+    };
+    const [eventos, ranking] = await Promise.all([
+      runQuery(QUERIES.eventosPorEstado, params),
+      runQuery(QUERIES.municipiosMaisEventosPorEstado, params),
+    ]);
+    if (eventos.length > 0) {
+      resultados.push({ records: eventos, queryUsada: "eventosPorEstado" });
+    }
+    if (ranking.length > 0) {
+      resultados.push({ records: ranking, queryUsada: "municipiosMaisEventosPorEstado" });
     }
   }
 

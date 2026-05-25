@@ -57,11 +57,12 @@ RAG vetorial (Vector~RAG) e o pipeline proposto (Graph~RAG),
 avaliados com o framework RAGAS em cinco perguntas sobre
 eventos climáticos no Brasil.
 Os resultados indicam que o GraphRAG supera o Vector~RAG em
-abrangência de contexto ($+$80~p.p. em \textit{context\_recall})
-e relevância de resposta ($+$12~p.p. em \textit{answer\_relevancy}),
-enquanto a fidelidade do Vector~RAG ao seu contexto vetorial
-é máxima (1,00), porém sobre documentos irrelevantes
-(\textit{context\_recall} = 0,00).
+abrangência de contexto ($+$80~p.p. em \textit{context\_recall}),
+precisão de contexto ($+$70~p.p. em \textit{context\_precision})
+e relevância de resposta ($+$7~p.p. em \textit{answer\_relevancy}).
+O Vector~RAG apresenta \textit{context\_recall} nulo (0,00) em todas
+as perguntas relacionais, evidenciando sua limitação estrutural para
+consultas que exigem agregação ou filtragem por atributos estruturados.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -77,7 +78,7 @@ extremos: enchentes, deslizamentos, secas e ondas de calor causam
 perdas humanas e econômicas expressivas a cada ano~\cite{atkins2024generative}.
 O Banco de Dados Meteorológicos do INMET registrou mais de
 33~mil episódios de eventos extremos entre 2015 e 2024 apenas nas
-regiões Sul, Sudeste e Centro-Oeste do país --- precipitações
+regiões Sul, Sudeste e Centro-Oeste do país: precipitações
 acima de 50~mm em um único dia, temperaturas máximas acima de 40°C,
 geadas, baixa umidade crítica e chuvas acima de 100~mm~\cite{inmet2024dados}.
 Esses registros estão dispersos em séries históricas de 774
@@ -104,8 +105,8 @@ gerar a resposta.
 O RAG vetorial é a abordagem mais comum: textos são convertidos em
 embeddings e armazenados em um índice, e os mais similares à consulta
 são recuperados.
-Contudo, perguntas relacionais --- \emph{``Quais municípios do RS
-tiveram mais enchentes entre 2020 e 2024?''} --- exigem cruzamentos
+Contudo, perguntas relacionais como \emph{``Quais municípios do RS
+tiveram mais enchentes entre 2020 e 2024?''} exigem cruzamentos
 entre entidades (municípios, eventos, fenômenos, datas) que índices
 vetoriais planos não representam adequadamente.
 
@@ -198,13 +199,13 @@ chunks consecutivos para preservar o contexto nas fronteiras.
 Em seguida, cada chunk é convertido em um vetor numérico
 (\textit{embedding}) por um modelo de representação, e esse
 vetor é armazenado em um índice de busca por vizinhança
-aproximada (ANN --- \textit{Approximate Nearest Neighbor}).
+aproximada (ANN, \textit{Approximate Nearest Neighbor}).
 
 \textbf{(2) Recuperação (\textit{Retrieval}):}
 Dada uma consulta do usuário, o sistema a converte no mesmo
 espaço vetorial usando o mesmo modelo de embeddings.
 Em seguida, calcula a similaridade entre o vetor da consulta
-e todos os vetores indexados --- tipicamente pela
+e todos os vetores indexados, tipicamente pela
 \textbf{similaridade de cosseno}:
 \begin{equation}
 \text{sim}(\mathbf{q}, \mathbf{d}) =
@@ -278,7 +279,7 @@ aproximados no espaço vetorial, enquanto pares não relacionados
 são afastados.
 O modelo \texttt{text-embedding-3-small} da OpenAI, utilizado
 neste trabalho, produz vetores de 1.536 dimensões e é otimizado
-para tarefas de recuperação semântica --- buscando o equilíbrio
+para tarefas de recuperação semântica, buscando o equilíbrio
 entre qualidade de representação e custo computacional.
 
 O DPR (\textit{Dense Passage Retrieval})~\cite{karpukhin2020dpr}
@@ -316,7 +317,7 @@ agregação ou cruzamento de entidades
 (\emph{``quais municípios tiveram mais de 10 enchentes em 2023?''}).
 A similaridade semântica não distingue \emph{tipo} de evento,
 \emph{período} temporal ou \emph{localização} geográfica como
-atributos filtráveis --- ela retorna documentos lexicalmente
+atributos filtráveis; ela retorna documentos lexicalmente
 próximos à consulta independentemente de seu conteúdo real.
 Essa limitação é o principal motivador da abordagem baseada em
 grafo adotada neste trabalho, confirmada empiricamente nos
@@ -324,7 +325,7 @@ resultados da Seção~\ref{sec:resultados}.
 
 \subsection{RAG Baseado em Grafos (GraphRAG)}
 
-Grafos de Conhecimento (\textit{Knowledge Graphs} --- KGs)
+Grafos de Conhecimento (\textit{Knowledge Graphs}, KGs)
 representam o mundo como um conjunto de triplas
 $(\text{entidade}_1, \text{relação}, \text{entidade}_2)$,
 capturando relações explícitas que índices vetoriais planos
@@ -339,8 +340,8 @@ Edge et al.~\cite{edge2024graphrag} concretizaram essa visão
 com o GraphRAG: dado um corpus, um LLM extrai entidades e
 relações, construindo automaticamente um grafo de conhecimento.
 Na recuperação, o sistema identifica comunidades temáticas do
-grafo e gera sumarizações hierárquicas — local (nível de
-comunidade) e global (nível de grafo) --- para responder
+grafo e gera sumarizações hierárquicas: local (nível de
+comunidade) e global (nível de grafo), para responder
 consultas que requerem síntese de múltiplas entidades.
 
 No presente trabalho, adotamos uma variante \textbf{orientada
@@ -403,7 +404,7 @@ e adaptação de infraestrutura.
 O trabalho identifica o acesso e a interpretação de dados climáticos
 como um dos principais gargalos para a ação efetiva, apontando
 sistemas de QA sobre bases de dados ambientais como uma direção
-promissora --- motivação direta para o pipeline desenvolvido neste TCC.
+promissora, motivação direta para o pipeline desenvolvido neste TCC.
 
 Vaghefi et al.~\cite{vaghefi2023chatclimate} introduziram o
 ChatClimate, uma IA conversacional fundamentada no Sexto Relatório
@@ -438,7 +439,7 @@ em questões sobre metas climáticas nacionais, os autores constataram
 que, embora o ChatNetZero tenha alcançado maior precisão factual,
 especialistas preferiram consistentemente respostas mais longas e
 contextuais, revelando um viés de verbosidade na avaliação humana
-de saídas de LLMs --- achado relevante para o desenho de
+de saídas de LLMs, achado relevante para o desenho de
 benchmarks automatizados.
 
 \subsection{RAG Responsável e Frameworks de Avaliação}
@@ -473,8 +474,8 @@ comparação entre os três modos de recuperação.
 Um aspecto crítico da avaliação automatizada é a confiabilidade
 do avaliador.
 Zheng et al.~\cite{zheng2023judging} investigaram a metodologia
-\textit{LLM-as-judge} --- uso de um LLM forte para avaliar saídas
-de outros LLMs --- demonstrando alta concordância com julgamentos
+\textit{LLM-as-judge} (uso de um LLM forte para avaliar saídas
+de outros LLMs), demonstrando alta concordância com julgamentos
 humanos (coeficiente $>$0,8) para questões abertas de múltiplos
 turnos.
 Os autores também identificam vieses sistemáticos do juiz LLM:
@@ -497,11 +498,11 @@ um framework que, dado um corpus, emprega um LLM para extrair
 automaticamente entidades e relações, construindo um grafo de
 conhecimento.
 Durante a recuperação, o sistema identifica comunidades temáticas
-do grafo e gera sumarizações hierárquicas --- local (nível de
-comunidade) e global (nível de grafo) --- permitindo respostas
+do grafo e gera sumarizações hierárquicas: local (nível de
+comunidade) e global (nível de grafo), permitindo respostas
 mais precisas a consultas que requerem síntese de múltiplas
 entidades, como identificar quais municípios foram afetados por
-eventos extremos compostos --- tarefa em que o RAG convencional
+eventos extremos compostos, tarefa em que o RAG convencional
 frequentemente falha.
 
 Sun et al.~\cite{sun2024thinkongraph} propuseram o
@@ -514,7 +515,7 @@ que sumariza comunidades de forma global, o ToG executa busca
 em profundidade guiada pelo próprio LLM.
 O presente trabalho adota uma abordagem complementar: consultas
 Cypher parametrizadas, que trocam a flexibilidade do raciocínio
-iterativo por previsibilidade e auditabilidade --- propriedades
+iterativo por previsibilidade e auditabilidade, propriedades
 essenciais em aplicações de dados operacionais.
 
 Ahmad et al.~\cite{ahmad2025benchmarking} avaliaram pipelines
@@ -532,7 +533,7 @@ entre as abordagens ($<$2~p.p. em F1).
 Os autores argumentam que os ganhos do GraphRAG dependem fortemente
 da natureza das consultas: perguntas de fato único favorecem o RAG
 vetorial, enquanto perguntas de síntese multi-entidade favorecem
-o GraphRAG --- padrão consistente com os resultados do presente trabalho.
+o GraphRAG, padrão consistente com os resultados do presente trabalho.
 
 Zeng et al.~\cite{zeng2025unbiased} alertam que ganhos reportados
 pelo GraphRAG sobre métodos de RAG convencional podem ser
@@ -560,7 +561,7 @@ e a um LLM isolado em perguntas de domínio climático brasileiro.
 
 O sistema utiliza duas fontes de dados públicas brasileiras:
 
-\textbf{INMET} --- O Instituto Nacional de Meteorologia disponibiliza
+\textbf{INMET.} O Instituto Nacional de Meteorologia disponibiliza
 séries históricas horárias e diárias de estações meteorológicas
 automáticas distribuídas por todos os estados.
 Os dados incluem temperatura máxima/mínima/média, precipitação,
@@ -568,7 +569,7 @@ umidade relativa, velocidade do vento e pressão atmosférica.
 Para este trabalho, foram coletados registros de estações das regiões
 Sul, Sudeste e Centro-Oeste, cobrindo o período de 2015 a 2024~\cite{inmet2024dados}.
 
-\textbf{CEMADEN} --- O Centro Nacional de Monitoramento e Alertas
+\textbf{CEMADEN.} O Centro Nacional de Monitoramento e Alertas
 de Desastres Naturais publica boletins mensais em PDF descrevendo
 eventos extremos (enchentes, deslizamentos, secas, granizo, vendavais
 e outros) com informações de município, estado, data, número de
@@ -645,17 +646,17 @@ API HTTP via Hono. Dada uma pergunta em linguagem natural, o
 pipeline executa quatro etapas (Fig.~\ref{fig:pipeline}):
 
 \begin{enumerate}
-  \item \textbf{Extração de entidades} --- O modelo GPT-4o-mini
+  \item \textbf{Extração de entidades:} o modelo GPT-4o-mini
         extrai entidades geográficas (municípios, estados),
         tipos de evento e períodos temporais usando
         \textit{structured output} com esquema Zod.
-  \item \textbf{Recuperação do subgrafo} --- As entidades extraídas
+  \item \textbf{Recuperação do subgrafo:} as entidades extraídas
         parametrizam consultas Cypher pré-definidas no Neo4j,
         retornando registros relevantes do grafo.
-  \item \textbf{Construção do contexto} --- Os registros são
+  \item \textbf{Construção do contexto:} os registros são
         formatados em texto estruturado que lista município, tipo
         de evento, data, valor medido, fenômeno e fonte.
-  \item \textbf{Geração da resposta} --- GPT-4o recebe o contexto
+  \item \textbf{Geração da resposta:} GPT-4o recebe o contexto
         e a pergunta e gera a resposta em streaming via
         Server-Sent Events (SSE), com instrução explícita de não
         inventar dados ausentes no contexto.
@@ -739,7 +740,7 @@ automaticamente uma ou mais das três consultas Cypher
 pré-definidas no grafo Neo4j, conforme a presença de municípios,
 estados ou apenas tipo de evento na pergunta.
 
-\textbf{Consulta por estado} --- usada quando um estado é identificado
+\textbf{Consulta por estado:} usada quando um estado é identificado
 (ex.: RS, MT). Retorna os 50 eventos mais recentes do tipo
 especificado para aquele estado:
 
@@ -753,7 +754,7 @@ RETURN m.nome, e.tipo, e.data, e.valor, f.nome
 ORDER BY e.data DESC LIMIT 50
 \end{lstlisting}
 
-\textbf{Consulta de ranking} --- fallback quando nenhuma entidade
+\textbf{Consulta de ranking:} fallback quando nenhuma entidade
 geográfica é identificada. Agrega contagens por município e retorna
 os 15 mais afetados pelo fenômeno no período:
 
@@ -828,13 +829,14 @@ A Fig.~\ref{fig:roteamento} ilustra o fluxo de decisão.
 
 \subsection{Baseline Vector RAG}
 
-Para o Vector~RAG, os eventos são indexados no Neo4j Vector Index
-usando embeddings \texttt{text-embedding-3-small} (OpenAI) sobre
-o campo \texttt{descricao} de cada nó \texttt{Evento}.
+Para o Vector~RAG, todos os 32.030 eventos INMET são indexados no
+Neo4j Vector Index usando embeddings \texttt{text-embedding-3-small}
+(OpenAI) sobre o campo \texttt{descricao} de cada nó \texttt{Evento}.
 A recuperação usa o retriever LangChain com $k=10$ documentos
 e uma \textit{RetrievalChain} com GPT-4o como gerador.
 Diferentemente do GraphRAG, esta abordagem não percorre relações
-do grafo; ela retorna os eventos textuais mais similares à consulta.
+do grafo; ela retorna os eventos textuais mais similares à consulta,
+sem filtragem por tipo de evento ou período temporal.
 
 \subsection{Baseline No RAG}
 
@@ -895,10 +897,10 @@ para os três modos nas cinco perguntas de avaliação.
 \toprule
 \textbf{Métrica} & \textbf{No RAG} & \textbf{Vector RAG} & \textbf{Graph RAG} \\
 \midrule
-Faithfulness         & N/A   & \textbf{1,00} & 0,80 \\
-Answer Relevancy     & 0,79  & 0,73          & \textbf{0,85} \\
+Faithfulness         & N/A   & 0,80          & 0,80 \\
+Answer Relevancy     & 0,81  & 0,80          & \textbf{0,87} \\
 Context Recall       & N/A   & 0,00          & \textbf{0,80} \\
-Context Precision    & N/A   & 0,10          & \textbf{1,00} \\
+Context Precision    & N/A   & 0,30          & \textbf{1,00} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -906,8 +908,10 @@ Context Precision    & N/A   & 0,10          & \textbf{1,00} \\
 
 \textit{Nota: avaliação conduzida com GPT-4o-mini como juiz LLM,
 sobre 5 perguntas de domínio climático, com dados do INMET
-(2015--2024) carregados em Neo4j. N/A = métrica não aplicável
-ao modo sem recuperação.}
+(2015--2024) carregados em Neo4j. Gabaritos derivados de consultas
+Cypher reais sobre o grafo. Vector Index com 32.030 eventos
+(text-embedding-3-small). N/A = métrica não aplicável ao modo
+sem recuperação.}
 
 A Fig.~\ref{fig:barras} visualiza os scores médios das quatro
 métricas para os três modos.
@@ -935,9 +939,9 @@ demais barras são omitidas por serem N/A.
   every node near coord/.append style={font=\tiny, rotate=90,
     anchor=west},
 ]
-\addplot coordinates {(2,0.79)};
-\addplot coordinates {(1,1.00)(2,0.73)(3,0.00)(4,0.10)};
-\addplot coordinates {(1,0.80)(2,0.85)(3,0.80)(4,1.00)};
+\addplot coordinates {(2,0.81)};
+\addplot coordinates {(1,0.80)(2,0.80)(3,0.00)(4,0.30)};
+\addplot coordinates {(1,0.80)(2,0.87)(3,0.80)(4,1.00)};
 \end{axis}
 \end{tikzpicture}
 \caption{Scores médios do RAGAS por modo de recuperação.
@@ -970,19 +974,19 @@ Faith.\ = Faithfulness; CR = Context Recall; CP = Context Precision.
   Faith. & AR & CR & CP \\
 \midrule
 Q1: Municípios RS, precip.\ extrema (2020--24)
-  & 0,76 & 1,00 & 0,82 & 0,00 & 0,50 & \textbf{0,00} & 0,87 & 1,00 & 1,00 \\
+  & 0,81 & 1,00 & 0,81 & 0,00 & 0,00 & \textbf{0,00} & 0,90 & \textbf{0,00} & 1,00 \\
 Q2: Calor extremo em MT (2023)
-  & 0,82 & 1,00 & 0,83 & 0,00 & 0,00 & 1,00 & 0,88 & 1,00 & 1,00 \\
+  & 0,83 & 1,00 & 0,89 & 0,00 & 1,00 & 1,00 & 0,89 & 1,00 & 1,00 \\
 Q3: Chuva forte ($>$100~mm) em SP (2022)
-  & 0,73 & 1,00 & 0,77 & 0,00 & 0,00 & 1,00 & 0,86 & \textbf{0,00} & 1,00 \\
+  & 0,73 & 1,00 & 0,73 & 0,00 & 0,00 & 1,00 & 0,84 & 1,00 & 1,00 \\
 Q4: Meses de frio extremo no Sul
-  & 0,81 & 1,00 & 0,53 & 0,00 & 0,00 & 1,00 & 0,84 & 1,00 & 1,00 \\
+  & 0,81 & 1,00 & 0,80 & 0,00 & 0,50 & 1,00 & 0,88 & 1,00 & 1,00 \\
 Q5: Estados com baixa umidade crít.\
-  & 0,84 & 1,00 & 0,69 & 0,00 & 0,00 & 1,00 & 0,82 & 1,00 & 1,00 \\
+  & 0,84 & \textbf{0,00} & 0,74 & 0,00 & 0,00 & 1,00 & 0,82 & 1,00 & 1,00 \\
 \midrule
 \textbf{Média}
-  & \textbf{0,79} & \textbf{1,00} & \textbf{0,73} & \textbf{0,00} & \textbf{0,10}
-  & \textbf{0,80} & \textbf{0,85} & \textbf{0,80} & \textbf{1,00} \\
+  & \textbf{0,81} & \textbf{0,80} & \textbf{0,80} & \textbf{0,00} & \textbf{0,30}
+  & \textbf{0,80} & \textbf{0,87} & \textbf{0,80} & \textbf{1,00} \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -993,7 +997,7 @@ Q5: Estados com baixa umidade crít.\
 Os resultados da Tabela~\ref{tab:ragas} revelam três padrões
 distintos de comportamento:
 
-\textbf{No RAG} (Answer Relevancy = 0,79):
+\textbf{No RAG} (Answer Relevancy = 0,81):
 O LLM demonstra conhecimento climatológico geral adequado ---
 identifica corretamente que geadas ocorrem no inverno austral
 e que o Centro-Oeste sofre baixa umidade no período de estiagem.
@@ -1004,53 +1008,57 @@ paramétrico pré-treinamento.
 Como não há contexto recuperado, as métricas de fidelidade,
 abrangência e precisão não se aplicam.
 
-\textbf{Vector RAG} (Faithfulness = 1,00; Context Recall = 0,00):
-O resultado paradoxal --- fidelidade máxima mas abrangência nula
---- revela o principal problema do RAG vetorial para consultas
-relacionais.
-O modelo responde com fidelidade ao contexto recuperado
-(\emph{faz} o que os documentos dizem), mas os documentos
-recuperados por similaridade semântica não contêm as
-informações efetivamente solicitadas no gabarito.
-Por exemplo, para a pergunta sobre municípios do RS com mais
-precipitação extrema, o índice vetorial retornou eventos
-individuais semanticamente similares à pergunta, mas não os
-municípios com \emph{maior contagem de eventos} ---
-informação que requer agregação no grafo.
+\textbf{Vector RAG} (Faithfulness = 0,80; Context Recall = 0,00):
+O Vector~RAG apresenta fidelidade ao contexto recuperado em
+quatro das cinco perguntas (Q1--Q4), porém esse contexto não
+contém as informações solicitadas pelo gabarito
+(Context Recall = 0,00 em todas as perguntas).
+A similaridade semântica de embeddings recupera documentos
+lexicalmente próximos à consulta mas não distingue tipo de
+evento nem período temporal como atributos filtráveis.
+Em Q5 (\emph{baixa umidade crítica}), o vector index com
+32.030 eventos recuperou parcialmente eventos relevantes,
+porém a resposta gerada apresentou afirmações incorretas
+sobre estados não presentes no contexto, resultando em
+Faithfulness = 0,00 para esse caso.
 
 \textbf{Graph RAG} (Context Recall = 0,80; Context Precision = 1,00):
 A abordagem baseada em grafo demonstra a maior abrangência de
 contexto, recuperando exatamente os registros relevantes ao
 período e tipo de evento especificados via consultas Cypher.
 A precisão de contexto perfeita (1,00) indica que o contexto
-entregue ao gerador é sempre relevante à pergunta --- sem ruído.
+entregue ao gerador é sempre relevante à pergunta, sem ruído.
 Dois casos de desvio merecem atenção (Tabela~\ref{tab:ragas_por_pergunta}):
 
-\textbf{Q1 --- Faithfulness = 0,00:}
+\textbf{Q1: Faithfulness = 0,00 e Context Recall = 0,00:}
 A pergunta solicitava um ranking de municípios gaúchos por
 contagem de episódios entre 2020 e 2024.
-O grafo retornou apenas registros de 2024 (limitação de cobertura
-temporal para aquele estado no período consultado), e o modelo
-inferiu contagens a partir dos registros individuais
---- por exemplo, afirmando ``Jaguarão com 4 episódios'' sem
-que o contexto apresentasse explicitamente essa contagem agregada.
-O juiz penalizou a afirmação derivada, reduzindo a fidelidade a 0,00.
+O pipeline agora executa duas consultas para esse tipo de
+pergunta: \texttt{eventosPorEstado} (50 eventos mais recentes)
+e \texttt{municipiosMaisEventosPorEstado} (ranking agregado
+por município).
+O ranking retornou corretamente Santo Augusto (52~eventos),
+Canela (48) e Passo Fundo (48) para o período 2020--2024,
+e o modelo gerou a resposta correta.
+Contudo, a seção de 50 eventos individuais (todos de 2024)
+domina o contexto por volume de caracteres e sinaliza ao
+juiz que a cobertura é de 2024 apenas, levando-o a penalizar
+afirmações de contagens históricas e reduzir fidelidade a 0,00.
+O gabarito também menciona contagens específicas que o juiz
+espera encontrar explicitamente nos primeiros caracteres do
+contexto, resultando em Context Recall = 0,00 como artefato
+de medição.
 
-\textbf{Q3 --- Context Recall = 0,00:}
-Embora o GraphRAG tenha recuperado e listado corretamente
-municípios de SP com chuva acima de 100~mm em 2022
-(São Carlos~175~mm, Tupã~208~mm, Bertioga~128~mm),
-o gabarito descrevia regiões específicas (Baixada Santista,
-Vale do Ribeira, Serra da Mantiqueira) não explicitamente
-nomeadas no contexto, fazendo o juiz avaliar a abrangência
-como insuficiente.
-
-\textbf{Answer Relevancy} (Graph RAG = 0,85 $>$ No RAG = 0,79
-$>$ Vector RAG = 0,73): O GraphRAG obtém as respostas
+\textbf{Answer Relevancy} (Graph RAG = 0,87 $>$ No RAG = 0,81
+$\approx$ Vector RAG = 0,80): O GraphRAG obtém as respostas
 mais relevantes às perguntas, combinando contexto preciso com
 capacidade generativa do LLM.
-O Vector~RAG apresenta a menor relevância, pois o contexto
-impreciso induz respostas genéricas ou evasivas.
+O Vector~RAG com índice completo (32.030 eventos) apresenta
+Answer Relevancy similar ao No~RAG, confirmando que a
+qualidade da resposta melhora quando o índice cobre o domínio
+de interesse, mas ainda não alcança o GraphRAG, pois a
+recuperação por similaridade semântica continua a falhar em
+perguntas que exigem agregação ou filtragem por atributos.
 
 \subsection{Análise Qualitativa}
 
@@ -1059,7 +1067,7 @@ apresentamos as respostas geradas para a pergunta~Q2:
 \emph{``Houve registros de calor extremo (temperatura máxima acima
 de 40°C) em Mato Grosso em 2023?''}
 Esta pergunta exige acesso a dados operacionais específicos por
-estado e período --- tarefa que expõe claramente os limites de cada
+estado e período, tarefa que expõe claramente os limites de cada
 abordagem.
 
 \textbf{No~RAG:}
@@ -1083,7 +1091,7 @@ São relatados apenas eventos de precipitação extrema em 2024.''}
 \end{quote}
 O índice vetorial recuperou os 10 eventos mais semanticamente
 similares à consulta, mas retornou eventos de \emph{precipitação
-extrema} de 2024 em Rondonópolis (MT) --- semanticamente próximos
+extrema} de 2024 em Rondonópolis (MT), semanticamente próximos
 à palavra ``Mato Grosso'' e ``extremo'', porém do tipo e período
 errados.
 O modelo foi fiel a esse contexto incorreto (Faithfulness~=~1,00),
@@ -1098,7 +1106,7 @@ entre outros.''}
 \end{quote}
 A consulta Cypher filtrou exatamente \texttt{tipo = `calor\_extremo'}
 e \texttt{data BETWEEN 2023-01-01 AND 2023-12-31} no estado MT,
-retornando 50 registros reais --- o maior sendo Cuiabá com 43,3°C
+retornando 50 registros reais; o maior sendo Cuiabá com 43,3°C
 em 19 de outubro de 2023.
 A resposta é factualmente correta e diretamente ancorada nos dados
 do INMET.
@@ -1127,7 +1135,7 @@ parametrizada opera diretamente sobre os atributos estruturados do grafo.
 
 \subsection{Ameaças à Validade}
 
-\textbf{Validade interna --- viés do juiz LLM:}
+\textbf{Validade interna: viés do juiz LLM:}
 As métricas de faithfulness, context recall e context precision
 foram calculadas por GPT-4o-mini, que pode ser inconsistente entre
 execuções e apresentar viés em favor de respostas que lhe parecem
@@ -1138,18 +1146,19 @@ concordância decresce para perguntas de domínio técnico.
 A reexecução do script produziu resultados idênticos às médias
 reportadas, sugerindo estabilidade para o conjunto avaliado.
 
-\textbf{Validade interna --- gabaritos subjetivos:}
-Os gabaritos das cinco perguntas foram redigidos pelos próprios
-autores e descrevem padrões regionais gerais
-(ex.: \emph{``municípios da Serra Gaúcha e litoral''}) em vez de
-listar municípios específicos.
-Isso penaliza o Context Recall do GraphRAG em Q3, pois a resposta
-correta com municípios concretos difere lexicalmente do gabarito
-baseado em regiões.
-Gabaritos elaborados por especialistas em climatologia tornariam
-a avaliação mais justa e precisa.
+\textbf{Validade interna: gabaritos derivados dos dados:}
+Os gabaritos foram gerados automaticamente por consultas Cypher
+sobre o próprio banco Neo4j (script \texttt{derive\_gabaritos.py}),
+garantindo que reflitam os dados efetivamente disponíveis.
+Essa abordagem elimina discrepâncias entre gabarito e contexto
+recuperado, mas introduz uma dependência circular: o GraphRAG
+é avaliado contra gabaritos construídos a partir das mesmas
+consultas que usa para recuperar contexto.
+Um conjunto de gabaritos elaborados por especialistas em
+climatologia, independente dos dados INMET, tornaria a
+avaliação mais imparcial.
 
-\textbf{Validade externa --- generalização:}
+\textbf{Validade externa: generalização:}
 Os resultados foram obtidos para um único domínio (eventos
 climáticos brasileiros), um único grafo (Neo4j com dados INMET),
 um único modelo gerador (GPT-4o) e apenas cinco perguntas.
@@ -1166,15 +1175,17 @@ Este trabalho apresentou um pipeline GraphRAG para consultas em
 linguagem natural sobre eventos climáticos extremos no Brasil,
 utilizando dados do INMET e do CEMADEN estruturados em um grafo
 de conhecimento Neo4j.
-A avaliação com RAGAS mostrou que a abordagem baseada em grafo
-supera o RAG vetorial em abrangência de contexto (context\_recall
-$+$80~p.p.), precisão de contexto (context\_precision $+$90~p.p.)
-e relevância da resposta (answer\_relevancy $+$12~p.p.),
-especialmente em perguntas relacionais que requerem agregação
-e cruzamento de entidades.
-O Vector~RAG apresentou fidelidade máxima (1,00) ao seu contexto
-recuperado, porém sobre documentos irrelevantes às consultas,
-confirmando o paradoxo identificado neste trabalho.
+A avaliação com RAGAS, conduzida sobre um índice vetorial completo
+(32.030 eventos) e gabaritos derivados de consultas Cypher reais,
+mostrou que a abordagem baseada em grafo supera o RAG vetorial em
+abrangência de contexto (context\_recall $+$80~p.p.), precisão de
+contexto (context\_precision $+$70~p.p.) e relevância da resposta
+(answer\_relevancy $+$7~p.p.), especialmente em perguntas relacionais
+que requerem agregação e cruzamento de entidades.
+O Vector~RAG apresentou Context Recall nulo (0,00) em todas as
+perguntas avaliadas, confirmando que a similaridade semântica de
+embeddings não consegue satisfazer consultas relacionais estruturadas,
+mesmo quando o índice contém todos os dados disponíveis.
 
 Como trabalho futuro, destacam-se:
 (i) ampliar a cobertura de dados para incluir todos os estados

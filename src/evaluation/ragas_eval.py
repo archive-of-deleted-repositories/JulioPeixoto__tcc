@@ -109,10 +109,13 @@ def _contexto_valido(ctx: str) -> bool:
     return bool(s) and not s.startswith(_INDISPONIVEL)
 
 
+_CTX_LIMIT = 6000   # chars enviados ao juiz LLM por chamada
+
+
 def faithfulness(resposta: str, contexto: str) -> float:
     if not _contexto_valido(contexto):
         return math.nan
-    prompt = f"Contexto:\n{contexto[:3000]}\n\nResposta:\n{resposta[:1000]}"
+    prompt = f"Contexto:\n{contexto[:_CTX_LIMIT]}\n\nResposta:\n{resposta[:1000]}"
     raw = _chat(SYS_FAITHFULNESS, prompt)
     return _score_01(raw)
 
@@ -126,7 +129,7 @@ def answer_relevancy(pergunta: str, resposta: str) -> float:
 def context_recall(contexto: str, gabarito: str) -> float:
     if not _contexto_valido(contexto):
         return math.nan
-    prompt = f"Gabarito:\n{gabarito[:1000]}\n\nContexto:\n{contexto[:3000]}"
+    prompt = f"Gabarito:\n{gabarito[:1000]}\n\nContexto:\n{contexto[:_CTX_LIMIT]}"
     raw = _chat(SYS_RECALL, prompt)
     return _score_01(raw)
 
@@ -134,7 +137,7 @@ def context_recall(contexto: str, gabarito: str) -> float:
 def context_precision(pergunta: str, contexto: str) -> float:
     if not _contexto_valido(contexto):
         return math.nan
-    prompt = f"Pergunta:\n{pergunta}\n\nContexto:\n{contexto[:3000]}"
+    prompt = f"Pergunta:\n{pergunta}\n\nContexto:\n{contexto[:_CTX_LIMIT]}"
     raw = _chat(SYS_PRECISION, prompt)
     return _score_01(raw)
 

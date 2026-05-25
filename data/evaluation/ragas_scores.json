@@ -1,19 +1,19 @@
 {
   "no_rag": {
     "faithfulness": NaN,
-    "answer_relevancy": 0.7941,
+    "answer_relevancy": 0.806,
     "context_recall": NaN,
     "context_precision": NaN
   },
   "vector_rag": {
-    "faithfulness": 1.0,
-    "answer_relevancy": 0.7294,
+    "faithfulness": 0.8,
+    "answer_relevancy": 0.795,
     "context_recall": 0.0,
-    "context_precision": 0.1
+    "context_precision": 0.3
   },
   "graph_rag": {
     "faithfulness": 0.8,
-    "answer_relevancy": 0.8547,
+    "answer_relevancy": 0.8658,
     "context_recall": 0.8,
     "context_precision": 1.0
   }

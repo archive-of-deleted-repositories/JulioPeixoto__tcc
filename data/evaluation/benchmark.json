@@ -1,0 +1,1853 @@
+[
+  {
+    "id": "C1_factual-01",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Bom Jesus (PI) em 2024?",
+    "gabarito": "Sim. Foram registrados 15 dias com calor extremo em Bom Jesus (PI) em 2024. O valor mais extremo foi 41.5 °C em 2024-10-08.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "15",
+      "Bom Jesus",
+      "2024"
+    ],
+    "metadados": {
+      "municipio": "Bom Jesus",
+      "uf": "PI",
+      "tipo": "calor_extremo",
+      "ano": 2024,
+      "total": 15
+    }
+  },
+  {
+    "id": "C1_factual-02",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Oeiras (PI) em 2023?",
+    "gabarito": "Sim. Foram registrados 35 dias com calor extremo em Oeiras (PI) em 2023. O valor mais extremo foi 42.4 °C em 2023-09-25.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "35",
+      "Oeiras",
+      "2023"
+    ],
+    "metadados": {
+      "municipio": "Oeiras",
+      "uf": "PI",
+      "tipo": "calor_extremo",
+      "ano": 2023,
+      "total": 35
+    }
+  },
+  {
+    "id": "C1_factual-03",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Patos (PB) em 2017?",
+    "gabarito": "Sim. Foram registrados 74 dias com baixa umidade crítica em Patos (PB) em 2017. O valor mais extremo foi 11.0 % em 2017-01-06.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "74",
+      "Patos",
+      "2017"
+    ],
+    "metadados": {
+      "municipio": "Patos",
+      "uf": "PB",
+      "tipo": "baixa_umidade",
+      "ano": 2017,
+      "total": 74
+    }
+  },
+  {
+    "id": "C1_factual-04",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de frio extremo (temperatura mínima abaixo de 0 °C) em São Joaquim (SC) em 2016?",
+    "gabarito": "Sim. Foram registrados 15 dias com frio extremo em São Joaquim (SC) em 2016. O valor mais extremo foi -5.6 °C em 2016-06-11.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "15",
+      "São Joaquim",
+      "2016"
+    ],
+    "metadados": {
+      "municipio": "São Joaquim",
+      "uf": "SC",
+      "tipo": "frio_extremo",
+      "ano": 2016,
+      "total": 15
+    }
+  },
+  {
+    "id": "C1_factual-05",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Urubici (SC) em 2017?",
+    "gabarito": "Sim. Foram registrados 22 dias com baixa umidade crítica em Urubici (SC) em 2017. O valor mais extremo foi 11.0 % em 2017-01-26.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "22",
+      "Urubici",
+      "2017"
+    ],
+    "metadados": {
+      "municipio": "Urubici",
+      "uf": "SC",
+      "tipo": "baixa_umidade",
+      "ano": 2017,
+      "total": 22
+    }
+  },
+  {
+    "id": "C1_factual-06",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de chuva muito forte (precipitação diária acima de 100 mm) em Campina da Lagoa (PR) em 2018?",
+    "gabarito": "Não. Não há nenhum registro de chuva muito forte em Campina da Lagoa (PR) em 2018 na base. O município possui estação com dados nesse ano, portanto trata-se de ausência do fenômeno e não de falta de cobertura.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não",
+      "Campina da Lagoa",
+      "2018"
+    ],
+    "metadados": {
+      "municipio": "Campina da Lagoa",
+      "uf": "PR",
+      "tipo": "chuva_muito_forte",
+      "ano": 2018,
+      "total": 0
+    }
+  },
+  {
+    "id": "C1_factual-07",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Teutônia (RS) em 2015?",
+    "gabarito": "Não. Não há nenhum registro de baixa umidade crítica em Teutônia (RS) em 2015 na base. O município possui estação com dados nesse ano, portanto trata-se de ausência do fenômeno e não de falta de cobertura.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não",
+      "Teutônia",
+      "2015"
+    ],
+    "metadados": {
+      "municipio": "Teutônia",
+      "uf": "RS",
+      "tipo": "baixa_umidade",
+      "ano": 2015,
+      "total": 0
+    }
+  },
+  {
+    "id": "C1_factual-08",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Governador Valadares (MG) em 2021?",
+    "gabarito": "Não. Não há nenhum registro de baixa umidade crítica em Governador Valadares (MG) em 2021 na base. O município possui estação com dados nesse ano, portanto trata-se de ausência do fenômeno e não de falta de cobertura.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não",
+      "Governador Valadares",
+      "2021"
+    ],
+    "metadados": {
+      "municipio": "Governador Valadares",
+      "uf": "MG",
+      "tipo": "baixa_umidade",
+      "ano": 2021,
+      "total": 0
+    }
+  },
+  {
+    "id": "C1_factual-09",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de frio extremo (temperatura mínima abaixo de 0 °C) em Ipiaú (BA) em 2024?",
+    "gabarito": "Não. Não há nenhum registro de frio extremo em Ipiaú (BA) em 2024 na base. O município possui estação com dados nesse ano, portanto trata-se de ausência do fenômeno e não de falta de cobertura.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não",
+      "Ipiaú",
+      "2024"
+    ],
+    "metadados": {
+      "municipio": "Ipiaú",
+      "uf": "BA",
+      "tipo": "frio_extremo",
+      "ano": 2024,
+      "total": 0
+    }
+  },
+  {
+    "id": "C1_factual-10",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Rondon do Pará (PA) em 2019?",
+    "gabarito": "Não. Não há nenhum registro de calor extremo em Rondon do Pará (PA) em 2019 na base. O município possui estação com dados nesse ano, portanto trata-se de ausência do fenômeno e não de falta de cobertura.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não",
+      "Rondon do Pará",
+      "2019"
+    ],
+    "metadados": {
+      "municipio": "Rondon do Pará",
+      "uf": "PA",
+      "tipo": "calor_extremo",
+      "ano": 2019,
+      "total": 0
+    }
+  },
+  {
+    "id": "C2_agregacao-01",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de São Paulo (SP) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de São Paulo com mais registros de precipitação extrema (precipitação diária acima de 50 mm) entre 2020 e 2024 são: Iguape (31 registros), Bertioga (29 registros), Marília (25 registros), São Simão (23 registros), Valparaíso (20 registros). O estado somou 492 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Iguape",
+      "Bertioga",
+      "Marília",
+      "São Simão",
+      "Valparaíso",
+      "31"
+    ],
+    "metadados": {
+      "uf": "SP",
+      "tipo": "precipitacao_extrema",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Iguape",
+          31
+        ],
+        [
+          "Bertioga",
+          29
+        ],
+        [
+          "Marília",
+          25
+        ],
+        [
+          "São Simão",
+          23
+        ],
+        [
+          "Valparaíso",
+          20
+        ]
+      ],
+      "total_uf": 492
+    }
+  },
+  {
+    "id": "C2_agregacao-02",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Rio Grande do Sul (RS) com mais registros de frio extremo entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Rio Grande do Sul com mais registros de frio extremo (temperatura mínima abaixo de 0 °C) entre 2020 e 2024 são: Quaraí (43 registros), São José dos Ausentes (37 registros), Vacaria (37 registros), Serafina Corrêa (34 registros), Cambará do Sul (24 registros). O estado somou 391 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Quaraí",
+      "São José dos Ausentes",
+      "Vacaria",
+      "Serafina Corrêa",
+      "Cambará do Sul",
+      "43"
+    ],
+    "metadados": {
+      "uf": "RS",
+      "tipo": "frio_extremo",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Quaraí",
+          43
+        ],
+        [
+          "São José dos Ausentes",
+          37
+        ],
+        [
+          "Vacaria",
+          37
+        ],
+        [
+          "Serafina Corrêa",
+          34
+        ],
+        [
+          "Cambará do Sul",
+          24
+        ]
+      ],
+      "total_uf": 391
+    }
+  },
+  {
+    "id": "C2_agregacao-03",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de São Paulo (SP) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de São Paulo com mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) entre 2020 e 2024 são: Barretos (43 registros), Paranapuã (33 registros), Lins (31 registros), Valparaíso (22 registros), Tupã (19 registros). O estado somou 285 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Barretos",
+      "Paranapuã",
+      "Lins",
+      "Valparaíso",
+      "Tupã",
+      "43"
+    ],
+    "metadados": {
+      "uf": "SP",
+      "tipo": "baixa_umidade",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Barretos",
+          43
+        ],
+        [
+          "Paranapuã",
+          33
+        ],
+        [
+          "Lins",
+          31
+        ],
+        [
+          "Valparaíso",
+          22
+        ],
+        [
+          "Tupã",
+          19
+        ]
+      ],
+      "total_uf": 285
+    }
+  },
+  {
+    "id": "C2_agregacao-04",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Goiás (GO) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Goiás com mais registros de precipitação extrema (precipitação diária acima de 50 mm) entre 2020 e 2024 são: Catalão (36 registros), Luziânia (32 registros), Goiás (31 registros), Cristalina (31 registros), Águas Lindas de Goiás (29 registros). O estado somou 522 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Catalão",
+      "Luziânia",
+      "Goiás",
+      "Cristalina",
+      "Águas Lindas de Goiás",
+      "36"
+    ],
+    "metadados": {
+      "uf": "GO",
+      "tipo": "precipitacao_extrema",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Catalão",
+          36
+        ],
+        [
+          "Luziânia",
+          32
+        ],
+        [
+          "Goiás",
+          31
+        ],
+        [
+          "Cristalina",
+          31
+        ],
+        [
+          "Águas Lindas de Goiás",
+          29
+        ]
+      ],
+      "total_uf": 522
+    }
+  },
+  {
+    "id": "C2_agregacao-05",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Minas Gerais (MG) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Minas Gerais com mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) entre 2020 e 2024 são: Campina Verde (41 registros), Montalvânia (37 registros), Montes Claros (27 registros), Camanducaia (24 registros), Água Comprida (22 registros). O estado somou 552 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Campina Verde",
+      "Montalvânia",
+      "Montes Claros",
+      "Camanducaia",
+      "Água Comprida",
+      "41"
+    ],
+    "metadados": {
+      "uf": "MG",
+      "tipo": "baixa_umidade",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Campina Verde",
+          41
+        ],
+        [
+          "Montalvânia",
+          37
+        ],
+        [
+          "Montes Claros",
+          27
+        ],
+        [
+          "Camanducaia",
+          24
+        ],
+        [
+          "Água Comprida",
+          22
+        ]
+      ],
+      "total_uf": 552
+    }
+  },
+  {
+    "id": "C2_agregacao-06",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Pará (PA) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Pará com mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) entre 2020 e 2024 são: Novo Repartimento (243 registros), Medicilândia (17 registros), Santana do Araguaia (2 registros), Santa Maria das Barreiras (2 registros). O estado somou 264 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Novo Repartimento",
+      "Medicilândia",
+      "Santana do Araguaia",
+      "Santa Maria das Barreiras",
+      "243"
+    ],
+    "metadados": {
+      "uf": "PA",
+      "tipo": "baixa_umidade",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Novo Repartimento",
+          243
+        ],
+        [
+          "Medicilândia",
+          17
+        ],
+        [
+          "Santana do Araguaia",
+          2
+        ],
+        [
+          "Santa Maria das Barreiras",
+          2
+        ]
+      ],
+      "total_uf": 264
+    }
+  },
+  {
+    "id": "C2_agregacao-07",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Santa Catarina (SC) com mais registros de chuva muito forte entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Santa Catarina com mais registros de chuva muito forte (precipitação diária acima de 100 mm) entre 2020 e 2024 são: Dionísio Cerqueira (10 registros), São José (7 registros), Urubici (5 registros), Araranguá (5 registros), Itapoá (5 registros). O estado somou 70 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Dionísio Cerqueira",
+      "São José",
+      "Urubici",
+      "Araranguá",
+      "Itapoá",
+      "10"
+    ],
+    "metadados": {
+      "uf": "SC",
+      "tipo": "chuva_muito_forte",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Dionísio Cerqueira",
+          10
+        ],
+        [
+          "São José",
+          7
+        ],
+        [
+          "Urubici",
+          5
+        ],
+        [
+          "Araranguá",
+          5
+        ],
+        [
+          "Itapoá",
+          5
+        ]
+      ],
+      "total_uf": 70
+    }
+  },
+  {
+    "id": "C2_agregacao-08",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Mato Grosso (MT) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Mato Grosso com mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) entre 2020 e 2024 são: Cotriguaçu (42 registros), Cuiabá (39 registros), Rondonópolis (36 registros), Alto Araguaia (33 registros), Alto Taquari (21 registros). O estado somou 277 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Cotriguaçu",
+      "Cuiabá",
+      "Rondonópolis",
+      "Alto Araguaia",
+      "Alto Taquari",
+      "42"
+    ],
+    "metadados": {
+      "uf": "MT",
+      "tipo": "baixa_umidade",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Cotriguaçu",
+          42
+        ],
+        [
+          "Cuiabá",
+          39
+        ],
+        [
+          "Rondonópolis",
+          36
+        ],
+        [
+          "Alto Araguaia",
+          33
+        ],
+        [
+          "Alto Taquari",
+          21
+        ]
+      ],
+      "total_uf": 277
+    }
+  },
+  {
+    "id": "C2_agregacao-09",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Paraíba (PB) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Paraíba com mais registros de precipitação extrema (precipitação diária acima de 50 mm) entre 2020 e 2024 são: João Pessoa (37 registros), Marizópolis (11 registros), Areia (9 registros), Itaporanga (7 registros), Patos (5 registros). O estado somou 81 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "João Pessoa",
+      "Marizópolis",
+      "Areia",
+      "Itaporanga",
+      "Patos",
+      "37"
+    ],
+    "metadados": {
+      "uf": "PB",
+      "tipo": "precipitacao_extrema",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "João Pessoa",
+          37
+        ],
+        [
+          "Marizópolis",
+          11
+        ],
+        [
+          "Areia",
+          9
+        ],
+        [
+          "Itaporanga",
+          7
+        ],
+        [
+          "Patos",
+          5
+        ]
+      ],
+      "total_uf": 81
+    }
+  },
+  {
+    "id": "C2_agregacao-10",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Piauí (PI) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "gabarito": "Os 5 municípios de Piauí com mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) entre 2020 e 2024 são: Bom Jesus (28 registros), Alvorada do Gurguéia (13 registros), São Raimundo Nonato (11 registros), Canto do Buriti (11 registros), Oeiras (11 registros). O estado somou 106 registros do fenômeno no período.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "Bom Jesus",
+      "Alvorada do Gurguéia",
+      "São Raimundo Nonato",
+      "Canto do Buriti",
+      "Oeiras",
+      "28"
+    ],
+    "metadados": {
+      "uf": "PI",
+      "tipo": "baixa_umidade",
+      "anos": [
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "ranking": [
+        [
+          "Bom Jesus",
+          28
+        ],
+        [
+          "Alvorada do Gurguéia",
+          13
+        ],
+        [
+          "São Raimundo Nonato",
+          11
+        ],
+        [
+          "Canto do Buriti",
+          11
+        ],
+        [
+          "Oeiras",
+          11
+        ]
+      ],
+      "total_uf": 106
+    }
+  },
+  {
+    "id": "C3_comp_temporal-01",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Novo Repartimento (PA), houve mais registros de baixa umidade crítica em 2020 ou em 2022? Informe a quantidade em cada ano.",
+    "gabarito": "Em Novo Repartimento (PA), 2020 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 227 registros em 2020 contra 0 em 2022, diferença de 227.",
+    "nota": "As mesmas estações (A235) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "227",
+      "0",
+      "2020",
+      "Novo Repartimento"
+    ],
+    "metadados": {
+      "municipio": "Novo Repartimento",
+      "uf": "PA",
+      "tipo": "baixa_umidade",
+      "ano_1": 2020,
+      "total_1": 227,
+      "ano_2": 2022,
+      "total_2": 0,
+      "estacoes": [
+        "A235"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-02",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Patos (PB), houve mais registros de baixa umidade crítica em 2018 ou em 2020? Informe a quantidade em cada ano.",
+    "gabarito": "Em Patos (PB), 2018 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 139 registros em 2018 contra 0 em 2020, diferença de 139.",
+    "nota": "As mesmas estações (A321) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "139",
+      "0",
+      "2018",
+      "Patos"
+    ],
+    "metadados": {
+      "municipio": "Patos",
+      "uf": "PB",
+      "tipo": "baixa_umidade",
+      "ano_1": 2018,
+      "total_1": 139,
+      "ano_2": 2020,
+      "total_2": 0,
+      "estacoes": [
+        "A321"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-03",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Alto Paraíso de Goiás (GO), houve mais registros de baixa umidade crítica em 2021 ou em 2023? Informe a quantidade em cada ano.",
+    "gabarito": "Em Alto Paraíso de Goiás (GO), 2021 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 132 registros em 2021 contra 0 em 2023, diferença de 132.",
+    "nota": "As mesmas estações (A024) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "132",
+      "0",
+      "2021",
+      "Alto Paraíso de Goiás"
+    ],
+    "metadados": {
+      "municipio": "Alto Paraíso de Goiás",
+      "uf": "GO",
+      "tipo": "baixa_umidade",
+      "ano_1": 2021,
+      "total_1": 132,
+      "ano_2": 2023,
+      "total_2": 0,
+      "estacoes": [
+        "A024"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-04",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Buritirama (BA), houve mais registros de baixa umidade crítica em 2019 ou em 2023? Informe a quantidade em cada ano.",
+    "gabarito": "Em Buritirama (BA), 2019 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 108 registros em 2019 contra 0 em 2023, diferença de 108.",
+    "nota": "As mesmas estações (A432) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "108",
+      "0",
+      "2019",
+      "Buritirama"
+    ],
+    "metadados": {
+      "municipio": "Buritirama",
+      "uf": "BA",
+      "tipo": "baixa_umidade",
+      "ano_1": 2019,
+      "total_1": 108,
+      "ano_2": 2023,
+      "total_2": 0,
+      "estacoes": [
+        "A432"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-05",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Camamu (BA), houve mais registros de baixa umidade crítica em 2020 ou em 2022? Informe a quantidade em cada ano.",
+    "gabarito": "Em Camamu (BA), 2020 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 76 registros em 2020 contra 0 em 2022, diferença de 76.",
+    "nota": "As mesmas estações (A438) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "76",
+      "0",
+      "2020",
+      "Camamu"
+    ],
+    "metadados": {
+      "municipio": "Camamu",
+      "uf": "BA",
+      "tipo": "baixa_umidade",
+      "ano_1": 2020,
+      "total_1": 76,
+      "ano_2": 2022,
+      "total_2": 0,
+      "estacoes": [
+        "A438"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-06",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Pão de Açúcar (AL), houve mais registros de baixa umidade crítica em 2023 ou em 2024? Informe a quantidade em cada ano.",
+    "gabarito": "Em Pão de Açúcar (AL), 2023 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 70 registros em 2023 contra 0 em 2024, diferença de 70.",
+    "nota": "As mesmas estações (A323) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "70",
+      "0",
+      "2023",
+      "Pão de Açúcar"
+    ],
+    "metadados": {
+      "municipio": "Pão de Açúcar",
+      "uf": "AL",
+      "tipo": "baixa_umidade",
+      "ano_1": 2023,
+      "total_1": 70,
+      "ano_2": 2024,
+      "total_2": 0,
+      "estacoes": [
+        "A323"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-07",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Planalto (PR), houve mais registros de baixa umidade crítica em 2019 ou em 2020? Informe a quantidade em cada ano.",
+    "gabarito": "Em Planalto (PR), 2019 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 65 registros em 2019 contra 0 em 2020, diferença de 65.",
+    "nota": "As mesmas estações (A855) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "65",
+      "0",
+      "2019",
+      "Planalto"
+    ],
+    "metadados": {
+      "municipio": "Planalto",
+      "uf": "PR",
+      "tipo": "baixa_umidade",
+      "ano_1": 2019,
+      "total_1": 65,
+      "ano_2": 2020,
+      "total_2": 0,
+      "estacoes": [
+        "A855"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-08",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Palmeira dos Índios (AL), houve mais registros de baixa umidade crítica em 2016 ou em 2017? Informe a quantidade em cada ano.",
+    "gabarito": "Em Palmeira dos Índios (AL), 2016 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 64 registros em 2016 contra 0 em 2017, diferença de 64.",
+    "nota": "As mesmas estações (A327) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "64",
+      "0",
+      "2016",
+      "Palmeira dos Índios"
+    ],
+    "metadados": {
+      "municipio": "Palmeira dos Índios",
+      "uf": "AL",
+      "tipo": "baixa_umidade",
+      "ano_1": 2016,
+      "total_1": 64,
+      "ano_2": 2017,
+      "total_2": 0,
+      "estacoes": [
+        "A327"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-09",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Touros (RN), houve mais registros de baixa umidade crítica em 2015 ou em 2018? Informe a quantidade em cada ano.",
+    "gabarito": "Em Touros (RN), 2018 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 65 registros em 2018 contra 2 em 2015, diferença de 63.",
+    "nota": "As mesmas estações (A344) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "2",
+      "65",
+      "2018",
+      "Touros"
+    ],
+    "metadados": {
+      "municipio": "Touros",
+      "uf": "RN",
+      "tipo": "baixa_umidade",
+      "ano_1": 2015,
+      "total_1": 2,
+      "ano_2": 2018,
+      "total_2": 65,
+      "estacoes": [
+        "A344"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-10",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Piracicaba (SP), houve mais registros de baixa umidade crítica em 2019 ou em 2020? Informe a quantidade em cada ano.",
+    "gabarito": "Em Piracicaba (SP), 2019 teve mais registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%): 57 registros em 2019 contra 0 em 2020, diferença de 57.",
+    "nota": "As mesmas estações (A726) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "57",
+      "0",
+      "2019",
+      "Piracicaba"
+    ],
+    "metadados": {
+      "municipio": "Piracicaba",
+      "uf": "SP",
+      "tipo": "baixa_umidade",
+      "ano_1": 2019,
+      "total_1": 57,
+      "ano_2": 2020,
+      "total_2": 0,
+      "estacoes": [
+        "A726"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-11",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Nova Maringá (MT), houve mais registros de calor extremo em 2020 ou em 2024? Informe a quantidade em cada ano.",
+    "gabarito": "Em Nova Maringá (MT), 2020 teve mais registros de calor extremo (temperatura máxima acima de 40 °C): 56 registros em 2020 contra 0 em 2024, diferença de 56.",
+    "nota": "As mesmas estações (A928) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "56",
+      "0",
+      "2020",
+      "Nova Maringá"
+    ],
+    "metadados": {
+      "municipio": "Nova Maringá",
+      "uf": "MT",
+      "tipo": "calor_extremo",
+      "ano_1": 2020,
+      "total_1": 56,
+      "ano_2": 2024,
+      "total_2": 0,
+      "estacoes": [
+        "A928"
+      ]
+    }
+  },
+  {
+    "id": "C3_comp_temporal-12",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Gilbués (PI), houve mais registros de calor extremo em 2018 ou em 2019? Informe a quantidade em cada ano.",
+    "gabarito": "Em Gilbués (PI), 2018 teve mais registros de calor extremo (temperatura máxima acima de 40 °C): 55 registros em 2018 contra 0 em 2019, diferença de 55.",
+    "nota": "As mesmas estações (A364) reportaram nos dois anos, então a variação não é efeito de mudança de cobertura. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "55",
+      "0",
+      "2018",
+      "Gilbués"
+    ],
+    "metadados": {
+      "municipio": "Gilbués",
+      "uf": "PI",
+      "tipo": "calor_extremo",
+      "ano_1": 2018,
+      "total_1": 55,
+      "ano_2": 2019,
+      "total_2": 0,
+      "estacoes": [
+        "A364"
+      ]
+    }
+  },
+  {
+    "id": "C4_comp_geografica-01",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2020, qual estado registrou mais dias de precipitação extrema: Bahia (BA) ou Espírito Santo (ES)? Informe os números.",
+    "gabarito": "Bahia (BA) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2020: 94 registros, contra 34 de Espírito Santo (ES).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "94",
+      "34",
+      "BA"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2020,
+      "uf_1": "BA",
+      "total_1": 94,
+      "uf_2": "ES",
+      "total_2": 34
+    }
+  },
+  {
+    "id": "C4_comp_geografica-02",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2016, qual estado registrou mais dias de precipitação extrema: Acre (AC) ou Paraíba (PB)? Informe os números.",
+    "gabarito": "Acre (AC) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2016: 30 registros, contra 17 de Paraíba (PB).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "30",
+      "17",
+      "AC"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2016,
+      "uf_1": "AC",
+      "total_1": 30,
+      "uf_2": "PB",
+      "total_2": 17
+    }
+  },
+  {
+    "id": "C4_comp_geografica-03",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2024, qual estado registrou mais dias de precipitação extrema: Goiás (GO) ou Tocantins (TO)? Informe os números.",
+    "gabarito": "Goiás (GO) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2024: 108 registros, contra 80 de Tocantins (TO).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "108",
+      "80",
+      "GO"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2024,
+      "uf_1": "GO",
+      "total_1": 108,
+      "uf_2": "TO",
+      "total_2": 80
+    }
+  },
+  {
+    "id": "C4_comp_geografica-04",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2023, qual estado registrou mais dias de calor extremo: Goiás (GO) ou Rio Grande do Sul (RS)? Informe os números.",
+    "gabarito": "Goiás (GO) registrou mais dias de calor extremo (temperatura máxima acima de 40 °C) em 2023: 28 registros, contra 11 de Rio Grande do Sul (RS).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "28",
+      "11",
+      "GO"
+    ],
+    "metadados": {
+      "tipo": "calor_extremo",
+      "ano": 2023,
+      "uf_1": "GO",
+      "total_1": 28,
+      "uf_2": "RS",
+      "total_2": 11
+    }
+  },
+  {
+    "id": "C4_comp_geografica-05",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2017, qual estado registrou mais dias de precipitação extrema: Mato Grosso do Sul (MS) ou Tocantins (TO)? Informe os números.",
+    "gabarito": "Mato Grosso do Sul (MS) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2017: 110 registros, contra 96 de Tocantins (TO).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "110",
+      "96",
+      "MS"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2017,
+      "uf_1": "MS",
+      "total_1": 110,
+      "uf_2": "TO",
+      "total_2": 96
+    }
+  },
+  {
+    "id": "C4_comp_geografica-06",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2022, qual estado registrou mais dias de precipitação extrema: Pará (PA) ou Paraná (PR)? Informe os números.",
+    "gabarito": "Paraná (PR) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2022: 84 registros, contra 70 de Pará (PA).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "70",
+      "84",
+      "PR"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2022,
+      "uf_1": "PA",
+      "total_1": 70,
+      "uf_2": "PR",
+      "total_2": 84
+    }
+  },
+  {
+    "id": "C4_comp_geografica-07",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2016, qual estado registrou mais dias de precipitação extrema: Paraíba (PB) ou Paraná (PR)? Informe os números.",
+    "gabarito": "Paraná (PR) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2016: 90 registros, contra 17 de Paraíba (PB).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "17",
+      "90",
+      "PR"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2016,
+      "uf_1": "PB",
+      "total_1": 17,
+      "uf_2": "PR",
+      "total_2": 90
+    }
+  },
+  {
+    "id": "C4_comp_geografica-08",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2024, qual estado registrou mais dias de calor extremo: Mato Grosso (MT) ou Pará (PA)? Informe os números.",
+    "gabarito": "Mato Grosso (MT) registrou mais dias de calor extremo (temperatura máxima acima de 40 °C) em 2024: 110 registros, contra 11 de Pará (PA).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "110",
+      "11",
+      "MT"
+    ],
+    "metadados": {
+      "tipo": "calor_extremo",
+      "ano": 2024,
+      "uf_1": "MT",
+      "total_1": 110,
+      "uf_2": "PA",
+      "total_2": 11
+    }
+  },
+  {
+    "id": "C4_comp_geografica-09",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2020, qual estado registrou mais dias de precipitação extrema: Pará (PA) ou Paraná (PR)? Informe os números.",
+    "gabarito": "Pará (PA) registrou mais dias de precipitação extrema (precipitação diária acima de 50 mm) em 2020: 149 registros, contra 53 de Paraná (PR).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "149",
+      "53",
+      "PA"
+    ],
+    "metadados": {
+      "tipo": "precipitacao_extrema",
+      "ano": 2020,
+      "uf_1": "PA",
+      "total_1": 149,
+      "uf_2": "PR",
+      "total_2": 53
+    }
+  },
+  {
+    "id": "C4_comp_geografica-10",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2019, qual estado registrou mais dias de baixa umidade crítica: Mato Grosso do Sul (MS) ou Minas Gerais (MG)? Informe os números.",
+    "gabarito": "Minas Gerais (MG) registrou mais dias de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em 2019: 114 registros, contra 43 de Mato Grosso do Sul (MS).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "43",
+      "114",
+      "MG"
+    ],
+    "metadados": {
+      "tipo": "baixa_umidade",
+      "ano": 2019,
+      "uf_1": "MS",
+      "total_1": 43,
+      "uf_2": "MG",
+      "total_2": 114
+    }
+  },
+  {
+    "id": "C5_sazonalidade-01",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Santa Catarina (SC)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Santa Catarina concentram-se em: julho (57 registros), agosto (35 registros), junho (26 registros). O estado acumula 197 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "julho",
+      "agosto",
+      "junho",
+      "57"
+    ],
+    "metadados": {
+      "uf": "SC",
+      "tipo": "baixa_umidade",
+      "top_meses": [
+        [
+          7,
+          57
+        ],
+        [
+          8,
+          35
+        ],
+        [
+          6,
+          26
+        ]
+      ],
+      "total": 197
+    }
+  },
+  {
+    "id": "C5_sazonalidade-02",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em São Paulo (SP)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em São Paulo concentram-se em: setembro (240 registros), agosto (90 registros), outubro (57 registros). O estado acumula 454 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "setembro",
+      "agosto",
+      "outubro",
+      "240"
+    ],
+    "metadados": {
+      "uf": "SP",
+      "tipo": "baixa_umidade",
+      "top_meses": [
+        [
+          9,
+          240
+        ],
+        [
+          8,
+          90
+        ],
+        [
+          10,
+          57
+        ]
+      ],
+      "total": 454
+    }
+  },
+  {
+    "id": "C5_sazonalidade-03",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Piauí (PI)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Piauí concentram-se em: setembro (103 registros), outubro (95 registros), novembro (37 registros). O estado acumula 266 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "setembro",
+      "outubro",
+      "novembro",
+      "103"
+    ],
+    "metadados": {
+      "uf": "PI",
+      "tipo": "baixa_umidade",
+      "top_meses": [
+        [
+          9,
+          103
+        ],
+        [
+          10,
+          95
+        ],
+        [
+          11,
+          37
+        ]
+      ],
+      "total": 266
+    }
+  },
+  {
+    "id": "C5_sazonalidade-04",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Amazonas (AM)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de precipitação extrema (precipitação diária acima de 50 mm) em Amazonas concentram-se em: março (147 registros), dezembro (129 registros), abril (122 registros). O estado acumula 856 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "março",
+      "dezembro",
+      "abril",
+      "147"
+    ],
+    "metadados": {
+      "uf": "AM",
+      "tipo": "precipitacao_extrema",
+      "top_meses": [
+        [
+          3,
+          147
+        ],
+        [
+          12,
+          129
+        ],
+        [
+          4,
+          122
+        ]
+      ],
+      "total": 856
+    }
+  },
+  {
+    "id": "C5_sazonalidade-05",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de chuva muito forte em Pará (PA)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de chuva muito forte (precipitação diária acima de 100 mm) em Pará concentram-se em: março (39 registros), fevereiro (28 registros), abril (24 registros). O estado acumula 149 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "março",
+      "fevereiro",
+      "abril",
+      "39"
+    ],
+    "metadados": {
+      "uf": "PA",
+      "tipo": "chuva_muito_forte",
+      "top_meses": [
+        [
+          3,
+          39
+        ],
+        [
+          2,
+          28
+        ],
+        [
+          4,
+          24
+        ]
+      ],
+      "total": 149
+    }
+  },
+  {
+    "id": "C5_sazonalidade-06",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Santa Catarina (SC)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de precipitação extrema (precipitação diária acima de 50 mm) em Santa Catarina concentram-se em: outubro (182 registros), maio (140 registros), janeiro (131 registros). O estado acumula 1124 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "outubro",
+      "maio",
+      "janeiro",
+      "182"
+    ],
+    "metadados": {
+      "uf": "SC",
+      "tipo": "precipitacao_extrema",
+      "top_meses": [
+        [
+          10,
+          182
+        ],
+        [
+          5,
+          140
+        ],
+        [
+          1,
+          131
+        ]
+      ],
+      "total": 1124
+    }
+  },
+  {
+    "id": "C5_sazonalidade-07",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Goiás (GO)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Goiás concentram-se em: setembro (712 registros), outubro (297 registros), agosto (240 registros). O estado acumula 1592 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "setembro",
+      "outubro",
+      "agosto",
+      "712"
+    ],
+    "metadados": {
+      "uf": "GO",
+      "tipo": "baixa_umidade",
+      "top_meses": [
+        [
+          9,
+          712
+        ],
+        [
+          10,
+          297
+        ],
+        [
+          8,
+          240
+        ]
+      ],
+      "total": 1592
+    }
+  },
+  {
+    "id": "C5_sazonalidade-08",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Ceará (CE)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de precipitação extrema (precipitação diária acima de 50 mm) em Ceará concentram-se em: março (53 registros), abril (42 registros), fevereiro (32 registros). O estado acumula 189 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "março",
+      "abril",
+      "fevereiro",
+      "53"
+    ],
+    "metadados": {
+      "uf": "CE",
+      "tipo": "precipitacao_extrema",
+      "top_meses": [
+        [
+          3,
+          53
+        ],
+        [
+          4,
+          42
+        ],
+        [
+          2,
+          32
+        ]
+      ],
+      "total": 189
+    }
+  },
+  {
+    "id": "C5_sazonalidade-09",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de frio extremo em Rio Grande do Sul (RS)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de frio extremo (temperatura mínima abaixo de 0 °C) em Rio Grande do Sul concentram-se em: julho (357 registros), junho (199 registros), agosto (141 registros). O estado acumula 740 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "julho",
+      "junho",
+      "agosto",
+      "357"
+    ],
+    "metadados": {
+      "uf": "RS",
+      "tipo": "frio_extremo",
+      "top_meses": [
+        [
+          7,
+          357
+        ],
+        [
+          6,
+          199
+        ],
+        [
+          8,
+          141
+        ]
+      ],
+      "total": 740
+    }
+  },
+  {
+    "id": "C5_sazonalidade-10",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Tocantins (TO)? Considere toda a série 2015–2024.",
+    "gabarito": "Os registros de precipitação extrema (precipitação diária acima de 50 mm) em Tocantins concentram-se em: março (133 registros), fevereiro (129 registros), janeiro (122 registros). O estado acumula 716 registros do fenômeno em 2015–2024.",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "março",
+      "fevereiro",
+      "janeiro",
+      "133"
+    ],
+    "metadados": {
+      "uf": "TO",
+      "tipo": "precipitacao_extrema",
+      "top_meses": [
+        [
+          3,
+          133
+        ],
+        [
+          2,
+          129
+        ],
+        [
+          1,
+          122
+        ]
+      ],
+      "total": 716
+    }
+  },
+  {
+    "id": "C6_multi_hop-01",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Bahia (BA) em 2020, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A431 (CONDE), no município de Conde (BA), registrou o valor mais extremo de precipitação extrema em 2020: 146.4 mm em 2020-05-19. No total, 31 estações do estado registraram o fenômeno nesse ano (94 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A431",
+      "Conde",
+      "146.4"
+    ],
+    "metadados": {
+      "uf": "BA",
+      "tipo": "precipitacao_extrema",
+      "ano": 2020,
+      "estacao": "A431",
+      "municipio": "Conde",
+      "valor": 146.4,
+      "data": "2020-05-19",
+      "n_estacoes": 31
+    }
+  },
+  {
+    "id": "C6_multi_hop-02",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Maranhão (MA) em 2024, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A223 (ALTO PARNAIBA), no município de Alto Parnaíba (MA), registrou o valor mais extremo de calor extremo em 2024: 41.9 °C em 2024-10-05. No total, 1 estações do estado registraram o fenômeno nesse ano (22 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A223",
+      "Alto Parnaíba",
+      "41.9"
+    ],
+    "metadados": {
+      "uf": "MA",
+      "tipo": "calor_extremo",
+      "ano": 2024,
+      "estacao": "A223",
+      "municipio": "Alto Parnaíba",
+      "valor": 41.9,
+      "data": "2024-10-05",
+      "n_estacoes": 1
+    }
+  },
+  {
+    "id": "C6_multi_hop-03",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Bahia (BA) em 2015, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A404 (LUIS EDUARDO MAGALHAES), no município de Luís Eduardo Magalhães (BA), registrou o valor mais extremo de baixa umidade crítica em 2015: 11.0 % em 2015-09-25. No total, 9 estações do estado registraram o fenômeno nesse ano (83 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A404",
+      "Luís Eduardo Magalhães",
+      "11.0"
+    ],
+    "metadados": {
+      "uf": "BA",
+      "tipo": "baixa_umidade",
+      "ano": 2015,
+      "estacao": "A404",
+      "municipio": "Luís Eduardo Magalhães",
+      "valor": 11.0,
+      "data": "2015-09-25",
+      "n_estacoes": 9
+    }
+  },
+  {
+    "id": "C6_multi_hop-04",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Minas Gerais (MG) em 2017, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A506 (MONTES CLAROS), no município de Montes Claros (MG), registrou o valor mais extremo de baixa umidade crítica em 2017: 11.0 % em 2017-10-22. No total, 25 estações do estado registraram o fenômeno nesse ano (81 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A506",
+      "Montes Claros",
+      "11.0"
+    ],
+    "metadados": {
+      "uf": "MG",
+      "tipo": "baixa_umidade",
+      "ano": 2017,
+      "estacao": "A506",
+      "municipio": "Montes Claros",
+      "valor": 11.0,
+      "data": "2017-10-22",
+      "n_estacoes": 25
+    }
+  },
+  {
+    "id": "C6_multi_hop-05",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Mato Grosso (MT) em 2021, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A901 (CUIABA), no município de Cuiabá (MT), registrou o valor mais extremo de baixa umidade crítica em 2021: 11.0 % em 2021-08-17. No total, 4 estações do estado registraram o fenômeno nesse ano (20 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A901",
+      "Cuiabá",
+      "11.0"
+    ],
+    "metadados": {
+      "uf": "MT",
+      "tipo": "baixa_umidade",
+      "ano": 2021,
+      "estacao": "A901",
+      "municipio": "Cuiabá",
+      "valor": 11.0,
+      "data": "2021-08-17",
+      "n_estacoes": 4
+    }
+  },
+  {
+    "id": "C6_multi_hop-06",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Paraná (PR) em 2016, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A835 (MARINGA), no município de Maringá (PR), registrou o valor mais extremo de precipitação extrema em 2016: 119.0 mm em 2016-01-11. No total, 24 estações do estado registraram o fenômeno nesse ano (90 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A835",
+      "Maringá",
+      "119.0"
+    ],
+    "metadados": {
+      "uf": "PR",
+      "tipo": "precipitacao_extrema",
+      "ano": 2016,
+      "estacao": "A835",
+      "municipio": "Maringá",
+      "valor": 119.0,
+      "data": "2016-01-11",
+      "n_estacoes": 24
+    }
+  },
+  {
+    "id": "C6_multi_hop-07",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de frio extremo em Rio Grande do Sul (RS) em 2019, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A831 (QUARAI), no município de Quaraí (RS), registrou o valor mais extremo de frio extremo em 2019: -5.0 °C em 2019-07-06. No total, 32 estações do estado registraram o fenômeno nesse ano (119 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A831",
+      "Quaraí",
+      "-5.0"
+    ],
+    "metadados": {
+      "uf": "RS",
+      "tipo": "frio_extremo",
+      "ano": 2019,
+      "estacao": "A831",
+      "municipio": "Quaraí",
+      "valor": -5.0,
+      "data": "2019-07-06",
+      "n_estacoes": 32
+    }
+  },
+  {
+    "id": "C6_multi_hop-08",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Minas Gerais (MG) em 2020, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A547 (SAO ROMAO), no município de São Romão (MG), registrou o valor mais extremo de calor extremo em 2020: 43.1 °C em 2020-10-08. No total, 22 estações do estado registraram o fenômeno nesse ano (69 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A547",
+      "São Romão",
+      "43.1"
+    ],
+    "metadados": {
+      "uf": "MG",
+      "tipo": "calor_extremo",
+      "ano": 2020,
+      "estacao": "A547",
+      "municipio": "São Romão",
+      "valor": 43.1,
+      "data": "2020-10-08",
+      "n_estacoes": 22
+    }
+  },
+  {
+    "id": "C6_multi_hop-09",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Goiás (GO) em 2018, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A016 (JATAI), no município de Jataí (GO), registrou o valor mais extremo de precipitação extrema em 2018: 137.4 mm em 2018-12-31. No total, 25 estações do estado registraram o fenômeno nesse ano (95 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A016",
+      "Jataí",
+      "137.4"
+    ],
+    "metadados": {
+      "uf": "GO",
+      "tipo": "precipitacao_extrema",
+      "ano": 2018,
+      "estacao": "A016",
+      "municipio": "Jataí",
+      "valor": 137.4,
+      "data": "2018-12-31",
+      "n_estacoes": 25
+    }
+  },
+  {
+    "id": "C6_multi_hop-10",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Minas Gerais (MG) em 2024, em que município ela fica e qual foi o valor?",
+    "gabarito": "A estação A547 (SAO ROMAO), no município de São Romão (MG), registrou o valor mais extremo de calor extremo em 2024: 41.9 °C em 2024-10-09. No total, 13 estações do estado registraram o fenômeno nesse ano (30 registros).",
+    "nota": "Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "A547",
+      "São Romão",
+      "41.9"
+    ],
+    "metadados": {
+      "uf": "MG",
+      "tipo": "calor_extremo",
+      "ano": 2024,
+      "estacao": "A547",
+      "municipio": "São Romão",
+      "valor": 41.9,
+      "data": "2024-10-09",
+      "n_estacoes": 13
+    }
+  },
+  {
+    "id": "C7_nula-01",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de enchentes constam na base para Epitaciolândia (AC) em 2018?",
+    "gabarito": "Nenhum. A base não contém nenhum registro de enchentes.",
+    "nota": "O tipo 'enchente' existe no esquema do grafo, mas nenhum evento desse tipo foi carregado: a fonte que os forneceria (CEMADEN) não foi processada. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não há",
+      "nenhum registro"
+    ],
+    "metadados": {
+      "tipo_ausente": "enchente",
+      "municipio": "Epitaciolândia",
+      "uf": "AC",
+      "ano": 2018
+    }
+  },
+  {
+    "id": "C7_nula-02",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de deslizamentos constam na base para Icaraíma (PR) em 2019?",
+    "gabarito": "Nenhum. A base não contém nenhum registro de deslizamentos.",
+    "nota": "O tipo 'deslizamento' existe no esquema do grafo, mas nenhum evento desse tipo foi carregado: a fonte que os forneceria (CEMADEN) não foi processada. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não há",
+      "nenhum registro"
+    ],
+    "metadados": {
+      "tipo_ausente": "deslizamento",
+      "municipio": "Icaraíma",
+      "uf": "PR",
+      "ano": 2019
+    }
+  },
+  {
+    "id": "C7_nula-03",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de eventos de seca constam na base para Santa Maria (RS) em 2016?",
+    "gabarito": "Nenhum. A base não contém nenhum registro de eventos de seca.",
+    "nota": "O tipo 'seca' existe no esquema do grafo, mas nenhum evento desse tipo foi carregado: a fonte que os forneceria (CEMADEN) não foi processada. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não há",
+      "nenhum registro"
+    ],
+    "metadados": {
+      "tipo_ausente": "seca",
+      "municipio": "Santa Maria",
+      "uf": "RS",
+      "ano": 2016
+    }
+  },
+  {
+    "id": "C7_nula-04",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de episódios de granizo constam na base para Franca (SP) em 2017?",
+    "gabarito": "Nenhum. A base não contém nenhum registro de episódios de granizo.",
+    "nota": "O tipo 'granizo' existe no esquema do grafo, mas nenhum evento desse tipo foi carregado: a fonte que os forneceria (CEMADEN) não foi processada. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não há",
+      "nenhum registro"
+    ],
+    "metadados": {
+      "tipo_ausente": "granizo",
+      "municipio": "Franca",
+      "uf": "SP",
+      "ano": 2017
+    }
+  },
+  {
+    "id": "C7_nula-05",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de vendavais constam na base para Diamantina (MG) em 2018?",
+    "gabarito": "Nenhum. A base não contém nenhum registro de vendavais.",
+    "nota": "O tipo 'vendaval' existe no esquema do grafo, mas nenhum evento desse tipo foi carregado: a fonte que os forneceria (CEMADEN) não foi processada. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "não há",
+      "nenhum registro"
+    ],
+    "metadados": {
+      "tipo_ausente": "vendaval",
+      "municipio": "Diamantina",
+      "uf": "MG",
+      "ano": 2018
+    }
+  },
+  {
+    "id": "C7_nula-06",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com calor extremo (temperatura máxima acima de 40 °C) constam na base para Amazonas (AM) em 2022?",
+    "gabarito": "Nenhum. Não há registro de calor extremo em Amazonas (AM) em 2022 na base.",
+    "nota": "O estado tem registros de outros fenômenos em 2022, ou seja, há cobertura de estação — o fenômeno é que não ocorreu acima do limiar. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "nenhum",
+      "não há"
+    ],
+    "metadados": {
+      "uf": "AM",
+      "tipo": "calor_extremo",
+      "ano": 2022,
+      "total": 0
+    }
+  },
+  {
+    "id": "C7_nula-07",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com frio extremo (temperatura mínima abaixo de 0 °C) constam na base para Paraíba (PB) em 2015?",
+    "gabarito": "Nenhum. Não há registro de frio extremo em Paraíba (PB) em 2015 na base.",
+    "nota": "O estado tem registros de outros fenômenos em 2015, ou seja, há cobertura de estação — o fenômeno é que não ocorreu acima do limiar. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "nenhum",
+      "não há"
+    ],
+    "metadados": {
+      "uf": "PB",
+      "tipo": "frio_extremo",
+      "ano": 2015,
+      "total": 0
+    }
+  },
+  {
+    "id": "C7_nula-08",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com baixa umidade crítica (umidade relativa mínima abaixo de 12%) constam na base para Maranhão (MA) em 2022?",
+    "gabarito": "Nenhum. Não há registro de baixa umidade crítica em Maranhão (MA) em 2022 na base.",
+    "nota": "O estado tem registros de outros fenômenos em 2022, ou seja, há cobertura de estação — o fenômeno é que não ocorreu acima do limiar. Base de referência: eventos extremos derivados das séries horárias das estações automáticas do INMET (2015–2024).",
+    "fatos_chave": [
+      "nenhum",
+      "não há"
+    ],
+    "metadados": {
+      "uf": "MA",
+      "tipo": "baixa_umidade",
+      "ano": 2022,
+      "total": 0
+    }
+  }
+]

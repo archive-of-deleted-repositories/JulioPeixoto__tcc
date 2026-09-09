@@ -1,112 +1,2056 @@
 [
   {
-    "pergunta": "Quais municípios do Rio Grande do Sul registraram mais episódios de precipitação extrema entre 2020 e 2024?",
-    "gabarito": "Os municípios do Rio Grande do Sul com mais episódios de precipitação extrema (precipitação diária ≥ 50 mm) entre 2020 e 2024 são: Santo Augusto (52 episódios), Canela (48 episódios), Passo Fundo (48 episódios), Ibirubá (44 episódios), Santiago (44 episódios), Serafina Corrêa (42 episódios), Tupanciretã (40 episódios), São Luiz Gonzaga (39 episódios), Caçapava do Sul (38 episódios), Cruz Alta (37 episódios). Nota: cobertura baseada nas estações INMET das regiões Sul, Sudeste e Centro-Oeste.",
+    "id": "C1_factual-01",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Bom Jesus (PI) em 2024?",
     "no_rag": {
-      "faithfulness": NaN,
-      "answer_relevancy": 0.8112,
-      "context_recall": NaN,
-      "context_precision": NaN
+      "faithfulness": null,
+      "answer_relevancy": null,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
     },
     "vector_rag": {
       "faithfulness": 1.0,
-      "answer_relevancy": 0.8126,
+      "answer_relevancy": 0.9178,
+      "answer_correctness": 0.0,
       "context_recall": 0.0,
-      "context_precision": 0.0
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.6667
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9149,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C1_factual-02",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Oeiras (PI) em 2023?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7785,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9366,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8844,
+      "answer_correctness": 0.5,
+      "context_recall": 0.5,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.3333
+    }
+  },
+  {
+    "id": "C1_factual-03",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Patos (PB) em 2017?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8787,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8666,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.9,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9341,
+      "answer_correctness": 0.0,
+      "context_recall": 0.5,
+      "context_precision": 0.9677,
+      "cobertura_fatos": 0.3333
+    }
+  },
+  {
+    "id": "C1_factual-04",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de frio extremo (temperatura mínima abaixo de 0 °C) em São Joaquim (SC) em 2016?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8857,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9375,
+      "answer_correctness": 0.0,
+      "context_recall": 0.5,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9366,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C1_factual-05",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Urubici (SC) em 2017?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8878,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9482,
+      "answer_correctness": 0.5,
+      "context_recall": 0.5,
+      "context_precision": 0.8,
+      "cobertura_fatos": 0.6667
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9358,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.9565,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C1_factual-06",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de chuva muito forte (precipitação diária acima de 100 mm) em Campina da Lagoa (PR) em 2018?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8292,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.6667
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.846,
+      "answer_correctness": 0.3333,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.6667
     },
     "graph_rag": {
       "faithfulness": 0.0,
-      "answer_relevancy": 0.899,
-      "context_recall": 0.0,
-      "context_precision": 1.0
+      "answer_relevancy": 0.8288,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.6667,
+      "context_precision": 0.5385,
+      "cobertura_fatos": 0.6667
     }
   },
   {
-    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40°C) em Mato Grosso em 2023?",
-    "gabarito": "Sim. Foram registrados 99 episódios de calor extremo (temperatura máxima ≥ 40°C) em Mato Grosso em 2023, com pico em Cuiabá (43.3°C em 2023-10-19). Municípios afetados incluem: Cuiabá, Porto Estrela, Rondonópolis. Os registros concentram-se entre outubro e dezembro, período de seca no cerrado.",
+    "id": "C1_factual-07",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Teutônia (RS) em 2015?",
     "no_rag": {
-      "faithfulness": NaN,
-      "answer_relevancy": 0.8284,
-      "context_recall": NaN,
-      "context_precision": NaN
+      "faithfulness": null,
+      "answer_relevancy": 0.8801,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.6667
     },
     "vector_rag": {
-      "faithfulness": 1.0,
-      "answer_relevancy": 0.8949,
-      "context_recall": 0.0,
-      "context_precision": 1.0
-    },
-    "graph_rag": {
-      "faithfulness": 1.0,
-      "answer_relevancy": 0.8926,
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.2882,
+      "answer_correctness": 0.0,
       "context_recall": 1.0,
-      "context_precision": 1.0
-    }
-  },
-  {
-    "pergunta": "Quais municípios de São Paulo tiveram chuva muito forte (acima de 100 mm em um dia) em 2022?",
-    "gabarito": "Foram registrados 11 episódios de chuva muito forte (≥ 100 mm/dia) em São Paulo em 2022. Os maiores volumes foram: Tupã (208.0 mm em 2022-01-30), São Carlos (175.0 mm em 2022-12-28), Dracena (133.2 mm em 2022-01-30), Bertioga (128.2 mm em 2022-03-31), Bertioga (120.2 mm em 2022-11-01). Os eventos concentram-se no verão (janeiro) e primavera (outubro-dezembro).",
-    "no_rag": {
-      "faithfulness": NaN,
-      "answer_relevancy": 0.7317,
-      "context_recall": NaN,
-      "context_precision": NaN
-    },
-    "vector_rag": {
-      "faithfulness": 1.0,
-      "answer_relevancy": 0.7311,
-      "context_recall": 0.0,
-      "context_precision": 0.0
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.3333
     },
     "graph_rag": {
       "faithfulness": 1.0,
+      "answer_relevancy": 0.8261,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.6667,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C1_factual-08",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de baixa umidade crítica (umidade relativa mínima abaixo de 12%) em Governador Valadares (MG) em 2021?",
+    "no_rag": {
+      "faithfulness": null,
       "answer_relevancy": 0.8374,
-      "context_recall": 1.0,
-      "context_precision": 1.0
-    }
-  },
-  {
-    "pergunta": "Em quais meses ocorrem mais registros de frio extremo (temperatura mínima abaixo de 0°C) no Sul do Brasil?",
-    "gabarito": "Os registros de frio extremo (temperatura mínima < 0°C) no Sul do Brasil concentram-se principalmente em: agosto (75 registros), julho (48 registros), junho (40 registros). Os municípios com maior frequência incluem: Urubici, Quaraí, General Carneiro, São Mateus do Sul, Major Vieira. O fenômeno é mais intenso em municípios serranos de RS, SC e PR durante o inverno austral.",
-    "no_rag": {
-      "faithfulness": NaN,
-      "answer_relevancy": 0.8149,
-      "context_recall": NaN,
-      "context_precision": NaN
-    },
-    "vector_rag": {
-      "faithfulness": 1.0,
-      "answer_relevancy": 0.8013,
-      "context_recall": 0.0,
-      "context_precision": 0.5
-    },
-    "graph_rag": {
-      "faithfulness": 1.0,
-      "answer_relevancy": 0.878,
-      "context_recall": 1.0,
-      "context_precision": 1.0
-    }
-  },
-  {
-    "pergunta": "Quais estados brasileiros registraram mais eventos de baixa umidade crítica (abaixo de 12%) nos últimos 3 anos?",
-    "gabarito": "Os municípios com mais registros de baixa umidade crítica (< 12%) nos últimos 3 anos são: Pão de Açúcar (AL, 46 eventos), Cotriguaçu (MT, 42 eventos), Urubici (SC, 35 eventos), Jaguaribe (CE, 31 eventos), Barretos (SP, 30 eventos). Por estado, os mais afetados são: MT (61 eventos), SP (49 eventos), AL (46 eventos), GO (44 eventos), SC (35 eventos). O fenômeno ocorre principalmente no período de estiagem (maio a outubro).",
-    "no_rag": {
-      "faithfulness": NaN,
-      "answer_relevancy": 0.844,
-      "context_recall": NaN,
-      "context_precision": NaN
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.6667
     },
     "vector_rag": {
       "faithfulness": 0.0,
-      "answer_relevancy": 0.7353,
-      "context_recall": 0.0,
-      "context_precision": 0.0
+      "answer_relevancy": 0.2868,
+      "answer_correctness": 0.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8396,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.6667,
+      "context_precision": 0.0741,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C1_factual-09",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de frio extremo (temperatura mínima abaixo de 0 °C) em Ipiaú (BA) em 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7934,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.6667
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8227,
+      "answer_correctness": 0.3333,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.6667
     },
     "graph_rag": {
       "faithfulness": 1.0,
-      "answer_relevancy": 0.8221,
+      "answer_relevancy": 0.3299,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": 0.3333
+    }
+  },
+  {
+    "id": "C1_factual-10",
+    "categoria": "C1_factual",
+    "pergunta": "Houve registros de calor extremo (temperatura máxima acima de 40 °C) em Rondon do Pará (PA) em 2019?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8347,
+      "answer_correctness": 0.3333,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.6667
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.2824,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7966,
+      "answer_correctness": 0.3333,
       "context_recall": 1.0,
-      "context_precision": 1.0
+      "context_precision": 0.625,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-01",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de São Paulo (SP) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7215,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8407,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.8883,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.1471,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-02",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Rio Grande do Sul (RS) com mais registros de frio extremo entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7842,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7916,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.7,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.9078,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.1786,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-03",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de São Paulo (SP) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7332,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8335,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.7,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.8743,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.2222,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-04",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Goiás (GO) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7807,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.1667
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8411,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.1667
+    },
+    "graph_rag": {
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.8655,
+      "answer_correctness": 0.1429,
+      "context_recall": 0.1667,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    }
+  },
+  {
+    "id": "C2_agregacao-05",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Minas Gerais (MG) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7529,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8356,
+      "answer_correctness": 0.1429,
+      "context_recall": 0.1667,
+      "context_precision": 0.6,
+      "cobertura_fatos": 0.1667
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.9159,
+      "answer_correctness": 0.8571,
+      "context_recall": 1.0,
+      "context_precision": 0.8333,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-06",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Pará (PA) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7375,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.5145,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8341,
+      "answer_correctness": 0.6667,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-07",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Santa Catarina (SC) com mais registros de chuva muito forte entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6895,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7782,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.8994,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.2609,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-08",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Mato Grosso (MT) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7742,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8738,
+      "answer_correctness": 0.0,
+      "context_recall": 0.3333,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9181,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.2778,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-09",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Paraíba (PB) com mais registros de precipitação extrema entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7756,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8698,
+      "answer_correctness": 0.0,
+      "context_recall": 0.1429,
+      "context_precision": 0.6,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 0.8333,
+      "answer_relevancy": 0.9158,
+      "answer_correctness": 0.8571,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C2_agregacao-10",
+    "categoria": "C2_agregacao",
+    "pergunta": "Quais foram os 5 municípios de Piauí (PI) com mais registros de baixa umidade crítica entre 2020 e 2024?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7969,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.846,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8746,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.3684,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C3_comp_temporal-01",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Novo Repartimento (PA), houve mais registros de baixa umidade crítica em 2020 ou em 2022? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8227,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7949,
+      "answer_correctness": 0.0,
+      "context_recall": 0.25,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9101,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-02",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Patos (PB), houve mais registros de baixa umidade crítica em 2018 ou em 2020? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8389,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8672,
+      "answer_correctness": 0.25,
+      "context_recall": 0.3333,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.93,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.3333,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-03",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Alto Paraíso de Goiás (GO), houve mais registros de baixa umidade crítica em 2021 ou em 2023? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.844,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8121,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9168,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-04",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Buritirama (BA), houve mais registros de baixa umidade crítica em 2019 ou em 2023? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.842,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8398,
+      "answer_correctness": 0.25,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.923,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-05",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Camamu (BA), houve mais registros de baixa umidade crítica em 2020 ou em 2022? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8597,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8567,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.9,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9296,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-06",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Pão de Açúcar (AL), houve mais registros de baixa umidade crítica em 2023 ou em 2024? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7884,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8118,
+      "answer_correctness": 0.0,
+      "context_recall": 0.25,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9164,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-07",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Planalto (PR), houve mais registros de baixa umidade crítica em 2019 ou em 2020? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8464,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 0.8,
+      "answer_relevancy": 0.8908,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.0,
+      "context_precision": 0.6,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9183,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-08",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Palmeira dos Índios (AL), houve mais registros de baixa umidade crítica em 2016 ou em 2017? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8691,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8616,
+      "answer_correctness": 0.0,
+      "context_recall": 0.25,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9265,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-09",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Touros (RN), houve mais registros de baixa umidade crítica em 2015 ou em 2018? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8259,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.25
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7244,
+      "answer_correctness": 0.0,
+      "context_recall": 0.25,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9424,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C3_comp_temporal-10",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Piracicaba (SP), houve mais registros de baixa umidade crítica em 2019 ou em 2020? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8368,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8292,
+      "answer_correctness": 0.5,
+      "context_recall": 0.25,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9066,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-11",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Nova Maringá (MT), houve mais registros de calor extremo em 2020 ou em 2024? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8088,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.818,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9002,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C3_comp_temporal-12",
+    "categoria": "C3_comp_temporal",
+    "pergunta": "Em Gilbués (PI), houve mais registros de calor extremo em 2018 ou em 2019? Informe a quantidade em cada ano.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8232,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8629,
+      "answer_correctness": 0.3333,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9273,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.5
+    }
+  },
+  {
+    "id": "C4_comp_geografica-01",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2020, qual estado registrou mais dias de precipitação extrema: Bahia (BA) ou Espírito Santo (ES)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6749,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9167,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.6,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9184,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-02",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2016, qual estado registrou mais dias de precipitação extrema: Acre (AC) ou Paraíba (PB)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6423,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8755,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9105,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-03",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2024, qual estado registrou mais dias de precipitação extrema: Goiás (GO) ou Tocantins (TO)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7712,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8376,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9214,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-04",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2023, qual estado registrou mais dias de calor extremo: Goiás (GO) ou Rio Grande do Sul (RS)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8566,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 0.3333,
+      "answer_relevancy": 0.8705,
+      "answer_correctness": 0.5,
+      "context_recall": 0.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9068,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-05",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2017, qual estado registrou mais dias de precipitação extrema: Mato Grosso do Sul (MS) ou Tocantins (TO)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6424,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8967,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.912,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-06",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2022, qual estado registrou mais dias de precipitação extrema: Pará (PA) ou Paraná (PR)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6708,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 0.25,
+      "answer_relevancy": 0.8727,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8929,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-07",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2016, qual estado registrou mais dias de precipitação extrema: Paraíba (PB) ou Paraná (PR)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.6776,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8931,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9105,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-08",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2024, qual estado registrou mais dias de calor extremo: Mato Grosso (MT) ou Pará (PA)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.4312,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.7659,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9068,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-09",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2020, qual estado registrou mais dias de precipitação extrema: Pará (PA) ou Paraná (PR)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.678,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.9046,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.3333
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9145,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C4_comp_geografica-10",
+    "categoria": "C4_comp_geografica",
+    "pergunta": "Em 2019, qual estado registrou mais dias de baixa umidade crítica: Mato Grosso do Sul (MS) ou Minas Gerais (MG)? Informe os números.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8798,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.2217,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9247,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C5_sazonalidade-01",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Santa Catarina (SC)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.9059,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9119,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8542,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.3333,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C5_sazonalidade-02",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em São Paulo (SP)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8967,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.25
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8424,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.5,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8261,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.3846,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C5_sazonalidade-03",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Piauí (PI)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8775,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8525,
+      "answer_correctness": 0.375,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.75
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8578,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.3077,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C5_sazonalidade-04",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Amazonas (AM)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8513,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.75
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8239,
+      "answer_correctness": 0.5,
+      "context_recall": 0.2857,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8278,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.3,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C5_sazonalidade-05",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de chuva muito forte em Pará (PA)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7532,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.5
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7315,
+      "answer_correctness": 0.5,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8069,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.5714,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C5_sazonalidade-06",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Santa Catarina (SC)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8514,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.75
+    },
+    "vector_rag": {
+      "faithfulness": 0.8571,
+      "answer_relevancy": 0.8992,
+      "answer_correctness": 0.2857,
+      "context_recall": 0.0,
+      "context_precision": 0.7,
+      "cobertura_fatos": 0.25
+    },
+    "graph_rag": {
+      "faithfulness": 0.6667,
+      "answer_relevancy": 0.9121,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.4375,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C5_sazonalidade-07",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de baixa umidade crítica em Goiás (GO)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8694,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.75
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7677,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.8,
+      "cobertura_fatos": 0.75
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8858,
+      "answer_correctness": 0.5714,
+      "context_recall": 1.0,
+      "context_precision": 0.125,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C5_sazonalidade-08",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Ceará (CE)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8774,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.25
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.7621,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8485,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.3529,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C5_sazonalidade-09",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de frio extremo em Rio Grande do Sul (RS)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8583,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.75
+    },
+    "vector_rag": {
+      "faithfulness": 0.6667,
+      "answer_relevancy": 0.792,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.7,
+      "cobertura_fatos": 0.5
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8282,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.25,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C5_sazonalidade-10",
+    "categoria": "C5_sazonalidade",
+    "pergunta": "Em quais meses do ano se concentram os registros de precipitação extrema em Tocantins (TO)? Considere toda a série 2015–2024.",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8396,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.25
+    },
+    "vector_rag": {
+      "faithfulness": 0.8571,
+      "answer_relevancy": 0.8704,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 1.0,
+      "cobertura_fatos": 0.75
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8489,
+      "answer_correctness": 0.75,
+      "context_recall": 1.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.75
+    }
+  },
+  {
+    "id": "C6_multi_hop-01",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Bahia (BA) em 2020, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8151,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8517,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.3,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8916,
+      "answer_correctness": 0.6,
+      "context_recall": 0.5,
+      "context_precision": 0.2083,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-02",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Maranhão (MA) em 2024, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7171,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.2533,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8752,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.25,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-03",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Bahia (BA) em 2015, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7443,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.6,
+      "answer_relevancy": 0.8342,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9032,
+      "answer_correctness": 0.0,
+      "context_recall": 0.6667,
+      "context_precision": 0.2609,
+      "cobertura_fatos": 0.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-04",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Minas Gerais (MG) em 2017, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7588,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.6667,
+      "answer_relevancy": 0.8576,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9031,
+      "answer_correctness": 0.0,
+      "context_recall": 0.6667,
+      "context_precision": 0.625,
+      "cobertura_fatos": 0.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-05",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de baixa umidade crítica em Mato Grosso (MT) em 2021, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8085,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.5581,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.9061,
+      "answer_correctness": 0.0,
+      "context_recall": 0.6667,
+      "context_precision": 0.625,
+      "cobertura_fatos": 0.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-06",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Paraná (PR) em 2016, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7919,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8777,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.3,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8969,
+      "answer_correctness": 0.6667,
+      "context_recall": 0.6667,
+      "context_precision": 0.625,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C6_multi_hop-07",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de frio extremo em Rio Grande do Sul (RS) em 2019, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8324,
+      "answer_correctness": 0.25,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.3333
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8546,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.1,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8775,
+      "answer_correctness": 0.5,
+      "context_recall": 0.6667,
+      "context_precision": 0.087,
+      "cobertura_fatos": 0.6667
+    }
+  },
+  {
+    "id": "C6_multi_hop-08",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Minas Gerais (MG) em 2020, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8612,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8512,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8814,
+      "answer_correctness": 0.5,
+      "context_recall": 0.6667,
+      "context_precision": 0.0455,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-09",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de precipitação extrema em Goiás (GO) em 2018, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8368,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.9031,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8977,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.4,
+      "cobertura_fatos": 0.0
+    }
+  },
+  {
+    "id": "C6_multi_hop-10",
+    "categoria": "C6_multi_hop",
+    "pergunta": "Qual estação do INMET registrou o valor mais extremo de calor extremo em Minas Gerais (MG) em 2024, em que município ela fica e qual foi o valor?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7728,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": 0.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.6667,
+      "answer_relevancy": 0.8575,
+      "answer_correctness": 0.0,
+      "context_recall": 0.0,
+      "context_precision": 0.2,
+      "cobertura_fatos": 0.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.919,
+      "answer_correctness": 0.5,
+      "context_recall": 0.6667,
+      "context_precision": 0.24,
+      "cobertura_fatos": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-01",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de enchentes constam na base para Epitaciolândia (AC) em 2018?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8593,
+      "answer_correctness": 1.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8594,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.3,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8541,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-02",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de deslizamentos constam na base para Icaraíma (PR) em 2019?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8742,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.341,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8368,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-03",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de eventos de seca constam na base para Santa Maria (RS) em 2016?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8481,
+      "answer_correctness": 1.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8507,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8426,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-04",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de episódios de granizo constam na base para Franca (SP) em 2017?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8557,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8458,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8503,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-05",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos registros de vendavais constam na base para Diamantina (MG) em 2018?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8375,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.431,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 1.0,
+      "answer_relevancy": 0.8065,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-06",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com calor extremo (temperatura máxima acima de 40 °C) constam na base para Amazonas (AM) em 2022?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.7825,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.7788,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8413,
+      "answer_correctness": 1.0,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-07",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com frio extremo (temperatura mínima abaixo de 0 °C) constam na base para Paraíba (PB) em 2015?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.8059,
+      "answer_correctness": 1.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8457,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8524,
+      "answer_correctness": 0.5,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    }
+  },
+  {
+    "id": "C7_nula-08",
+    "categoria": "C7_nula",
+    "pergunta": "Quantos dias com baixa umidade crítica (umidade relativa mínima abaixo de 12%) constam na base para Maranhão (MA) em 2022?",
+    "no_rag": {
+      "faithfulness": null,
+      "answer_relevancy": 0.808,
+      "answer_correctness": 0.0,
+      "context_recall": null,
+      "context_precision": null,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "vector_rag": {
+      "faithfulness": 0.0,
+      "answer_relevancy": 0.8256,
+      "answer_correctness": 1.0,
+      "context_recall": 0.3333,
+      "context_precision": 0.0,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
+    },
+    "graph_rag": {
+      "faithfulness": 0.5,
+      "answer_relevancy": 0.8463,
+      "answer_correctness": 0.6667,
+      "context_recall": 1.0,
+      "context_precision": 0.6667,
+      "cobertura_fatos": null,
+      "abstencao_correta": 1.0
     }
   }
 ]

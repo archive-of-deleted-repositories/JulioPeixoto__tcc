@@ -74,10 +74,11 @@ app.post("/avaliar", async (c) => {
 
 app.post("/indexar", async (c) => {
   const { runQuery } = await import("../graph/client.ts");
-  const { indexarEventos } = await import("../baseline/vectorRag.ts");
+  const { indexarEventos, LABEL_INDEXADO } = await import("../baseline/vectorRag.ts");
 
-  // Remove embeddings existentes para evitar duplicatas
-  await runQuery(`MATCH (n:Evento) WHERE n.embedding IS NOT NULL REMOVE n.embedding`);
+  // Apaga o corpus anterior por inteiro. Remover só a propriedade `embedding`
+  // deixava os nós para trás e cada reindexação duplicava o corpus.
+  await runQuery(`MATCH (n:${LABEL_INDEXADO}) DETACH DELETE n`);
 
   const records = await runQuery(`
     MATCH (m:Municipio)-[:SOFREU]->(e:Evento)-[:CAUSADO_POR]->(f:Fenomeno)

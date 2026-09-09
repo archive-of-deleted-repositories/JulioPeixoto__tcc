@@ -98,7 +98,10 @@ A infraestrutura de filtro temporal existe e funciona. Falta usá-la **duas veze
 
 ---
 
-## 3. O que impede hoje — três pontos concretos
+## 3. O que impedia — três pontos, todos corrigidos
+
+> **Status:** implementado. As três correções desta seção estão no código; o
+> benchmark que as exercita está descrito em `BENCHMARK.md`.
 
 ### (a) O extrator de entidades só extrai UM período
 
@@ -181,12 +184,11 @@ Em `estacoes_com_municipio.json`, **190 das 774 estações** estão com `CD_SITU
 
 ---
 
-## 5. Plano de implementação sugerido
+## 5. O que foi implementado
 
-1. `src/app/pipeline/entityExtractor.ts` — schema de múltiplos períodos (`periodos[]` com rótulo), com prompt instruindo o modelo a emitir duas janelas quando a pergunta for comparativa.
-2. `src/app/graph/queries.ts` — adicionar `comparativoTemporal` (por município) e `comparativoTemporalPorEstado`, ambas agregando por `e.data.year` e com filtro de estações comuns.
-3. `src/app/graph/retriever.ts` — iterar sobre `periodos`; corrigir a janela padrão para ancorar em `max(e.data)` do grafo.
-4. `src/app/pipeline/contextBuilder.ts` — formatar o resultado como tabela ano × fenômeno, para o LLM não precisar recontar linha a linha.
-5. `src/evaluation/` — acrescentar uma 6ª pergunta de avaliação, ex.: *"Como foram os eventos extremos em Cuiabá em 2018 comparado a 2020?"*, com gabarito derivado via Cypher em `derive_gabaritos.py`.
-
-Expectativa: o GraphRAG deve abrir vantagem ainda maior que nas 5 perguntas atuais, porque a consulta exige agregação e contraste — duas operações fora do alcance da recuperação por similaridade.
+1. `src/app/pipeline/entityExtractor.ts` — `periodos[]` (janelas com rótulo) no lugar dos escalares, mais as flags `comparativa` e `intencao`. O prompt distingue **intervalo contínuo** ("entre 2020 e 2024" = uma janela) de **épocas contrastadas** ("2018 ou 2020" = duas janelas) — sem essa distinção, um intervalo virava comparação e o roteamento errava.
+2. `src/app/graph/queries.ts` — `comparativoTemporalMunicipio`, `comparativoTemporalEstado` (agregam por `e.data.year`), `coberturaEstacoesPorAno`, `sazonalidadePorEstado`, `extremoPorEstado`, `contagemPorEstado`, `contagemPorMunicipio`.
+3. `src/app/graph/retriever.ts` — itera sobre as janelas; janela padrão ancorada em `min/max(e.data)` do grafo; preenche com zero os anos sem registro (senão "0 em 2022" nunca aparece no contexto, porque `count` não devolve linha onde não há evento); descarta de `municipios` nomes que são estados; não puxa o estado inteiro quando o município já respondeu.
+4. `src/app/graph/client.ts` — converte `Integer`/`Date` do driver Neo4j para valores nativos. Sem isso o contexto ia para o LLM com `{"low":227,"high":0}` no lugar de `227`.
+5. `src/app/pipeline/contextBuilder.ts` — seções com títulos em português e colunas ordenadas, para o gerador não tratar uma contagem agregada como lista de eventos.
+6. `src/evaluation/build_benchmark.py` — 70 perguntas em 7 categorias, 12 delas de comparação temporal, com gabaritos derivados do JSONL de origem. Ver `BENCHMARK.md`.

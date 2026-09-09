@@ -29,6 +29,23 @@ def run(tx, cypher: str, params: dict = None):
     tx.run(cypher, params or {})
 
 
+BATCH = 1000
+
+
+def carregar_em_lotes(cypher: str, itens: list[dict], desc: str) -> None:
+    """Executa `cypher` com UNWIND sobre lotes de `itens`.
+
+    A versão anterior abria uma transação por registro — 33 mil round-trips só
+    para os eventos, o que tornava a recarga do grafo inviável na prática. Com
+    UNWIND em lotes de 1000 a carga inteira cai para poucos minutos.
+    O `cypher` recebe a lista no parâmetro $lote.
+    """
+    for i in tqdm(range(0, len(itens), BATCH), desc=desc):
+        lote = itens[i : i + BATCH]
+        with driver.session() as s:
+            s.execute_write(run, cypher, {"lote": lote})
+
+
 # ──────────────────────────────────────────────
 # Índices e constraints
 # ──────────────────────────────────────────────
@@ -68,52 +85,57 @@ def carregar_estados():
 def carregar_municipios():
     import pandas as pd
     df = pd.read_csv(PROCESSED / "municipios_centroides.csv")
-    with driver.session() as s:
-        for _, row in tqdm(df.iterrows(), total=len(df), desc="Municípios"):
-            s.execute_write(
-                run,
-                """
-                MERGE (m:Municipio {id: $id})
-                SET m.nome = $nome, m.uf = $uf, m.lat = $lat, m.lon = $lon
-                WITH m
-                MATCH (e:Estado {sigla: $uf})
-                MERGE (m)-[:PERTENCE_A]->(e)
-                """,
-                {
-                    "id": int(row["id"]),
-                    "nome": row["nome"],
-                    "uf": row["uf"],
-                    "lat": float(row["lat"]) if row["lat"] == row["lat"] else None,
-                    "lon": float(row["lon"]) if row["lon"] == row["lon"] else None,
-                },
-            )
-    print(f"  {len(df)} municípios")
+    itens = [
+        {
+            "id": int(row["id"]),
+            "nome": row["nome"],
+            "uf": row["uf"],
+            "lat": float(row["lat"]) if row["lat"] == row["lat"] else None,
+            "lon": float(row["lon"]) if row["lon"] == row["lon"] else None,
+        }
+        for _, row in df.iterrows()
+    ]
+    carregar_em_lotes(
+        """
+        UNWIND $lote AS item
+        MERGE (m:Municipio {id: item.id})
+        SET m.nome = item.nome, m.uf = item.uf, m.lat = item.lat, m.lon = item.lon
+        WITH m, item
+        MATCH (e:Estado {sigla: item.uf})
+        MERGE (m)-[:PERTENCE_A]->(e)
+        """,
+        itens,
+        "Municípios",
+    )
+    print(f"  {len(itens)} municípios")
 
 
 def carregar_estacoes():
     estacoes = json.loads((PROCESSED / "estacoes_com_municipio.json").read_text(encoding="utf-8"))
-    with driver.session() as s:
-        for e in tqdm(estacoes, desc="Estações"):
-            codigo = e.get("CD_ESTACAO") or e.get("codigo", "")
-            s.execute_write(
-                run,
-                """
-                MERGE (s:Estacao {codigo: $codigo})
-                SET s.nome = $nome, s.lat = $lat, s.lon = $lon, s.tipo = $tipo
-                WITH s
-                MATCH (m:Municipio {id: $mun_id})
-                MERGE (s)-[:PERTENCE_A]->(m)
-                """,
-                {
-                    "codigo": codigo,
-                    "nome": e.get("DC_NOME", ""),
-                    "lat": float(e.get("VL_LATITUDE", 0) or 0),
-                    "lon": float(e.get("VL_LONGITUDE", 0) or 0),
-                    "tipo": e.get("TP_ESTACAO", ""),
-                    "mun_id": e.get("municipio_id"),
-                },
-            )
-    print(f"  {len(estacoes)} estações")
+    itens = [
+        {
+            "codigo": e.get("CD_ESTACAO") or e.get("codigo", ""),
+            "nome": e.get("DC_NOME", ""),
+            "lat": float(e.get("VL_LATITUDE", 0) or 0),
+            "lon": float(e.get("VL_LONGITUDE", 0) or 0),
+            "tipo": e.get("TP_ESTACAO", ""),
+            "mun_id": e.get("municipio_id"),
+        }
+        for e in estacoes
+    ]
+    carregar_em_lotes(
+        """
+        UNWIND $lote AS item
+        MERGE (s:Estacao {codigo: item.codigo})
+        SET s.nome = item.nome, s.lat = item.lat, s.lon = item.lon, s.tipo = item.tipo
+        WITH s, item
+        MATCH (m:Municipio {id: item.mun_id})
+        MERGE (s)-[:PERTENCE_A]->(m)
+        """,
+        itens,
+        "Estações",
+    )
+    print(f"  {len(itens)} estações")
 
 
 # ──────────────────────────────────────────────
@@ -153,39 +175,39 @@ def carregar_eventos_inmet():
         print("  eventos_extremos_inmet.jsonl não encontrado, pulando")
         return
     linhas = path.read_text(encoding="utf-8").splitlines()
-    with driver.session() as s:
-        for i, linha in enumerate(tqdm(linhas, desc="Eventos INMET")):
-            ev = json.loads(linha)
-            ev_id = f"INMET_{ev['estacao']}_{ev['data']}_{ev['tipo']}"
-            fenomeno_nome = FENOMENOS.get(ev["tipo"], "Outro")
-            s.execute_write(
-                run,
-                """
-                MERGE (evento:Evento {id: $id})
-                SET evento.data = date($data),
-                    evento.tipo = $tipo,
-                    evento.valor = $valor,
-                    evento.fonte = 'INMET'
-                WITH evento
-                MATCH (f:Fenomeno {nome: $fenomeno})
-                MERGE (evento)-[:CAUSADO_POR]->(f)
-                WITH evento
-                MATCH (s:Estacao {codigo: $estacao})
-                MERGE (s)-[:REGISTROU]->(evento)
-                WITH evento, s
-                MATCH (s)-[:PERTENCE_A]->(m:Municipio)
-                MERGE (m)-[:SOFREU]->(evento)
-                """,
-                {
-                    "id": ev_id,
-                    "data": ev["data"],
-                    "tipo": ev["tipo"],
-                    "valor": ev["valor"],
-                    "fenomeno": fenomeno_nome,
-                    "estacao": ev["estacao"],
-                },
-            )
-    print(f"  {len(linhas)} eventos INMET")
+    itens = []
+    for linha in linhas:
+        ev = json.loads(linha)
+        itens.append({
+            "id": f"INMET_{ev['estacao']}_{ev['data']}_{ev['tipo']}",
+            "data": ev["data"],
+            "tipo": ev["tipo"],
+            "valor": ev["valor"],
+            "fenomeno": FENOMENOS.get(ev["tipo"], "Outro"),
+            "estacao": ev["estacao"],
+        })
+    carregar_em_lotes(
+        """
+        UNWIND $lote AS item
+        MERGE (evento:Evento {id: item.id})
+        SET evento.data  = date(item.data),
+            evento.tipo  = item.tipo,
+            evento.valor = item.valor,
+            evento.fonte = 'INMET'
+        WITH evento, item
+        MATCH (f:Fenomeno {nome: item.fenomeno})
+        MERGE (evento)-[:CAUSADO_POR]->(f)
+        WITH evento, item
+        MATCH (s:Estacao {codigo: item.estacao})
+        MERGE (s)-[:REGISTROU]->(evento)
+        WITH evento, s
+        MATCH (s)-[:PERTENCE_A]->(m:Municipio)
+        MERGE (m)-[:SOFREU]->(evento)
+        """,
+        itens,
+        "Eventos INMET",
+    )
+    print(f"  {len(itens)} eventos INMET")
 
 
 def carregar_eventos_cemaden():

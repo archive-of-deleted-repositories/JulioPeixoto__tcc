@@ -1,4 +1,17 @@
 """
+OBSOLETO — mantido apenas para reprodutibilidade dos resultados antigos (5 perguntas).
+
+Use `src/evaluation/build_benchmark.py`, que gera 70 perguntas em 7 categorias.
+
+Por que foi substituído: este script deriva os gabaritos executando Cypher no
+MESMO Neo4j que o pipeline GraphRAG consulta. O gabarito passa a ser, por
+construção, aquilo que o GraphRAG recupera — o que infla `context_recall` desse
+modo e não mede capacidade real. O benchmark novo deriva o ground truth do JSONL
+de origem (data/processed/eventos_extremos_inmet.jsonl), independente do motor de
+recuperação avaliado. Ver BENCHMARK.md, seção 1.1.
+
+────────────────────────────────────────────────────────────────────────────────
+
 Deriva gabaritos corretos a partir dos dados reais no Neo4j.
 
 Executa as mesmas queries usadas pelo pipeline GraphRAG e formata os resultados

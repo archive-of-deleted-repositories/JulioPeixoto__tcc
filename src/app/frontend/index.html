@@ -203,7 +203,9 @@
       function renderMeta(meta) {
         const { entidades, num_registros } = meta;
         const fmt = (arr) => arr.length ? arr.join(', ') : '—';
-        const periodo = [entidades.periodo_inicio, entidades.periodo_fim].filter(Boolean).join(' → ') || '—';
+        const periodo = (entidades.periodos ?? []).length
+          ? entidades.periodos.map(p => `${p.rotulo} (${p.inicio} → ${p.fim})`).join('  ·  ')
+          : '—';
         metaDetails.querySelector('.meta-body').innerHTML = `
           <div class="meta-row"><span class="meta-label">registros</span><span class="meta-value">${num_registros}</span></div>
           <div class="meta-row"><span class="meta-label">municípios</span><span class="meta-value">${fmt(entidades.municipios)}</span></div>

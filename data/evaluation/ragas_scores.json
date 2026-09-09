@@ -1,20 +1,413 @@
 {
-  "no_rag": {
-    "faithfulness": NaN,
-    "answer_relevancy": 0.806,
-    "context_recall": NaN,
-    "context_precision": NaN
+  "config": {
+    "modelo_juiz": "gpt-4o-mini",
+    "n_perguntas": 70,
+    "bootstrap": 10000,
+    "seed": 42
   },
-  "vector_rag": {
-    "faithfulness": 0.8,
-    "answer_relevancy": 0.795,
-    "context_recall": 0.0,
-    "context_precision": 0.3
+  "geral": {
+    "no_rag": {
+      "faithfulness": {
+        "media": null,
+        "ic95": null,
+        "n": 0
+      },
+      "answer_relevancy": {
+        "media": 0.8011,
+        "ic95": [
+          0.7817,
+          0.8186
+        ],
+        "n": 69
+      },
+      "answer_correctness": {
+        "media": 0.0512,
+        "ic95": [
+          0.0083,
+          0.1048
+        ],
+        "n": 70
+      },
+      "context_recall": {
+        "media": null,
+        "ic95": null,
+        "n": 0
+      },
+      "context_precision": {
+        "media": null,
+        "ic95": null,
+        "n": 0
+      },
+      "cobertura_fatos": {
+        "media": 0.3118,
+        "ic95": [
+          0.2487,
+          0.3737
+        ],
+        "n": 62
+      },
+      "abstencao_correta": {
+        "media": 1.0,
+        "ic95": [
+          1.0,
+          1.0
+        ],
+        "n": 8
+      }
+    },
+    "vector_rag": {
+      "faithfulness": {
+        "media": 0.6885,
+        "ic95": [
+          0.591,
+          0.7838
+        ],
+        "n": 70
+      },
+      "answer_relevancy": {
+        "media": 0.7845,
+        "ic95": [
+          0.7402,
+          0.822
+        ],
+        "n": 70
+      },
+      "answer_correctness": {
+        "media": 0.1853,
+        "ic95": [
+          0.1142,
+          0.2631
+        ],
+        "n": 70
+      },
+      "context_recall": {
+        "media": 0.2121,
+        "ic95": [
+          0.1311,
+          0.3009
+        ],
+        "n": 70
+      },
+      "context_precision": {
+        "media": 0.4443,
+        "ic95": [
+          0.3514,
+          0.5357
+        ],
+        "n": 70
+      },
+      "cobertura_fatos": {
+        "media": 0.2728,
+        "ic95": [
+          0.2204,
+          0.3266
+        ],
+        "n": 62
+      },
+      "abstencao_correta": {
+        "media": 1.0,
+        "ic95": [
+          1.0,
+          1.0
+        ],
+        "n": 8
+      }
+    },
+    "graph_rag": {
+      "faithfulness": {
+        "media": 0.9281,
+        "ic95": [
+          0.8781,
+          0.969
+        ],
+        "n": 70
+      },
+      "answer_relevancy": {
+        "media": 0.8781,
+        "ic95": [
+          0.8576,
+          0.8926
+        ],
+        "n": 70
+      },
+      "answer_correctness": {
+        "media": 0.6587,
+        "ic95": [
+          0.587,
+          0.7262
+        ],
+        "n": 70
+      },
+      "context_recall": {
+        "media": 0.8905,
+        "ic95": [
+          0.8333,
+          0.9405
+        ],
+        "n": 70
+      },
+      "context_precision": {
+        "media": 0.5185,
+        "ic95": [
+          0.4605,
+          0.577
+        ],
+        "n": 69
+      },
+      "cobertura_fatos": {
+        "media": 0.7325,
+        "ic95": [
+          0.6586,
+          0.8051
+        ],
+        "n": 62
+      },
+      "abstencao_correta": {
+        "media": 1.0,
+        "ic95": [
+          1.0,
+          1.0
+        ],
+        "n": 8
+      }
+    }
   },
-  "graph_rag": {
-    "faithfulness": 0.8,
-    "answer_relevancy": 0.8658,
-    "context_recall": 0.8,
-    "context_precision": 1.0
+  "significancia_graph_vs_vector": {
+    "faithfulness": {
+      "diferenca_graph_menos_vector": 0.2396,
+      "p_valor": 0.0
+    },
+    "answer_relevancy": {
+      "diferenca_graph_menos_vector": 0.0936,
+      "p_valor": 0.0
+    },
+    "answer_correctness": {
+      "diferenca_graph_menos_vector": 0.4735,
+      "p_valor": 0.0
+    },
+    "context_recall": {
+      "diferenca_graph_menos_vector": 0.6784,
+      "p_valor": 0.0
+    },
+    "context_precision": {
+      "diferenca_graph_menos_vector": 0.0743,
+      "p_valor": 0.1462
+    },
+    "cobertura_fatos": {
+      "diferenca_graph_menos_vector": 0.4597,
+      "p_valor": 0.0
+    }
+  },
+  "por_categoria": {
+    "C1_factual": {
+      "n": 10,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.8451,
+        "answer_correctness": 0.0333,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.5,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.7,
+        "answer_relevancy": 0.7133,
+        "answer_correctness": 0.1167,
+        "context_recall": 0.5,
+        "context_precision": 0.42,
+        "cobertura_fatos": 0.4667,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 0.8,
+        "answer_relevancy": 0.8227,
+        "answer_correctness": 0.3333,
+        "context_recall": 0.7,
+        "context_precision": 0.7328,
+        "cobertura_fatos": 0.6,
+        "abstencao_correta": null
+      }
+    },
+    "C2_agregacao": {
+      "n": 10,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.7546,
+        "answer_correctness": 0.0,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.1,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.9,
+        "answer_relevancy": 0.8025,
+        "answer_correctness": 0.0143,
+        "context_recall": 0.0643,
+        "context_precision": 0.53,
+        "cobertura_fatos": 0.1,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 0.88,
+        "answer_relevancy": 0.8894,
+        "answer_correctness": 0.5524,
+        "context_recall": 0.9167,
+        "context_precision": 0.3654,
+        "cobertura_fatos": 0.9333,
+        "abstencao_correta": null
+      }
+    },
+    "C3_comp_temporal": {
+      "n": 12,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.8338,
+        "answer_correctness": 0.0,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.4792,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.8167,
+        "answer_relevancy": 0.8308,
+        "answer_correctness": 0.1667,
+        "context_recall": 0.1319,
+        "context_precision": 0.8083,
+        "cobertura_fatos": 0.2708,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9206,
+        "answer_correctness": 0.8125,
+        "context_recall": 1.0,
+        "context_precision": 0.5,
+        "cobertura_fatos": 0.5208,
+        "abstencao_correta": null
+      }
+    },
+    "C4_comp_geografica": {
+      "n": 10,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.6925,
+        "answer_correctness": 0.0,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.2,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.5583,
+        "answer_relevancy": 0.8055,
+        "answer_correctness": 0.05,
+        "context_recall": 0.0,
+        "context_precision": 0.21,
+        "cobertura_fatos": 0.3,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.9119,
+        "answer_correctness": 1.0,
+        "context_recall": 1.0,
+        "context_precision": 0.7,
+        "cobertura_fatos": 1.0,
+        "abstencao_correta": null
+      }
+    },
+    "C5_sazonalidade": {
+      "n": 10,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.8581,
+        "answer_correctness": 0.0,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.525,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.9381,
+        "answer_relevancy": 0.8254,
+        "answer_correctness": 0.1661,
+        "context_recall": 0.0286,
+        "context_precision": 0.74,
+        "cobertura_fatos": 0.5,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 0.9667,
+        "answer_relevancy": 0.8496,
+        "answer_correctness": 0.7071,
+        "context_recall": 1.0,
+        "context_precision": 0.3463,
+        "cobertura_fatos": 0.85,
+        "abstencao_correta": null
+      }
+    },
+    "C6_multi_hop": {
+      "n": 10,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.7939,
+        "answer_correctness": 0.025,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": 0.0333,
+        "abstencao_correta": null
+      },
+      "vector_rag": {
+        "faithfulness": 0.6433,
+        "answer_relevancy": 0.7699,
+        "answer_correctness": 0.0,
+        "context_recall": 0.0,
+        "context_precision": 0.21,
+        "cobertura_fatos": 0.0,
+        "abstencao_correta": null
+      },
+      "graph_rag": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8952,
+        "answer_correctness": 0.3267,
+        "context_recall": 0.6167,
+        "context_precision": 0.3367,
+        "cobertura_fatos": 0.5333,
+        "abstencao_correta": null
+      }
+    },
+    "C7_nula": {
+      "n": 8,
+      "no_rag": {
+        "faithfulness": null,
+        "answer_relevancy": 0.8339,
+        "answer_correctness": 0.375,
+        "context_recall": null,
+        "context_precision": null,
+        "cobertura_fatos": null,
+        "abstencao_correta": 1.0
+      },
+      "vector_rag": {
+        "faithfulness": 0.125,
+        "answer_relevancy": 0.7223,
+        "answer_correctness": 0.9375,
+        "context_recall": 0.9167,
+        "context_precision": 0.0375,
+        "cobertura_fatos": null,
+        "abstencao_correta": 1.0
+      },
+      "graph_rag": {
+        "faithfulness": 0.8125,
+        "answer_relevancy": 0.8413,
+        "answer_correctness": 0.8958,
+        "context_recall": 1.0,
+        "context_precision": 0.6667,
+        "cobertura_fatos": null,
+        "abstencao_correta": 1.0
+      }
+    }
   }
 }

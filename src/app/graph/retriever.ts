@@ -210,7 +210,18 @@ export async function buscarSubgrafo(entidades: Entidades): Promise<BuscarSubgra
     push(resultados, "contagemPorEstado", contagem);
     push(resultados, "municipiosMaisEventosPorEstado", ranking);
     push(resultados, "extremoPorEstado", extremos);
-    push(resultados, "sazonalidadePorEstado", meses.slice(0, 12));
+    // A query devolve uma linha por (mês, tipo) ordenada por contagem. Quando a
+    // pergunta não fixa o fenômeno, são até 60 linhas e um corte cego nas 12
+    // primeiras misturaria tipos, dando a impressão de um perfil sazonal único.
+    // Limitamos por tipo, preservando os 12 meses de cada um.
+    const porTipo = new Map<string, Record<string, unknown>[]>();
+    for (const linha of meses) {
+      const t = String(linha.tipo ?? "");
+      const lista = porTipo.get(t) ?? [];
+      if (lista.length < 12) lista.push(linha);
+      porTipo.set(t, lista);
+    }
+    push(resultados, "sazonalidadePorEstado", [...porTipo.values()].flat());
 
     // A lista de eventos individuais é o que realmente inchava o contexto
     // (50 linhas, ~5 KB). Só entra quando a pergunta pede a listagem.

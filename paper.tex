@@ -63,24 +63,26 @@ para recuperar fatos específicos de municípios ou períodos.
 Este trabalho propõe um pipeline GraphRAG que estrutura dados do
 INMET e do CEMADEN em um grafo de conhecimento Neo4j e os expõe
 via interface conversacional.
-Comparamos três estratégias: LLM sem recuperação (No~RAG),
-RAG vetorial (Vector~RAG) e o pipeline proposto (Graph~RAG),
-sobre um benchmark de 70 perguntas distribuídas em sete categorias
-de consulta (factual, agregação, comparação temporal, comparação
-geográfica, sazonalidade, multi-hop e perguntas sem resposta),
-com gabaritos derivados diretamente dos dados de origem.
-O GraphRAG supera o Vector~RAG em abrangência de contexto
-($+$67,8~p.p. em \textit{context\_recall}), correção da resposta
-($+$47,4~p.p.), fidelidade ($+$24,0~p.p.) e relevância
-($+$9,4~p.p.), todas com $p<0{,}0001$ em teste de permutação pareado.
-A vantagem concentra-se nas consultas relacionais: em comparação
-geográfica e temporal o Vector~RAG registra \textit{context\_recall}
-de 0,00 e 0,13, contra 1,00 do GraphRAG, evidenciando sua limitação
-estrutural para consultas que exigem agregação, contraste entre
-recortes ou filtragem por atributos estruturados.
-Em consultas factuais de fato único, a vantagem é menor
-($+$21,7~p.p.), delimitando o regime em que o custo do grafo se
-justifica.
+Comparamos quatro configurações: LLM sem recuperação (No~RAG),
+RAG vetorial ingênuo, RAG vetorial com pré-filtragem por metadados e o
+pipeline proposto (Graph~RAG), sobre um benchmark de 70 perguntas em sete
+categorias de consulta, com gabaritos derivados diretamente dos dados de origem.
+A inclusão do baseline pré-filtrado é deliberada: ele recebe as mesmas entidades
+extraídas e o mesmo \textit{prompt} do GraphRAG, isolando a arquitetura de
+recuperação do esforço de engenharia.
+Contra esse baseline forte, o GraphRAG supera em correção da resposta
+($+$44,1~p.p.), abrangência de contexto
+($+$61,7~p.p.) e fidelidade
+($+$10,7~p.p.), mas é \emph{inferior} em precisão de
+contexto ($-$15,2~p.p.; $p=0{,}014$), por
+recuperar seções agregadas nem sempre necessárias à pergunta.
+A pré-filtragem melhora o baseline de forma modesta
+($+$6,3~p.p. em correção), de modo que a maior parte da vantagem do GraphRAG é
+arquitetural e não decorre de o baseline ignorar seus metadados.
+A vantagem concentra-se nas consultas relacionais: em agregação, a
+pré-filtragem não produz ganho algum (0,029 em ambos os baselines, contra
+0,640 do GraphRAG), pois recuperar os $k$ documentos mais
+similares devolve uma amostra, e amostra não responde a uma consulta de contagem.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -974,16 +976,44 @@ A Fig.~\ref{fig:roteamento} ilustra o fluxo de decisão.
 \label{fig:roteamento}
 \end{figure}
 
-\subsection{Baseline Vector RAG}
+\subsection{Baselines Vector RAG}
+\label{sec:baselines}
 
-Para o Vector~RAG, todos os 32.030 eventos INMET são indexados no
-Neo4j Vector Index usando embeddings \texttt{text-embedding-3-small}
-(OpenAI) sobre o campo \texttt{descricao} de cada nó \texttt{Evento}.
-A recuperação usa o retriever LangChain com $k=10$ documentos
-e uma \textit{RetrievalChain} com GPT-4o como gerador.
-Diferentemente do GraphRAG, esta abordagem não percorre relações
-do grafo; ela retorna os eventos textuais mais similares à consulta,
-sem filtragem por tipo de evento ou período temporal.
+Todos os 32.030 eventos INMET são indexados com embeddings
+\texttt{text-embedding-3-small} (OpenAI) sobre uma descrição textual que
+inclui município, UF, fenômeno, data, valor medido e estação. Cada documento
+carrega ainda os metadados \texttt{uf}, \texttt{tipo}, \texttt{ano},
+\texttt{municipio} e \texttt{estacao}.
+
+Avaliamos \textbf{duas} configurações de recuperação vetorial, e a distinção é
+central para a validade da comparação.
+
+\subsubsection{Vector RAG ingênuo}
+Recuperação por similaridade pura: os $k=10$ documentos mais próximos da
+consulta no corpus inteiro, sem uso dos metadados. Corresponde ao uso
+imediato de um \textit{vector store} com o retriever padrão.
+
+\subsubsection{Vector RAG com pré-filtragem}
+O mesmo índice, mas as entidades extraídas da pergunta --- \emph{as mesmas} que
+alimentam o GraphRAG, pela mesma chamada de extração --- restringem o corpus
+antes do ranqueamento: filtram-se os documentos por UF, tipo de fenômeno,
+município e anos das janelas temporais, e a similaridade de cosseno é calculada
+apenas sobre o subconjunto sobrevivente, com $k=10$ mantido.
+
+A pré-filtragem é exata, não aproximada: filtrar \emph{depois} de ranquear seria
+inútil, pois o top-$k$ global já teria descartado os documentos pertinentes.
+Quando a combinação pedida não retorna nenhum documento, a busca relaxa para o
+comportamento ingênuo, evitando contexto vazio.
+
+Esta segunda configuração existe para responder a uma objeção legítima ao
+desenho experimental: comparar um pipeline de grafo, com consultas projetadas
+para a tarefa, contra um top-$k$ sem qualquer engenharia mede em parte o esforço
+de implementação, e não a arquitetura de recuperação. Ambos os modos recebem a
+mesma extração de entidades, o mesmo \textit{prompt} de geração, o mesmo modelo
+gerador e a mesma normalização geográfica --- esta última necessária porque o
+extrator frequentemente devolve nomes de estado no campo de município, e
+aplicá-la a apenas um dos modos penalizaria o outro por um defeito da extração
+compartilhada, não de sua arquitetura.
 
 \subsection{Baseline No RAG}
 
@@ -1088,27 +1118,28 @@ A Tabela~\ref{tab:ragas} apresenta os scores médios para os três modos
 nas 70 perguntas, com intervalo de confiança de 95\% e o $p$-valor da
 comparação pareada Graph~RAG {\itshape versus} Vector~RAG.
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \caption{Scores médios por modo de recuperação (70 perguntas).
-  Entre colchetes, IC~95\% por \textit{bootstrap}. A coluna $p$ refere-se
-  ao teste de permutação pareado Graph~RAG {\itshape vs.} Vector~RAG.}
+  Entre colchetes, IC~95\% por \textit{bootstrap}. Vector = top-$k$ puro;
+  Vector$+$F = pré-filtrado por metadados. A coluna $p$ refere-se ao teste de
+  permutação pareado Graph~RAG {\itshape vs.} Vector$+$F.}
 \label{tab:ragas}
 \begin{center}
 \footnotesize
-\begin{tabular}{lccc r}
+\begin{tabular}{lcccc r}
 \toprule
-\textbf{Métrica} & \textbf{No RAG} & \textbf{Vector RAG} & \textbf{Graph RAG} & \textbf{$p$} \\
+\textbf{Métrica} & \textbf{No RAG} & \textbf{Vector} & \textbf{Vector$+$F} & \textbf{Graph RAG} & \textbf{$p$} \\
 \midrule
-Faithfulness       & N/A                & 0,689 {\tiny[0,59--0,78]} & \textbf{0,928} {\tiny[0,88--0,97]} & $<$0,0001 \\
-Answer Relevancy   & 0,801 {\tiny[0,78--0,82]} & 0,784 {\tiny[0,74--0,82]} & \textbf{0,878} {\tiny[0,86--0,89]} & $<$0,0001 \\
-Answer Correctness & 0,051 {\tiny[0,01--0,10]} & 0,185 {\tiny[0,11--0,26]} & \textbf{0,659} {\tiny[0,59--0,73]} & $<$0,0001 \\
-Context Recall     & N/A                & 0,212 {\tiny[0,13--0,30]} & \textbf{0,890} {\tiny[0,83--0,94]} & $<$0,0001 \\
-Context Precision  & N/A                & 0,444 {\tiny[0,35--0,54]} & 0,518 {\tiny[0,46--0,58]} & 0,1462 \\
-Cobertura de fatos & 0,312 {\tiny[0,25--0,37]} & 0,273 {\tiny[0,22--0,33]} & \textbf{0,733} {\tiny[0,66--0,81]} & $<$0,0001 \\
+Faithfulness & N/A & 0,716 {\tiny[0,62--0,81]} & 0,825 {\tiny[0,75--0,90]} & \textbf{0,932} {\tiny[0,88--0,97]} & 0,0220 \\
+Answer Relevancy & 0,799 {\tiny[0,78--0,82]} & 0,802 {\tiny[0,76--0,83]} & 0,858 {\tiny[0,85--0,87]} & \textbf{0,878} {\tiny[0,86--0,89]} & 0,0097 \\
+Answer Correctness & 0,040 {\tiny[0,01--0,09]} & 0,160 {\tiny[0,10--0,23]} & 0,222 {\tiny[0,15--0,30]} & \textbf{0,664} {\tiny[0,59--0,73]} & $<$0,0001 \\
+Context Recall & N/A & 0,223 {\tiny[0,14--0,31]} & 0,270 {\tiny[0,19--0,36]} & \textbf{0,886} {\tiny[0,83--0,94]} & $<$0,0001 \\
+Context Precision & N/A & 0,431 {\tiny[0,34--0,52]} & \textbf{0,656} {\tiny[0,56--0,75]} & 0,504 {\tiny[0,44--0,57]} & 0,0142 \\
+Cobertura de fatos & 0,301 {\tiny[0,24--0,36]} & 0,273 {\tiny[0,22--0,32]} & 0,312 {\tiny[0,26--0,37]} & \textbf{0,737} {\tiny[0,66--0,81]} & $<$0,0001 \\
 \bottomrule
 \end{tabular}
 \end{center}
-\end{table}
+\end{table*}
 
 O GraphRAG é superior em cinco das seis métricas, todas com
 $p<0{,}0001$. A única exceção é \textit{context\_precision}
@@ -1138,31 +1169,30 @@ demais barras são omitidas por serem N/A.
 \begin{tikzpicture}
 \begin{axis}[
   ybar,
-  bar width=5pt,
+  bar width=3.4pt,
   width=0.46\textwidth,
-  height=5.5cm,
+  height=5.8cm,
   ylabel={Score médio},
   ymin=0, ymax=1.18,
   xtick={1,2,3,4,5,6},
   xticklabels={Faith., Answer Rel., Answer Corr., Ctx Recall,
     Ctx Precision, Cob. fatos},
   xticklabel style={font=\scriptsize, rotate=20, anchor=east},
-  legend style={at={(0.5,-0.32)}, anchor=north,
-    legend columns=3, font=\scriptsize},
-  legend entries={No RAG, Vector RAG, Graph RAG},
+  legend style={at={(0.5,-0.34)}, anchor=north,
+    legend columns=2, font=\scriptsize},
+  legend entries={No RAG, Vector, Vector$+$F, Graph RAG},
   ymajorgrids=true,
   grid style=dashed,
-  nodes near coords,
-  every node near coord/.append style={font=\tiny, rotate=90,
-    anchor=west},
 ]
-\addplot coordinates {(2,0.801)(3,0.051)(6,0.312)};
-\addplot coordinates {(1,0.689)(2,0.784)(3,0.185)(4,0.212)(5,0.444)(6,0.273)};
-\addplot coordinates {(1,0.928)(2,0.878)(3,0.659)(4,0.890)(5,0.518)(6,0.733)};
+\addplot coordinates {(2,0.799)(3,0.040)(6,0.301)};
+\addplot coordinates {(1,0.716)(2,0.802)(3,0.160)(4,0.223)(5,0.431)(6,0.273)};
+\addplot coordinates {(1,0.825)(2,0.858)(3,0.222)(4,0.270)(5,0.656)(6,0.312)};
+\addplot coordinates {(1,0.932)(2,0.878)(3,0.664)(4,0.886)(5,0.504)(6,0.737)};
 \end{axis}
 \end{tikzpicture}
 \caption{Scores médios por modo de recuperação (70 perguntas).
-  Barras do No~RAG omitidas para métricas N/A.}
+  Barras do No~RAG omitidas para métricas N/A. Vector$+$F é o baseline
+  vetorial com pré-filtragem por metadados.}
 \label{fig:barras}
 \end{figure}
 
@@ -1172,125 +1202,113 @@ A média agregada esconde o achado central: \emph{onde} cada arquitetura
 é superior. A Tabela~\ref{tab:por_categoria} decompõe answer\_correctness
 e context\_recall pelas sete categorias.
 
-\begin{table}[htbp]
+\begin{table*}[htbp]
 \caption{Answer Correctness e Context Recall por categoria de consulta.
+  Vector = top-$k$ puro; Vector$+$F = pré-filtrado por metadados.
   Negrito indica o melhor modo em cada bloco.}
 \label{tab:por_categoria}
 \begin{center}
 \footnotesize
-\begin{tabular}{lc|ccc|cc}
+\begin{tabular}{lc|cccc|ccc}
 \toprule
- & & \multicolumn{3}{c|}{\textbf{Answer Correctness}} &
-     \multicolumn{2}{c}{\textbf{Context Recall}} \\
-\cmidrule(lr){3-5}\cmidrule(lr){6-7}
-\textbf{Categoria} & \textbf{n} & No~RAG & Vector & Graph & Vector & Graph \\
+ & & \multicolumn{4}{c|}{\textbf{Answer Correctness}} &
+     \multicolumn{3}{c}{\textbf{Context Recall}} \\
+\cmidrule(lr){3-6}\cmidrule(lr){7-9}
+\textbf{Categoria} & \textbf{n} & No~RAG & Vector & Vector$+$F & Graph &
+  Vector & Vector$+$F & Graph \\
 \midrule
-C1 Factual & 10 & 0,033 & 0,117 & \textbf{0,333} & 0,500 & \textbf{0,700} \\
-C2 Agregação & 10 & 0,000 & 0,014 & \textbf{0,552} & 0,064 & \textbf{0,917} \\
-C3 Comp.\ temporal & 12 & 0,000 & 0,167 & \textbf{0,812} & 0,132 & \textbf{1,000} \\
-C4 Comp.\ geográfica & 10 & 0,000 & 0,050 & \textbf{1,000} & 0,000 & \textbf{1,000} \\
-C5 Sazonalidade & 10 & 0,000 & 0,166 & \textbf{0,707} & 0,029 & \textbf{1,000} \\
-C6 Multi-hop & 10 & 0,025 & 0,000 & \textbf{0,327} & 0,000 & \textbf{0,617} \\
-C7 Nulas & 8 & 0,375 & \textbf{0,938} & 0,896 & 0,917 & \textbf{1,000} \\
+C1 Factual & 10 & 0,000 & 0,033 & 0,167 & \textbf{0,367} & 0,500 & 0,617 & \textbf{0,733} \\
+C2 Agregação & 10 & 0,043 & 0,029 & 0,029 & \textbf{0,640} & 0,067 & 0,087 & \textbf{0,917} \\
+C3 Comp.\ temporal & 12 & 0,000 & 0,096 & 0,181 & \textbf{0,792} & 0,132 & 0,215 & \textbf{1,000} \\
+C4 Comp.\ geográfica & 10 & 0,000 & 0,078 & 0,183 & \textbf{1,000} & 0,000 & 0,025 & \textbf{0,955} \\
+C5 Sazonalidade & 10 & 0,000 & 0,194 & 0,138 & \textbf{0,703} & 0,000 & 0,000 & \textbf{1,000} \\
+C6 Multi-hop & 10 & 0,040 & 0,000 & 0,073 & \textbf{0,337} & 0,033 & 0,100 & \textbf{0,600} \\
+C7 Nulas & 8 & 0,250 & 0,833 & \textbf{0,938} & 0,812 & \textbf{1,000} & \textbf{1,000} & \textbf{1,000} \\
 \bottomrule
 \end{tabular}
 \end{center}
-\end{table}
+\end{table*}
 
-Três padrões emergem.
+Quatro padrões emergem.
+
+\textbf{A pré-filtragem ajuda o baseline, mas pouco.} O ganho do filtro sobre o
+baseline ingênuo é de $+$6,3~p.p. em answer\_correctness ($p=0{,}011$) e
+$+$4,7~p.p. em context\_recall ($p=0{,}005$). Em outras palavras, apenas cerca
+de um oitavo da diferença originalmente medida contra o baseline ingênuo vinha
+de ele não usar os próprios metadados; o restante é atribuível à arquitetura de
+recuperação.
+
+\textbf{Em agregação, a pré-filtragem não produz ganho algum.} Em C2, os dois
+baselines empatam em $0{,}029$ e o context\_recall vai de $0{,}067$ para
+$0{,}087$, contra $0{,}917$ do GraphRAG. É o resultado mais limpo do
+experimento: filtrar corretamente por estado, fenômeno e período não aproxima o
+baseline da resposta, porque a operação exigida --- ordenar municípios por
+contagem --- não é recuperação de documentos. Em C5 a pré-filtragem chega a
+\emph{piorar} a correção ($0{,}194 \rightarrow 0{,}138$), com context\_recall
+nulo em ambas as configurações: restringir a dez documentos uma pergunta sobre a
+distribuição mensal de uma década é contraproducente.
 
 \textbf{As consultas relacionais concentram a vantagem.} Em comparação
 geográfica (C4) o GraphRAG atinge answer\_correctness $1{,}000$ contra
-$0{,}050$ do Vector~RAG; em comparação temporal (C3), $0{,}812$ contra
-$0{,}167$. O context\_recall do Vector~RAG nessas categorias é
-$0{,}000$ e $0{,}132$: o contexto recuperado por similaridade
-praticamente não contém a informação necessária. A razão é estrutural
---- responder ``houve mais registros em 2018 ou em 2020?'' exige contar
-e contrastar dois conjuntos, operação que a recuperação dos $k$
-documentos mais similares não realiza, por mais completo que seja o
-índice.
+$0{,}183$ do baseline pré-filtrado; em comparação temporal (C3), $0{,}792$
+contra $0{,}181$. O context\_recall do baseline forte nessas categorias é
+$0{,}025$ e $0{,}215$ --- mesmo com filtro exato, o contexto recuperado quase
+não contém a informação necessária.
 
-\textbf{A vantagem é menor em consultas de fato único.} Em C1
-(factual), a diferença cai para $0{,}333$ contra $0{,}117$, e o
-context\_recall do Vector~RAG sobe a $0{,}500$ --- o melhor entre as
-categorias não nulas. Isso é coerente com Han et al.~\cite{han2025ragvsgraphrag},
-que reportam RAG vetorial competitivo em consultas \textit{single-hop}
-detalhadas. Perguntas de existência sobre um município e ano são
-justamente o caso em que a similaridade textual localiza os documentos
-certos, e o custo de manter o grafo se justifica menos.
-
-\textbf{Nenhum modo alucina nas perguntas sem resposta.} Em C7, os três
-modos declararam corretamente a ausência de dados em todos os casos
-(abstenção correta $=1{,}000$). O Vector~RAG obtém aqui seu melhor
-answer\_correctness ($0{,}938$), ligeiramente acima do GraphRAG
-($0{,}896$): quando não há o que recuperar, os gabaritos são curtos e
-ambos os modos convergem para a mesma resposta. O valor do No~RAG
-($0{,}375$) mostra que o LLM sem recuperação também tende a declarar
-incerteza --- mas por não ter dado algum, não por saber que o dado
-falta.
-
-A categoria multi-hop (C6) é a de menor desempenho absoluto do GraphRAG
-($0{,}327$), apesar de context\_recall $0{,}617$. A recuperação traz a
-estação recordista, o município e o valor, mas a resposta nem sempre
-articula os três elementos exigidos pelo gabarito. É uma limitação de
-geração, não de recuperação, e indica espaço de melhoria no
-\textit{prompt} para consultas de travessia.
+\textbf{A vantagem é menor em consultas de fato único e em perguntas nulas.}
+Em C1 a diferença cai para $0{,}367$ contra $0{,}167$, e o context\_recall do
+baseline forte sobe a $0{,}617$ --- é a categoria em que a recuperação por
+similaridade localiza os documentos certos, coerente com
+Han et al.~\cite{han2025ragvsgraphrag}. Em C7 o baseline pré-filtrado obtém a
+melhor correção ($0{,}938$ contra $0{,}812$): quando não há o que recuperar, o
+gabarito é curto e a resposta correta é simplesmente declarar a ausência, tarefa
+em que todos os modos abstêm-se corretamente (abstenção $=1{,}000$ nos quatro).
 
 \subsection{Análise dos Resultados}
 
-Os resultados revelam três padrões distintos de comportamento.
+\textbf{No~RAG} (answer\_correctness $=0{,}040$): o LLM demonstra conhecimento
+climatológico geral --- identifica corretamente que geadas ocorrem no inverno
+austral e que o Centro-Oeste sofre baixa umidade na estiagem --- mas não tem
+acesso aos registros operacionais. Perguntas sobre \emph{quantos} episódios
+ocorreram em um município são respondidas com recusa explícita ou vaguidão. O
+valor quase nulo não indica alucinação: em C7 o modo abstém-se corretamente em
+todos os casos. Indica que conhecimento paramétrico não substitui consulta a
+dados.
 
-\textbf{No~RAG} (answer\_correctness $=0{,}051$): o LLM demonstra
-conhecimento climatológico geral adequado --- identifica corretamente
-que geadas ocorrem no inverno austral e que o Centro-Oeste sofre baixa
-umidade na estiagem. Contudo, não possui acesso aos registros
-operacionais do INMET: perguntas sobre \emph{quantos} episódios
-ocorreram em um município específico são respondidas de forma vaga ou
-com recusa explícita. O valor quase nulo de answer\_correctness não
-indica que o modelo alucine --- a fidelidade em C7 mostra o contrário
---- mas que o conhecimento paramétrico não substitui a consulta a dados
-operacionais. Como não há contexto recuperado, fidelidade, abrangência
-e precisão não se aplicam.
+\textbf{Vector~RAG} (context\_recall $=0{,}223$ ingênuo, $0{,}270$ pré-filtrado):
+o índice cobre todo o domínio e ainda assim o contexto raramente contém o que o
+gabarito exige. A pré-filtragem eleva a precisão do contexto de forma expressiva
+($0{,}431 \rightarrow 0{,}656$), o que era esperado --- o filtro remove
+documentos fora do escopo --- mas mal desloca a abrangência. O gargalo não é
+\emph{quais} documentos são recuperados, e sim que documentos individuais não
+compõem um agregado.
 
-\textbf{Vector~RAG} (context\_recall $=0{,}212$): o índice cobre os
-32.030 eventos do domínio, e ainda assim o contexto recuperado
-raramente contém o que o gabarito exige. A similaridade de
-\textit{embeddings} recupera documentos lexicalmente próximos à
-consulta, mas não trata tipo de evento, município e período como
-atributos filtráveis, nem realiza contagem. O padrão é nítido no
-recorte por categoria: context\_recall de $0{,}500$ em consultas
-factuais, contra $0{,}000$--$0{,}132$ em todas as categorias que
-exigem agregação ou contraste. A fidelidade mais baixa
-($0{,}689$ contra $0{,}928$ do GraphRAG) é consequência disso ---
-quando o contexto não sustenta a resposta, o gerador preenche as
-lacunas.
+\textbf{Graph~RAG} (context\_recall $=0{,}886$): as consultas Cypher
+parametrizadas devolvem contagens já calculadas pelo banco, além dos registros
+correspondentes ao recorte pedido. O ganho aparece na abrangência
+($+$61,7~p.p.), na correção ($+$44,1~p.p.) e na fidelidade ($+$10,7~p.p.), esta
+última porque um contexto que efetivamente responde à pergunta reduz a pressão
+sobre o gerador para extrapolar.
 
-\textbf{Graph~RAG} (context\_recall $=0{,}890$): a recuperação por
-consultas Cypher parametrizadas entrega exatamente os registros
-correspondentes ao período, tipo e recorte geográfico solicitados,
-incluindo contagens já agregadas. O ganho aparece tanto na abrangência
-($+$67,8~p.p.) quanto na fidelidade ($+$24,0~p.p.), esta última porque
-um contexto que efetivamente responde à pergunta reduz a necessidade de
-o gerador extrapolar.
+\textbf{Onde o GraphRAG perde.} Contra o baseline pré-filtrado, o GraphRAG é
+\emph{inferior} em context\_precision: $0{,}504$ contra $0{,}656$
+($-$15,2~p.p.; $p=0{,}014$). O motivo é estrutural na forma como montamos o
+contexto: para uma pergunta sobre um estado, o recuperador entrega totais,
+ranking de municípios, valores extremos e distribuição mensal, e nem todas essas
+seções servem a toda pergunta. O baseline pré-filtrado, por construção, devolve
+apenas dez documentos já restritos ao escopo. Trata-se de um custo assumido ---
+recuperar as agregações incondicionalmente evita depender de um classificador de
+intenção que, em versão anterior deste trabalho, mostrou-se instável, atribuindo
+rótulos distintos à mesma pergunta entre execuções e omitindo a seção que
+continha a resposta. Uma seleção mais criteriosa de seções é a otimização mais
+evidente para trabalho futuro, e o resultado indica que há margem real.
 
-O único ponto em que a vantagem não é estatisticamente significativa é
-a \textit{context\_precision} ($0{,}518$ contra $0{,}444$;
-$p=0{,}15$). O contexto do grafo é montado com várias seções agregadas
---- totais, ranking, extremos, sazonalidade --- e nem todas são
-necessárias a uma pergunta específica. Há espaço para recuperação mais
-seletiva, ao custo de depender de um classificador de intenção; durante
-o desenvolvimento, uma versão que selecionava seções por intenção
-inferida via LLM mostrou-se instável, com a mesma pergunta recebendo
-rótulos distintos entre execuções e perdendo a seção que continha a
-resposta.
-
-\textbf{Concordância entre métricas.} A cobertura de fatos, calculada
-por casamento de string sem qualquer juiz LLM, reproduz o mesmo
-ordenamento e magnitude semelhante ao answer\_correctness
-($0{,}733$ contra $0{,}659$ no GraphRAG; $0{,}273$ contra $0{,}185$ no
-Vector~RAG). A convergência entre uma métrica determinística e uma
-julgada por LLM reduz a plausibilidade de que o resultado seja artefato
-de viés do modelo avaliador.
+\textbf{Concordância entre métricas.} A cobertura de fatos, calculada por
+casamento de string sem juiz LLM, reproduz o ordenamento e a magnitude do
+answer\_correctness ($0{,}737$ contra $0{,}664$ no GraphRAG; $0{,}312$ contra
+$0{,}222$ no baseline forte). A convergência entre uma métrica determinística e
+uma julgada por LLM reduz a plausibilidade de que o resultado seja artefato de
+viés do modelo avaliador.
 
 \subsection{Análise Qualitativa}
 
@@ -1313,23 +1331,33 @@ O modelo reconhece a limitação de seu conhecimento paramétrico e
 redireciona para a fonte correta. É o comportamento desejável na
 ausência de recuperação, mas não entrega dado operacional algum.
 
-\textbf{Vector~RAG:}
+\textbf{Vector~RAG (ingênuo):}
 \begin{quote}
-\textit{``A base não possui registros de eventos de baixa umidade
-crítica em 2024. Em 2023, houve um total de \textbf{10 registros} de
-baixa umidade crítica em Pão de Açúcar (AL).''}
+\textit{``A base não possui registros de baixa umidade crítica em 2024.
+Em 2023, houve \textbf{10 registros} de baixa umidade crítica em Pão de
+Açúcar (AL).''}
 \end{quote}
-A resposta é fluente, bem formatada e \emph{errada}. O valor correto é
-70. O número reportado --- 10 --- é precisamente o parâmetro $k$ do
-recuperador: o modelo recebeu os dez documentos mais similares e
-descreveu a quantidade de documentos recuperados como se fosse a
-contagem de eventos existentes. O erro é instrutivo porque não decorre
-de alucinação no sentido usual: o gerador foi fiel ao contexto que lhe
-foi dado (faithfulness $=1{,}00$ neste item), e ainda assim produziu um
-fato falso. Recuperação por similaridade entrega uma \emph{amostra} do
-corpus, e uma amostra não responde a uma pergunta de contagem. Nenhum
-aumento de $k$ resolve o problema no caso geral --- apenas troca o
-número errado por outro.
+
+\textbf{Vector~RAG (pré-filtrado):}
+\begin{quote}
+\textit{``A base não possui registros de baixa umidade crítica para o ano de
+2024. Em 2023, houve um total de \textbf{10 registros} de baixa umidade crítica
+em Pão de Açúcar (AL).''}
+\end{quote}
+As duas respostas são fluentes, bem formatadas e \emph{erradas} --- e trazem o
+mesmo número. O valor correto é 70; o reportado, 10, é precisamente o parâmetro
+$k$ do recuperador. Ambos os modos descreveram a \emph{quantidade de documentos
+recuperados} como se fosse a contagem de eventos existentes.
+
+A coincidência é o ponto central deste exemplo. O modo pré-filtrado aplicou o
+filtro corretamente --- município, fenômeno e anos --- e ainda assim errou pelo
+mesmo motivo e com o mesmo valor. Não se trata, portanto, de recuperar os
+documentos errados, defeito que a filtragem corrige, mas de recuperar
+\emph{documentos} quando a pergunta demanda um \emph{agregado}. O erro tampouco
+é alucinação no sentido usual: o gerador foi fiel ao contexto recebido
+(faithfulness $=1{,}00$ nos dois casos) e mesmo assim produziu um fato falso.
+Aumentar $k$ não resolve no caso geral --- apenas troca um número errado por
+outro, e o teto passa a ser o limite de contexto.
 
 \textbf{Graph~RAG:}
 \begin{quote}
@@ -1409,6 +1437,21 @@ INMET, e não a ocorrência climática real --- um conjunto elaborado por
 especialistas em climatologia mediria uma propriedade diferente e
 complementar.
 
+\textbf{Validade interna: força do baseline:}
+Comparar um pipeline de grafo, cujas consultas foram escritas para as operações
+do domínio, contra uma recuperação vetorial sem qualquer engenharia mediria em
+parte o esforço de implementação, e não a arquitetura. Por isso avaliamos também
+um baseline vetorial com pré-filtragem por metadados
+(Seção~\ref{sec:baselines}), que recebe as mesmas entidades extraídas, o mesmo
+\textit{prompt}, o mesmo modelo gerador e a mesma normalização geográfica que o
+GraphRAG. O reforço produziu ganho real, porém modesto ($+$6,3~p.p. em
+answer\_correctness), e nulo na categoria de agregação. Os resultados reportados
+usam esse baseline forte como termo de comparação; a comparação contra o
+baseline ingênuo consta em \texttt{ragas\_scores.json} para referência.
+Persiste a possibilidade de configurações vetoriais mais elaboradas --- busca
+híbrida com BM25, \textit{reranking}, ou uma camada de agregação sobre os
+documentos recuperados --- que não foram avaliadas.
+
 \textbf{Validade interna: prompt como confundidor:}
 Em uma execução intermediária, Vector~RAG e Graph~RAG usavam
 \textit{prompts} de geração distintos, herdados de módulos diferentes
@@ -1436,28 +1479,31 @@ linguagem natural sobre eventos climáticos extremos no Brasil,
 utilizando dados do INMET e do CEMADEN estruturados em um grafo
 de conhecimento Neo4j.
 A avaliação, conduzida sobre um benchmark de 70 perguntas em sete
-categorias com gabaritos derivados dos dados de origem e um índice
-vetorial completo (32.030 eventos), mostrou que a abordagem baseada em
-grafo supera o RAG vetorial em abrangência de contexto
-(context\_recall $+$67,8~p.p.), correção da resposta
-($+$47,4~p.p.), fidelidade ($+$24,0~p.p.) e relevância
-($+$9,4~p.p.), todas significativas a $p<0{,}0001$ em teste de
-permutação pareado. O ganho em precisão de contexto ($+$7,4~p.p.) não
-alcançou significância estatística.
+categorias com gabaritos derivados dos dados de origem, comparou o pipeline a
+três alternativas, entre elas um baseline vetorial com pré-filtragem por
+metadados que recebe as mesmas entidades extraídas e o mesmo \textit{prompt} de
+geração. Contra esse baseline forte, o GraphRAG é superior em correção da
+resposta ($+$44,1~p.p.), abrangência de contexto ($+$61,7~p.p.), fidelidade
+($+$10,7~p.p.) e cobertura de fatos ($+$42,4~p.p.), todas com $p<0{,}05$, e
+\emph{inferior} em precisão de contexto ($-$15,2~p.p.; $p=0{,}014$), por
+recuperar seções agregadas nem sempre necessárias a cada pergunta.
 
-O recorte por categoria delimita \emph{onde} a vantagem se manifesta.
-Em consultas que exigem agregação ou contraste entre recortes ---
-comparação geográfica, comparação temporal, sazonalidade e ranking ---
-o Vector~RAG registra context\_recall entre $0{,}000$ e $0{,}132$,
-confirmando que a similaridade semântica de \textit{embeddings} não
-satisfaz consultas relacionais estruturadas mesmo quando o índice
-contém todos os dados disponíveis. Já em consultas factuais de fato
-único, seu context\_recall sobe a $0{,}500$ e a diferença se estreita
-substancialmente. A conclusão prática é que o custo adicional do grafo
---- modelagem do esquema, carga e uma chamada extra de LLM para
-extração de entidades --- se justifica na proporção em que a carga de
-consultas do sistema é relacional; para sistemas dominados por buscas
-de fato único, o RAG vetorial permanece competitivo.
+O reforço do baseline delimita a origem do ganho: a pré-filtragem melhorou a
+recuperação vetorial em apenas $6{,}3$~p.p. de correção, e em nada na categoria
+de agregação, onde ambas as configurações vetoriais permanecem em $0{,}029$
+contra $0{,}640$ do GraphRAG. A limitação da recuperação por similaridade não
+está em selecionar os documentos errados --- defeito que o filtro corrige ---
+mas em devolver documentos onde a pergunta demanda um agregado.
+
+O recorte por categoria delimita \emph{onde} a vantagem se manifesta. Em
+consultas que exigem agregação ou contraste entre recortes, o context\_recall do
+baseline forte varia de $0{,}000$ a $0{,}215$. Já em consultas factuais de fato
+único ele alcança $0{,}617$, e em perguntas sem resposta o baseline supera o
+GraphRAG em correção. A conclusão prática é que o custo adicional do grafo ---
+modelagem do esquema, carga e uma chamada extra de LLM para extração de
+entidades --- se justifica na proporção em que a carga de consultas do sistema é
+relacional; para sistemas dominados por buscas de fato único, a recuperação
+vetorial com filtragem por metadados permanece competitiva e mais simples.
 
 Como trabalho futuro, destacam-se:
 (i) ampliar a cobertura de dados para incluir todos os estados
@@ -1470,7 +1516,9 @@ confiabilidade do juiz LLM;
 \textit{community detection} e sumarização hierárquica
 conforme proposto por Edge et al.~\cite{edge2024graphrag};
 (iv) avaliar modelos de linguagem abertos (LLaMA, Mistral)
-como alternativa ao GPT-4o para redução de custos operacionais.
+como alternativa ao GPT-4o para redução de custos operacionais;
+(v) reduzir o excesso de contexto do GraphRAG com seleção mais criteriosa das
+seções recuperadas, atacando a única métrica em que o pipeline foi superado.
 
 \section*{Agradecimentos}
 

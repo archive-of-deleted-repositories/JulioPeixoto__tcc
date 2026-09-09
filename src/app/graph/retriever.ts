@@ -1,6 +1,7 @@
 import { runQuery } from "./client.ts";
 import { QUERIES } from "./queries.ts";
 import type { Entidades } from "../pipeline/entityExtractor.ts";
+import { municipiosReais, ufsReais } from "../pipeline/geo.ts";
 
 export interface SubgrafoResult {
   records: Record<string, unknown>[];
@@ -105,33 +106,6 @@ function completarAnosVazios(
   );
 }
 
-const NOME_ESTADO_PARA_UF: Record<string, string> = {
-  acre: "AC", alagoas: "AL", amapa: "AP", amazonas: "AM", bahia: "BA", ceara: "CE",
-  "distrito federal": "DF", "espirito santo": "ES", goias: "GO", maranhao: "MA",
-  "mato grosso": "MT", "mato grosso do sul": "MS", "minas gerais": "MG", para: "PA",
-  paraiba: "PB", parana: "PR", pernambuco: "PE", piaui: "PI", "rio de janeiro": "RJ",
-  "rio grande do norte": "RN", "rio grande do sul": "RS", rondonia: "RO", roraima: "RR",
-  "santa catarina": "SC", "sao paulo": "SP", sergipe: "SE", tocantins: "TO",
-};
-
-function semAcento(s: string): string {
-  return s.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
-}
-
-/**
- * Descarta de `municipios` os nomes que na verdade são estados já cobertos por
- * `estados`. O extrator às vezes devolve "São Paulo" ou "Bahia" como município;
- * sem esse filtro a busca casaria a CIDADE de São Paulo e o contexto traria os
- * dados errados para uma pergunta sobre o ESTADO.
- */
-function municipiosReais(ent: Entidades): string[] {
-  const ufs = new Set(ent.estados.map((s) => s.toUpperCase()));
-  return ent.municipios.filter((m) => {
-    const uf = NOME_ESTADO_PARA_UF[semAcento(m)];
-    return !(uf && ufs.has(uf));
-  });
-}
-
 export async function buscarSubgrafo(entidades: Entidades): Promise<BuscarSubgrafoResult> {
   const resultados: SubgrafoResult[] = [];
   const janelas = await resolverJanelas(entidades);
@@ -179,7 +153,7 @@ export async function buscarSubgrafo(entidades: Entidades): Promise<BuscarSubgra
   const municipioResolvido = resultados.length > 0;
 
   // ── Estados mencionados ───────────────────────────────────────────────────
-  for (const sigla of municipioResolvido ? [] : ent.estados) {
+  for (const sigla of municipioResolvido ? [] : ufsReais(ent)) {
     const uf = sigla.toUpperCase();
     const params = { sigla: uf, tipo, ...janelaAmpla };
 
@@ -235,7 +209,7 @@ export async function buscarSubgrafo(entidades: Entidades): Promise<BuscarSubgra
   // o Amazonas e não há registros, a resposta é a ausência — devolver o ranking
   // de outros estados responde a uma pergunta que ninguém fez e ainda convida à
   // alucinação.
-  const nomeouLugar = ent.estados.length > 0 || municipiosReais(ent).length > 0;
+  const nomeouLugar = ufsReais(ent).length > 0 || municipiosReais(ent).length > 0;
   if (resultados.length === 0 && !nomeouLugar && ent.tipos_evento.length > 0) {
     push(
       resultados,

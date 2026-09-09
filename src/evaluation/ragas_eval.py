@@ -74,7 +74,9 @@ WORKERS = 6           # chamadas simultâneas ao juiz
 BOOTSTRAP_N = 10000
 SEED = 42
 
-MODOS = ["no_rag", "vector_rag", "graph_rag"]
+# vector_rag         = top-k puro, sem usar metadados (baseline ingênuo)
+# vector_rag_filtrado = pré-filtragem por metadados + ranqueamento (baseline forte)
+MODOS = ["no_rag", "vector_rag", "vector_rag_filtrado", "graph_rag"]
 METRICAS = [
     "faithfulness", "answer_relevancy", "answer_correctness",
     "context_recall", "context_precision", "cobertura_fatos",
@@ -331,11 +333,13 @@ def avaliar_amostra(r: dict[str, Any], modo: str) -> dict[str, float]:
     resposta = {
         "no_rag": r["resposta_norag"],
         "vector_rag": r["resposta_vectorrag"],
+        "vector_rag_filtrado": r.get("resposta_vectorrag_filtrado", ""),
         "graph_rag": r["resposta_graphrag"],
     }[modo]
     contexto = {
         "no_rag": "",
         "vector_rag": r.get("contexto_vectorrag", ""),
+        "vector_rag_filtrado": r.get("contexto_vectorrag_filtrado", ""),
         "graph_rag": r.get("contexto_graphrag", ""),
     }[modo]
 
@@ -424,15 +428,23 @@ def main() -> None:
                 "n": len(_validos(vals)),
             }
 
-    # GraphRAG vs VectorRAG, pareado
-    significancia = {}
-    for met in METRICAS:
-        p = teste_permutacao(series["graph_rag"][met], series["vector_rag"][met])
-        dif = media(series["graph_rag"][met]) - media(series["vector_rag"][met])
-        significancia[met] = {
-            "diferenca_graph_menos_vector": None if math.isnan(dif) else round(dif, 4),
-            "p_valor": None if math.isnan(p) else round(p, 4),
-        }
+    # Comparações pareadas. A que importa para a tese é contra o baseline FORTE
+    # (vector_rag_filtrado); a comparação contra o ingênuo fica como referência
+    # de quanto do ganho vinha apenas de o baseline não usar seus metadados.
+    def comparar(a: str, b: str) -> dict[str, Any]:
+        out = {}
+        for met in METRICAS:
+            pv = teste_permutacao(series[a][met], series[b][met])
+            dif = media(series[a][met]) - media(series[b][met])
+            out[met] = {
+                "diferenca": None if math.isnan(dif) else round(dif, 4),
+                "p_valor": None if math.isnan(pv) else round(pv, 4),
+            }
+        return out
+
+    significancia = comparar("graph_rag", "vector_rag_filtrado")
+    significancia_vs_ingenuo = comparar("graph_rag", "vector_rag")
+    ganho_do_filtro = comparar("vector_rag_filtrado", "vector_rag")
 
     por_categoria: dict[str, Any] = {}
     for cat, modos in sorted(series_cat.items()):
@@ -451,7 +463,9 @@ def main() -> None:
             "bootstrap": BOOTSTRAP_N, "seed": SEED,
         },
         "geral": scores_finais,
-        "significancia_graph_vs_vector": significancia,
+        "significancia_graph_vs_vector_filtrado": significancia,
+        "significancia_graph_vs_vector_ingenuo": significancia_vs_ingenuo,
+        "ganho_do_filtro_no_baseline": ganho_do_filtro,
         "por_categoria": por_categoria,
     }
     (RESULTS_DIR / "ragas_scores.json").write_text(
@@ -463,9 +477,9 @@ def main() -> None:
     def cel(modo: str, met: str) -> str:
         d = scores_finais[modo][met]
         if d["media"] is None:
-            return f"{'—':>18}"
+            return f"{'—':>19}"
         ic = d["ic95"]
-        return f"{d['media']:.3f} [{ic[0]:.2f}–{ic[1]:.2f}]".rjust(18)
+        return f"{d['media']:.3f} [{ic[0]:.2f}–{ic[1]:.2f}]".rjust(19)
 
     print("\n" + "=" * 82)
     print(f"RESULTADOS — {total} perguntas, média [IC 95% bootstrap]")
@@ -485,8 +499,8 @@ def main() -> None:
     print("\n" + "=" * 82)
     print("POR CATEGORIA — answer_correctness (média)")
     print("=" * 82)
-    print(f"{'Categoria':<22}{'n':>4}{'No RAG':>12}{'VectorRAG':>12}{'GraphRAG':>12}")
-    print("-" * 82)
+    print(f"{'Categoria':<22}{'n':>4}{'No RAG':>12}{'Vector':>12}{'Vector+F':>12}{'GraphRAG':>12}")
+    print("-" * 100)
     for cat, d in por_categoria.items():
         linha = f"{cat:<22}{d['n']:>4}"
         for modo in MODOS:
@@ -497,11 +511,11 @@ def main() -> None:
     print("\n" + "=" * 82)
     print("POR CATEGORIA — context_recall (média)")
     print("=" * 82)
-    print(f"{'Categoria':<22}{'n':>4}{'VectorRAG':>12}{'GraphRAG':>12}")
-    print("-" * 82)
+    print(f"{'Categoria':<22}{'n':>4}{'Vector':>12}{'Vector+F':>12}{'GraphRAG':>12}")
+    print("-" * 100)
     for cat, d in por_categoria.items():
         linha = f"{cat:<22}{d['n']:>4}"
-        for modo in ["vector_rag", "graph_rag"]:
+        for modo in ["vector_rag", "vector_rag_filtrado", "graph_rag"]:
             v = d[modo].get("context_recall")
             linha += f"{'—':>12}" if v is None else f"{v:>12.3f}"
         print(linha)

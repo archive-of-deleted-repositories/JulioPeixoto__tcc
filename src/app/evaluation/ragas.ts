@@ -15,6 +15,7 @@ import { extrairEntidades } from "../pipeline/entityExtractor.ts";
 import { recuperarSubgrafo } from "../pipeline/graphRetriever.ts";
 import { construirContexto } from "../pipeline/contextBuilder.ts";
 import { consultarVectorRag } from "../baseline/vectorRag.ts";
+import { consultarVectorRagFiltrado } from "../baseline/vectorRagFiltrado.ts";
 import { SYSTEM_RAG } from "../baseline/prompt.ts";
 import { modelos } from "../ai/index.ts";
 
@@ -41,9 +42,11 @@ export interface ResultadoAvaliacao {
   fatos_chave: string[];
   resposta_norag: string;
   resposta_vectorrag: string;
+  resposta_vectorrag_filtrado: string;
   resposta_graphrag: string;
   contexto_graphrag: string;
   contexto_vectorrag: string;
+  contexto_vectorrag_filtrado: string;
   entidades: Record<string, unknown>;
 }
 
@@ -98,12 +101,22 @@ async function avaliarUma(q: PerguntaBenchmark, idx: number, total: number): Pro
   const { subgrafos } = await comRetry("grafo", () => recuperarSubgrafo(entidades), { subgrafos: [], entidadesEfetivas: entidades });
   const contexto = construirContexto(subgrafos);
 
-  const [respostaNoRag, vectorResult, respostaGraphrag] = await Promise.all([
+  const [respostaNoRag, vectorResult, vectorFiltradoResult, respostaGraphrag] = await Promise.all([
     comRetry("no-rag", () => gerarRespostaNoRag(pergunta), "[falha na geração]"),
     comRetry(
       "vector-rag",
       () => consultarVectorRag(pergunta),
       { resposta: "[VectorRAG indisponível — índice vetorial não criado]", contexto: "" }
+    ),
+    comRetry(
+      "vector-rag-filtrado",
+      () => consultarVectorRagFiltrado(pergunta, entidades),
+      {
+        resposta: "[VectorRAG indisponível — índice vetorial não criado]",
+        contexto: "",
+        filtroAplicado: false,
+        candidatos: 0,
+      }
     ),
     comRetry(
       "graph-rag",
@@ -132,9 +145,11 @@ async function avaliarUma(q: PerguntaBenchmark, idx: number, total: number): Pro
     fatos_chave: q.fatos_chave ?? [],
     resposta_norag: respostaNoRag,
     resposta_vectorrag: vectorResult.resposta,
+    resposta_vectorrag_filtrado: vectorFiltradoResult.resposta,
     resposta_graphrag: respostaGraphrag,
     contexto_graphrag: contexto,
     contexto_vectorrag: vectorResult.contexto,
+    contexto_vectorrag_filtrado: vectorFiltradoResult.contexto,
     entidades: entidades as unknown as Record<string, unknown>,
   };
 }

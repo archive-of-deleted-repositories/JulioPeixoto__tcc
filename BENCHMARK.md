@@ -4,6 +4,10 @@ Documento de metodologia do conjunto de avaliação. Substitui as 5 perguntas
 originais por **70 perguntas em 7 categorias**, com gabaritos derivados dos dados
 de origem e julgamento por decomposição em afirmações.
 
+São avaliados **quatro** modos: No RAG, VectorRAG ingênuo, VectorRAG com
+pré-filtragem por metadados (baseline forte) e GraphRAG. O baseline forte existe
+para que a comparação não meça esforço de engenharia — ver §5.
+
 ---
 
 ## 1. Por que 5 perguntas era pouco
@@ -191,6 +195,25 @@ o benchmark tinha exposto que em `C1_factual` o contexto do GraphRAG trazia
 `total de registros: 15` e o gerador respondia só *"Sim, houve registros"* —
 recuperação certa, resposta pobre.
 
+### Dois baselines vetoriais
+
+`vectorRag.ts` (ingênuo) usa `asRetriever({ k: 10 })` puro e **ignora os
+metadados que a própria indexação gravou** (`uf`, `tipo`, `ano`, `municipio`,
+`estacao`). Comparar o GraphRAG só contra isso mediria, em parte, "recuperação
+projetada para a tarefa" contra "top-k sem engenharia".
+
+`vectorRagFiltrado.ts` (forte) usa as **mesmas entidades extraídas** que o
+GraphRAG recebe para filtrar o corpus *antes* de ranquear, via
+`vector.similarity.cosine` sobre o subconjunto sobrevivente. Filtrar depois de
+ranquear seria inútil — o top-k global já teria descartado o que interessa.
+`k=10` mantido, para isolar o efeito do filtro.
+
+Os dois modos compartilham com o GraphRAG: extração de entidades, prompt de
+geração, modelo gerador e **normalização geográfica** (`pipeline/geo.ts`). Esta
+última importa: o extrator devolve "Bahia" no campo de município, e aplicar a
+correção só ao GraphRAG penalizaria o baseline por um defeito da extração
+compartilhada, não da sua arquitetura.
+
 ### Estatística
 
 - **IC 95% por bootstrap** (10.000 reamostragens, seed 42) em toda média.
@@ -205,62 +228,87 @@ recuperação certa, resposta pobre.
 ## 6. Resultados
 
 70 perguntas, juiz GPT-4o-mini, gerador GPT-4o. IC 95% por bootstrap (10.000
-reamostragens, seed 42). Coluna *p*: teste de permutação pareado GraphRAG vs.
-VectorRAG.
+reamostragens, seed 42). Coluna *p*: permutação pareada GraphRAG vs. **baseline
+forte** (Vector+F).
 
-| Métrica | No RAG | VectorRAG | GraphRAG | p |
+**Vector** = top-k puro, sem usar metadados.
+**Vector+F** = pré-filtragem por metadados + ranqueamento. Recebe as mesmas
+entidades extraídas, o mesmo prompt e a mesma normalização geográfica do
+GraphRAG — existe para que a comparação não meça esforço de engenharia.
+
+| Métrica | No RAG | Vector | Vector+F | GraphRAG | p |
+|---|---|---|---|---|---|
+| faithfulness | — | 0,716 | 0,825 | **0,932** | 0,0220 |
+| answer_relevancy | 0,799 | 0,802 | 0,858 | **0,878** | 0,0097 |
+| answer_correctness | 0,040 | 0,160 | 0,222 | **0,664** | <0,0001 |
+| context_recall | — | 0,223 | 0,270 | **0,886** | <0,0001 |
+| **context_precision** | — | 0,431 | **0,656** | 0,504 | **0,0142** |
+| cobertura_fatos | 0,301 | 0,273 | 0,312 | **0,737** | <0,0001 |
+| abstenção correta (C7) | 1,000 | 1,000 | 1,000 | 1,000 | — |
+
+### Por categoria — answer_correctness
+
+| Categoria | n | No RAG | Vector | Vector+F | GraphRAG |
+|---|---|---|---|---|---|
+| C1 factual | 10 | 0,000 | 0,033 | 0,167 | **0,367** |
+| C2 agregação | 10 | 0,043 | 0,029 | 0,029 | **0,640** |
+| C3 comp. temporal | 12 | 0,000 | 0,096 | 0,181 | **0,792** |
+| C4 comp. geográfica | 10 | 0,000 | 0,078 | 0,183 | **1,000** |
+| C5 sazonalidade | 10 | 0,000 | 0,194 | 0,138 | **0,703** |
+| C6 multi-hop | 10 | 0,040 | 0,000 | 0,073 | **0,337** |
+| C7 nulas | 8 | 0,250 | 0,833 | **0,938** | 0,812 |
+
+### Por categoria — context_recall
+
+| Categoria | n | Vector | Vector+F | GraphRAG |
 |---|---|---|---|---|
-| faithfulness | — | 0,689 [0,59–0,78] | **0,928** [0,88–0,97] | <0,0001 |
-| answer_relevancy | 0,801 [0,78–0,82] | 0,784 [0,74–0,82] | **0,878** [0,86–0,89] | <0,0001 |
-| answer_correctness | 0,051 [0,01–0,10] | 0,185 [0,11–0,26] | **0,659** [0,59–0,73] | <0,0001 |
-| context_recall | — | 0,212 [0,13–0,30] | **0,890** [0,83–0,94] | <0,0001 |
-| context_precision | — | 0,444 [0,35–0,54] | 0,518 [0,46–0,58] | 0,1462 |
-| cobertura_fatos | 0,312 [0,25–0,37] | 0,273 [0,22–0,33] | **0,733** [0,66–0,81] | <0,0001 |
-| abstenção correta (só C7) | 1,000 | 1,000 | 1,000 | — |
-
-### Por categoria
-
-| Categoria | n | \_ac\_ No RAG | Vector | Graph | \_cr\_ Vector | Graph |
-|---|---|---|---|---|---|---|
-| C1 factual | 10 | 0,033 | 0,117 | **0,333** | 0,500 | **0,700** |
-| C2 agregação | 10 | 0,000 | 0,014 | **0,552** | 0,064 | **0,917** |
-| C3 comp. temporal | 12 | 0,000 | 0,167 | **0,812** | 0,132 | **1,000** |
-| C4 comp. geográfica | 10 | 0,000 | 0,050 | **1,000** | 0,000 | **1,000** |
-| C5 sazonalidade | 10 | 0,000 | 0,166 | **0,707** | 0,029 | **1,000** |
-| C6 multi-hop | 10 | 0,025 | 0,000 | **0,327** | 0,000 | **0,617** |
-| C7 nulas | 8 | 0,375 | **0,938** | 0,896 | 0,917 | **1,000** |
-
-*ac* = answer_correctness, *cr* = context_recall.
+| C1 factual | 10 | 0,500 | 0,617 | **0,733** |
+| C2 agregação | 10 | 0,067 | 0,087 | **0,917** |
+| C3 comp. temporal | 12 | 0,132 | 0,215 | **1,000** |
+| C4 comp. geográfica | 10 | 0,000 | 0,025 | **0,955** |
+| C5 sazonalidade | 10 | 0,000 | 0,000 | **1,000** |
+| C6 multi-hop | 10 | 0,033 | 0,100 | **0,600** |
+| C7 nulas | 8 | **1,000** | **1,000** | **1,000** |
 
 ### Leitura
 
-1. **A vantagem é relacional, não geral.** Em C4 e C3 o VectorRAG tem
-   `context_recall` de 0,000 e 0,132 — o contexto por similaridade praticamente
-   não contém o necessário. Em C1 (fato único) sobe para 0,500 e a diferença
-   encolhe. Coerente com Han et al. (2025): RAG vetorial é competitivo em
-   single-hop detalhado.
+**1. Armar o baseline custou pouco ao GraphRAG.** A pré-filtragem rendeu ao
+vetorial +6,3 p.p. de correção (p=0.011) e
++4,7 p.p. de abrangência (p=0.0054). Ou seja, só cerca de
+um oitavo da vantagem originalmente medida vinha de o baseline ignorar seus
+próprios metadados; o resto é arquitetural.
 
-2. **`context_precision` é o único empate** (p=0,15, ICs sobrepostos). O contexto
-   do grafo traz várias seções agregadas e nem todas servem a cada pergunta.
+**2. Em agregação (C2) o filtro rendeu exatamente zero** — 0,029 nos dois
+baselines, context_recall 0,067 → 0,087, contra 0,917 do GraphRAG. Filtrar
+perfeitamente não aproxima da resposta quando a operação exigida é ordenar por
+contagem. Em C5 o filtro chegou a **piorar** (0,194 → 0,138): restringir a 10
+documentos uma pergunta sobre a distribuição mensal de 10 anos é
+contraproducente.
 
-3. **A métrica sem LLM concorda com a julgada por LLM.** `cobertura_fatos` (0,733
-   vs 0,273) reproduz o ordenamento de `answer_correctness` (0,659 vs 0,185).
-   Convergência entre determinística e LLM enfraquece a hipótese de viés do juiz.
+**3. O GraphRAG PERDE em context_precision** — 0,504 contra 0,656 do baseline
+forte (p=0,014). O contexto do grafo traz totais, ranking, extremos e
+sazonalidade; nem toda seção serve a toda pergunta. O baseline devolve 10
+documentos já restritos ao escopo. É o custo de recuperar as agregações
+incondicionalmente, escolha feita porque o roteamento por intenção via LLM se
+mostrou instável. É a otimização mais evidente a fazer.
 
-4. **Ninguém alucinou nas nulas.** Abstenção correta 1,000 nos três modos.
+**4. A métrica sem LLM concorda com o juiz.** cobertura_fatos (0,737 vs 0,312)
+reproduz o ordenamento de answer_correctness (0,664 vs 0,222).
 
 ### Caso ilustrativo (C3_comp_temporal-06)
 
 *"Em Pão de Açúcar (AL), houve mais registros de baixa umidade crítica em 2023 ou
 em 2024?"* — gabarito: 70 em 2023, 0 em 2024.
 
-- **VectorRAG**: *"Em 2023, houve um total de **10 registros**"* — errado, e o 10 é
-  exatamente o `k` do retriever. O modelo descreveu **quantos documentos recebeu**
-  como se fosse a contagem de eventos. Note que `faithfulness` = 1,00 nesse item:
-  ele foi fiel ao contexto e ainda assim produziu um fato falso. Recuperação por
-  similaridade entrega uma *amostra*; amostra não responde pergunta de contagem, e
-  aumentar `k` só troca um número errado por outro.
-- **GraphRAG**: *"70 casos em 2023, enquanto em 2024 não houve registros"* — correto.
+- **Vector**: *"Em 2023, houve **10 registros**"* ❌
+- **Vector+F**: *"Em 2023, houve um total de **10 registros**"* ❌ — filtro
+  aplicado corretamente, **mesmo erro, mesmo número**
+- **GraphRAG**: *"**70 casos** em 2023. Em 2024, não houve registros"* ✓
+
+O 10 é o `k` do retriever. Que o modo pré-filtrado erre igual, com o filtro
+funcionando, é a evidência mais limpa de que o problema não é *quais* documentos
+são recuperados — é recuperar **documentos** quando a pergunta pede um
+**agregado**. Aumentar `k` só troca um número errado por outro.
 
 ---
 
@@ -305,7 +353,13 @@ Saídas em `data/evaluation/`: `benchmark.json`, `respostas_brutas.json`,
    a variedade linguística de perguntas reais de usuário. Um trabalho futuro
    natural é parafrasear cada pergunta em 2–3 formulações e medir a sensibilidade
    das métricas ao fraseado.
-4. **Sem denominador de observação.** Os eventos são excedências de limiar sem a
+4. **Configurações vetoriais mais elaboradas não foram testadas.** O baseline
+   forte usa pré-filtragem + top-k. Busca híbrida com BM25, *reranking*, ou uma
+   camada de agregação sobre os documentos recuperados poderiam estreitar a
+   diferença — sobretudo esta última, que atacaria a limitação estrutural
+   identificada em §6.
+
+5. **Sem denominador de observação.** Os eventos são excedências de limiar sem a
    contagem de dias válidos por estação. Isso limita a interpretação
    climatológica, não a de recuperação.
 
